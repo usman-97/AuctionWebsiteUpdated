@@ -1,0 +1,65 @@
+<?php require ('template/header.phtml') ?>
+
+<p>Please fill this form to create an account:</p>
+
+<form id="register_form" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <div class="form-group">
+            <label class="control-label col-sm-2">Username:</label>
+            <div class="col-sm-10">
+                <input type="text" name="registerUsername" placeholder="username" value="<?php if (isset($view->newUser))
+                {
+                    echo $view->newUser;
+                }
+                    ?>" required="required">
+            </div>
+        </div>
+        <br />
+    <!-- Email is required -->
+    <div class="form-group">
+        <div class="col-sm-10">
+            <input id="registerEmail" type="text" name="registerEmail" placeholder="username">
+        </div>
+    </div>
+        <br />
+        <div class="form-group">
+            <label class="control-label col-sm-2">Password:</label>
+            <div class="col-sm-10">
+                <input type="password" name="registerPassword" placeholder="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Confirm Password:</label>
+            <div class="col-sm-10">
+                <input type="password" name="confirmPassword" placeholder="confirm password">
+            </div>
+            <div id="code" class="form-group">
+                <label class="control-label col-sm-2"><?php if (isset($view->reCaptcha))
+                    {
+                        echo $view->reCaptcha;
+                    }?></label>
+                <div class="col-sm-10">
+                    <input type="text" name="code" placeholder="Code" class="form-control">
+                    <input type="hidden" name="finalCode" value="<?php if (isset($view->reCaptcha))
+                    {
+                        echo $view->reCaptcha;
+                    }?>">
+                </div>
+        </div>
+        <div class="button">
+            <input type="submit" name="register" value="Sign up" class="btn btn-success"
+                   maxlength="16" minlength="8">
+        </div>
+
+</form>
+
+<div class="error">
+    <p><b>
+        <?php if (isset($view->error)) : ?>
+            <?php echo $view->error; ?>
+        <?php endif; ?>
+        </b></p>
+</div>
+
+<?php require ('template/footer.phtml') ?>
+
+

@@ -1,0 +1,103 @@
+<?php require('template/header.phtml') ?>
+
+<!-- Login form -->
+<div id="loginForm" class="container justify-content-center">
+<form action="" method="post">
+    <h1 class="mt-4 mb-3"><?php echo $view->pageTitle; ?>
+        <small> </small>
+    </h1>
+
+    <!-- Email Required -->
+    <div class="form-group">
+        <input type="text" name="email" placeholder="email" class="form-control form-control-sm" id="email">
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="username" placeholder="Username" value="<?php if (isset($view->username))
+        {
+            echo $view->username;
+        }?>" class="form-control form-control-sm" required="">
+    </div>
+
+    <div class="form-group">
+        <input type="password" name="pwd" placeholder="Password" class="form-control form-control-sm" required="">
+    </div>
+
+    <div id="code" class="justify-content-center">
+        <div class="recaptcha"><b><?php if (isset($view->reCaptcha))
+            {
+                echo $view->reCaptcha;
+            }?>
+            </b></div>
+            <input type="text" name="code" placeholder="Code" class="justify-content-center">
+            <input type="hidden" name="finalCode" value="<?php if (isset($view->reCaptcha))
+            {
+                echo $view->reCaptcha;
+            }?>">
+    </div>
+    <br />
+
+    <div class="error">
+        <p><b>
+                <?php if (isset($view->error)) : ?>
+                    <?php echo $view->error; ?>
+                <?php endif; ?>
+            </b></p>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" name="login" value="Login" class="btn btn-success btn-block">Login</button>
+    </div>
+
+    <div class="form-group text-center">
+        <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>
+    </div>
+
+    <div class="form-group text-center">
+        <small>Not registered?<a href="register.php" data-toggle="modal" data-target="#modalPassword"> Register here</a></small>
+    </div>
+
+    <!--<div class="form-group">
+        <label class="control-label col-sm-2">Username:</label>
+        <div class="col-sm-10">
+            <input type="text" name="username" placeholder="username" value="<?php /*if (isset($view->username))
+            {
+                echo $view->username;
+            }*/?>" class="form-control" required="required">
+        </div>
+    </div>
+    <br />-->
+    <!-- Email is required -->
+    <!--<div class="form-group">
+        <div class="col-sm-10">
+            <input type="text" name="email" placeholder="email" class="form-control" id="email">
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <label class="control-label col-sm-2">Password: </label>
+        <div class="col-sm-10">
+            <input type="password" name="pwd" placeholder="password" class="form-control">
+        </div>
+        <div id="code" class="form-group">
+            <label class="control-label col-sm-2"><?php /*if (isset($view->reCaptcha))
+                {
+                    echo $view->reCaptcha;
+                }*/?></label>
+            <div class="col-sm-10">
+                <input type="text" name="code" placeholder="Code" class="form-control">
+                <input type="hidden" name="finalCode" value="<?php /*if (isset($view->reCaptcha))
+                {
+                    echo $view->reCaptcha;
+                }*/?>">
+            </div>
+    </div>
+    <div class="pull-right">
+        <div class="button">
+            <input type="submit" name="login" value="Login" class="btn btn-success">
+        </div>
+    </div>-->
+</form>
+</div>
+
+<?php require ('template/footer.phtml')?>

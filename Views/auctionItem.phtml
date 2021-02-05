@@ -1,0 +1,400 @@
+<?php require('template/header.phtml') ?>
+
+<!-- Page Heading/Breadcrumbs -->
+<h1 class="mt-4 mb-3"><?php echo $view->pageTitle; ?>
+    <small> </small>
+</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="index.php">Home</a>
+    </li>
+    <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
+</ol>
+
+<!-- Search bar -->
+<div class="searchBar">
+    <p>You can search item lot by Lot Title, Lot Main or Auction.</p>
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="text" name="searchBar" value="<?php if (isset($view->currentSearchItem)) {echo $view->currentSearchItem;} ?>" placeholder="search. . .">
+        <input type="hidden" name="saveSearch" value="<?php if (isset($view->currentSearchItem)) {$view->currentSearchItem;} ?>">
+        <button type="submit" name="searchButton" class="btn btn-info">
+            Search
+        </button>
+        <?php if (isset($_SESSION['searchMode'])) : ?>
+            <button type="submit" name="clearSearch" class="btn btn-danger">Clear</button>
+        <br />
+        <div>
+            <!--<input type="submit" name="previousPage" value="<<">-->
+            <?php /*for ($i = 1; $i <   $view->totalPages; $i++)
+                {
+                    echo '<button type="submit" name="page">'. $i .'</button>';
+                }*/?>
+            <input type="hidden" name="pageLimit" value="<?php if (isset($view->currentLimit)) {echo $view->currentLimit;} ?>">
+            <input type="hidden" name="savePageLimit" value="<?php if (isset($view->currentLimit)) {echo $view->currentLimit;} ?>">
+            <!--<input type="submit" name="nextPage" value=">>">-->
+            <button id="loadPages" type="submit" name="morePages" class="btn btn-primary">Load more results</button>
+            <button id="lessPages" type="submit" name="lessPages" class="btn btn-primary">few results</button>
+        </div>
+        <br />
+        <?php endif; ?>
+
+        <!-- Filters -->
+        <div>
+            <label>Filter: </label>
+            <select name="filters">
+                <option value="<?php if (isset($view->filter)) {echo $view->filter;}?>">-</option>
+                <option value="ascendingOrder">A - Z</option>
+                <option value="descendingOrder">Z - A</option>
+                <option value="popular">Most Popular</option>
+                <option value="recent">Most Recent</option>
+            </select>
+            <input type="hidden" name="filterOption" value="<?php if (isset($view->filter)) {echo $view->filter;}?>">
+            <?php if (isset($_SESSION['searchMode'])) : ?>
+            <button type="submit" name="clearFilter" class="btn btn-secondary">Clear</button>
+            <?php endif; ?>
+        </div>
+    <!--</form>-->
+    <div><p class="error"><?php if (isset($view->error)) {echo $view->error;} ?></p></div>
+</div>
+
+<?php /*if (!isset($_SESSION['auctionItem'])) : */?><!--
+<?php /*if (!isset($_SESSION['searchMode'])) : */?>
+<div>
+    <table class="table table-active">
+        <thead>
+            <th>Auction ID</th>
+            <th>Auction Name</th>
+            <th>Location</th>
+            <th>Datetime</th>
+            <th>Admin</th>
+        </thead>
+        <tbody>
+            <?php /*foreach ($view->auctionDataSet as $auction)
+            {
+                echo '<form action="" method="post">
+                       <tr><td>' . $auction->getAuctionID() .
+                    '</td><td>' . $auction->getAuctionName() .
+                    '<input type="hidden" name="nameOfAuction" value="' . $auction->getAuctionName() . '">' .
+                    '</td><td>' . $auction->getLocation() .
+                    '</td><td>' . $auction->getDatetime() .
+                    '</td><td>' . $auction->getAdmin() .
+                    '</td><td>' . '<input type="submit" name="auctionItem" value="View Items">' .
+                    '</td></tr></form>';
+            }*/?>
+        </tbody>
+    </table>
+</div>
+<?php /*endif; */?>
+--><?php /*endif; */?>
+
+<?php /*if (isset($_SESSION['auctionItem'])) : */?>
+<p><i><?php if (isset($view->totalRecords)) {echo 'Total - ' . $view->totalRecords;} ?></i></p>
+
+<?php if (!isset($_SESSION['viewItem'])) : ?>
+<div class="page">
+    <p><i><?php if (!isset($_SESSION['searchMode']))
+            if (isset($_GET['page']))
+            echo 'Page --- ' . $_GET['page'];
+        else
+        {
+            echo 'Page --- 1';
+        }?></i></p>
+</div>
+
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <?php /*if (!isset($_SESSION['searchMode'])) : */?><!--
+    <button type="submit" name="backToAuction">Back</button>
+    --><?php /*endif; */?>
+    <input type="hidden" name="saveAuctionName" value="<?php if (isset($view->nameOfAuction)) {echo $view->nameOfAuction;} ?>">
+    <br>
+    <!--<table class="table table-active">
+       <thead>
+        <tr>
+            <th>Lot ID</th>
+            <th>Lot Title</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Opening bid</th>
+            <th>Auction</th>
+        </tr>
+
+       
+       </thead>   
+    <tbody> -->
+
+    <!-- Listings -->
+    <div class="row">
+        <?php foreach ($view->auctionItem as $auctionItemData) {
+            echo '<div class="col-lg-6 portfolio-item"><form action="" method="post"><div class="card h-100">' .
+            '<img src="images/' . $auctionItemData->getImage(). '.jpg">' .
+                '<input type="hidden" name="lotImage" value="'. $auctionItemData->getImage() . '.jpg">' .
+            '<div class="card-body"><h4 class="card-title">Lot ID #' . $auctionItemData->getLotID() .
+            ': ' . $auctionItemData->getLotTitle() . ' - ' . $auctionItemData->getLotMain() . '</h4>' .
+                '<input type="hidden" name="lotID" value="'. $auctionItemData->getLotId() . '">' .
+                '<input type="hidden" name="lotTitle" value="'. $auctionItemData->getLotTitle() . '">' .
+                '<input type="hidden" name="lotMain" value="'. $auctionItemData->getLotMain() . '">' .
+            '<p class="card-text">' . $auctionItemData->getDescription() . '</p>' .
+                '<p class="card-text"><b>Opening bid Price: £' . $auctionItemData->getPrice() . '</b></p>' .
+                '<input type="hidden" name="lotDescription" value="'. $auctionItemData->getDescription() . '">' .
+                '<input type="hidden" name="lotPrice" value="'. $auctionItemData->getPrice() . '">' .
+                '<input type="hidden" name="auctionID" value="'. $auctionItemData->getAuctionID() . '">' .
+                '<input type="hidden" name="auctionName" value="'. $auctionItemData->getAuctionName() . '">' .
+                '<input type="hidden" name="auctionLocation" value="'. $auctionItemData->getLocation() . '">' .
+                '<input type="hidden" name="auctionDatetime" value="'. $auctionItemData->getDatetime() . '">' .
+                '<input type="hidden" name="auctionAdmin" value="'. $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '">' .
+                '<input type="submit" name="view" value="View" class="btn btn-primary"/>' .
+            '</div></div></form></div>';
+        }?>
+    </div>
+
+        <!--<div id="auctionItem" class="col">
+        <?php /*foreach ($view->auctionItem as $auctionItemData) {
+            echo '<form action="" method="post">' . '<div class="row">' .
+                '<div id="lotID" class="col">Lot ID #' . $auctionItemData->getLotID() .'</div>' .
+                '<input type="hidden" name="lotID" value="'. $auctionItemData->getLotId() . '">' .'</div>' .
+                '<div class="row"><h3><i>' . $auctionItemData->getLotTitle() . ' - ' . $auctionItemData->getLotMain() .
+                '<input type="hidden" name="lotTitle" value="'. $auctionItemData->getLotTitle() . '">' .
+                '<input type="hidden" name="lotMain" value="'. $auctionItemData->getLotMain() . '">' .
+                '</i></h3></div>' . '<div class="row"><div class="col"><img src="../images/' . $auctionItemData->getImage(). '.jpg">' .
+                '<input type="hidden" name="lotImage" value="'. $auctionItemData->getImage() . '.jpg">' .
+                '</div><div id="description" class="col"><p>' . $auctionItemData->getDescription() . '</p><p id="openingBid"><b>Opening bid: £' . $auctionItemData->getPrice() .
+                '<input type="hidden" name="lotDescription" value="'. $auctionItemData->getDescription() . '">' .
+                '<input type="hidden" name="lotPrice" value="'. $auctionItemData->getPrice() . '">' .
+                '</b></p></div><div id="auctionDetails" class="col"><div class="row"><p>Auction ID #' . $auctionItemData->getAuctionID() . '</p></div>' .
+                '<input type="hidden" name="auctionID" value="'. $auctionItemData->getAuctionID() . '">' .
+                '<div class="row"><p>Name: ' . $auctionItemData->getAuctionName() . '</p></div>' .
+                '<input type="hidden" name="auctionName" value="'. $auctionItemData->getAuctionName() . '">' .
+                '<div class="row"><p>Location: ' . $auctionItemData->getLocation() . '</p></div>' .
+                '<input type="hidden" name="auctionLocation" value="'. $auctionItemData->getLocation() . '">' .
+                '<div class="row"><p>Date: ' . $auctionItemData->getDatetime() . '</p></div>' .
+                '<input type="hidden" name="auctionDatetime" value="'. $auctionItemData->getDatetime() . '">' .
+                '<div class="row"><p>Organiser: ' . $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '</p></div>' .
+                '<input type="hidden" name="auctionAdmin" value="'. $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '">' .
+                 '<div class="button"><input type="submit" name="view" value="View" class="btn btn-info"></div>' .
+                '</div>' .
+                '</div></form>';
+        } */?>
+        </div>-->
+ <!--   </tbody>
+  </table>-->
+
+    <!-- Pagination -->
+    <?php if (!isset($_SESSION['searchMode'])) : ?>
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="<?php if (isset($view->previous)) {echo $view->previous;} ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <?php
+                /*if (($_GET['page'] - 10) < 1)
+                {
+                    $current = $_GET['page'] - 1;
+                }
+                else
+                {
+                    $current = 10;
+                }*/
+                if (isset($view->currentPage)) {
+                    for ($page = $_GET['page'] - $view->currentPage; $page <= $_GET['page'] + $view->currentPage; $page++) {
+                        if ($page == 1)
+                        {
+                            for ($j = 1; $j < 5; $j++)
+                            {
+                                echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '">' . $page . '</a></div>';
+                                $page++;
+                                $_SESSION['auctionItem'] = true;
+                            };
+                        }
+                        echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '">' . $page . '</a></div>';
+                        $_SESSION['auctionItem'] = true;
+                    }
+                }
+                ?>
+            </li>
+            <!--<li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+            <li class="page-item">
+                <a class="page-link" href="<?php if (isset($view->next)) {echo $view->next;};?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+
+    <?php endif; ?>
+    <?php /*if (isset($_SESSION['searchMode'])) : */?><!--
+    <form action="" method="post">
+        <input type="hidden" name="limit" value="<?php /*echo $view->limit */?>">
+        <input type="hidden" name="saveLimit" value="<?php /*echo $view->limit */?>">
+        <input type="submit" name="morePages" value="Load more pages">
+    </form>
+    --><?php /*endif; */?>
+</form>
+<?php endif;?>
+<?php /*endif; */?>
+
+<!-- Single item -->
+<?php if (isset($_SESSION['viewItem'])) : ?>
+<div class="button">
+    <form action="/auctionItem.php" method="post">
+        <input type="submit" name="back" value="back" class="btn btn-danger">
+    </form>
+</div>
+<br />
+    <div class="row">
+
+        <!--<form action="" method="post">-->
+            <div class="col-sm">
+                <img src="images/<?php echo $view->lotImage?>" alt="no image found" class="img-fluid">
+            </div>
+
+            <div class="col-sm">
+                <h3 class="my-3"><?php echo 'Lot ID #' . $view->lotID . ':'.  $view->lotTitle . ' - ' .  $view->lotMain?></h3>
+                <p><?php echo $view->lotDescription?></p>
+            </div>
+        <!--</form>-->
+    </div>
+        <!--<div class="auctionTable">
+            <table class="table table-bordered">
+                <tr>
+                    <th>AuctionID</th>
+                    <th>Auction Name</th>
+                    <th>Location</th>
+                    <th>Date</th>
+
+                </tr>
+                <tr>
+                    <td><?php /*echo $view->auctionID */?></td>
+                    <td><?php /*echo$view->auctionName */?></td>
+                    <td><?php /*echo $view->auctionLocation */?></td>
+                    <td><?php /*echo $view->auctionDatetime */?></td>
+                </tr>
+            </table>
+        </div>-->
+        <br />
+        <div>
+            <p><b>Place your bid now!</b></p>
+            <?php if (!isset($_SESSION['loggedIn'])) : ?>
+                <p style="color: #cf0e00"><b>You need to login before you can place a bid</b></p>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['loggedIn'])) : ?>
+
+                <form action="" method="post">
+                    <div>
+                        <label>Your bid: £</label>
+                        <input type="text" name="userBid" placeholder="1000">
+
+                        <input type="hidden" name="lot_id" value="<?php if (isset($view->lotID))
+                        {
+                            echo $view->lotID;
+                        } ?>">
+                        <!--<input type="hidden" name="lot_id_filler" value="<?php /*if (isset($_POST['lot_id']))
+                {
+                    echo $_POST['lot_id'];
+                } */?>">-->
+
+                        <input type="hidden" name="lot_title" value="<?php if (isset($view->lotTitle))
+                        {
+                            echo $view->lotTitle;
+                        }?>">
+
+                        <input type="hidden" name="lot_main" value="<?php if (isset($view->lotMain))
+                        {
+                            echo $view->lotMain;
+                        }?>">
+
+                        <input type="hidden" name="lot_image" value="<?php if (isset($view->lotImage))
+                        {
+                            echo $view->lotImage;
+                        }?>">
+
+                        <input type="hidden" name="lot_description" value="<?php if (isset($view->lotDescription))
+                        {
+                            echo $view->lotDescription;
+                        }?>">
+
+                        <input type="hidden" name="lot_price" value="<?php if (isset($view->lotPrice))
+                        {
+                            echo $view->lotPrice;
+                        }?>">
+
+                        <input type="hidden" name="auction_id" value="<?php if (isset($view->auctionID))
+                        {
+                            echo $view->auctionID;
+                        }?>">
+
+                        <input type="hidden" name="auction_name" value="<?php if (isset($view->auctionName))
+                        {
+                            echo $view->auctionName;
+                        }?>">
+
+                        <input type="hidden" name="auction_location" value="<?php if (isset($view->auctionLocation))
+                        {
+                            echo $view->auctionLocation;
+                        }?>">
+
+                        <input type="hidden" name="auction_datetime" value="<?php if (isset($view->auctionDatetime))
+                        {
+                            echo $view->auctionDatetime;
+                        }?>">
+
+                        <input type="hidden" name="searchFilter" value="<?php if (isset($view->filter))
+                        {
+                            echo $view->filter;
+                        }?>">
+
+                        <div id="bidButton" class="button">
+                            <input type="submit" name="placeBid" value="Place" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+            <?php endif; ?>
+
+        <p class="error"><b><?php if (isset($view->userBidError))
+                    echo $view->userBidError?></b></p>
+        <?php if (isset($view->bidError))
+            echo $view->bidError?>
+        <br />
+        <div>
+            <table class="table table-active">
+                <thead>
+                <th>Bid ID</th>
+                <th>Username</th>
+                <th>Bid</th>
+                </thead>
+                <tbody>
+                <?php
+                if (isset($view->lotPrice))
+                {
+                    echo '<p><b>Opening bid £' . $view->lotPrice . '</b></p>';
+                }
+
+                if (isset($view->bidItemDataSet))
+                {
+                    if (!$view->bidItemDataSet)
+                    {
+                        echo $view->emptyBidError;
+                    }
+                    else {
+                        foreach ($view->bidItemDataSet as $bidItem) {
+                            echo '<tr><td>' . $bidItem->getBidID() .
+                                '</td><td>' . $bidItem->getUsername() .
+                                '</td><td>' . '£' . $bidItem->getBid() .
+                                '</td></tr>';
+                        }
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php require('template/footer.phtml') ?>

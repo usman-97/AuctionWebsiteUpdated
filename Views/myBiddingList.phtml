@@ -1,0 +1,46 @@
+<?php require_once ('template/header.phtml') ?>
+
+<div>
+    <table class="table table-active">
+        <thead>
+            <th>Lot</th>
+            <th>Auction</th>
+            <th>Your Bid</th>
+            <th>Status</th>
+            <p class="error"><b><?php if (isset($view->error)) {echo $view->error;} ?></b></p>
+        </thead>
+        <tbody>
+            <?php if (!$view->bidItemDataSet)
+            {
+                echo  $view->bidError;
+                }
+                else
+                {
+                    if (isset($view->bidStatus))
+                    {
+                        echo '<h3><u>' . $view->bidStatus . '</u></h3>';
+                    }
+                    foreach ($view->bidItemDataSet as $bidItem)
+                    {
+                        echo '<form action="" method="post">' .
+                            '<tr><td><p>' . $bidItem->getLotID() . '. ' . '<input type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
+                            $bidItem->getLotTitle() . '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
+                            ', ' . $bidItem->getLotMain() . '<input type="hidden" name="lotMain" value="' . $bidItem->getLotMain() . '">' .
+                            '</p><img src="../images/' . $bidItem->getLotImage() . '.jpg" alt="Image not found">' .
+                            '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
+                            '</td><td><p>' . $bidItem->getAuctionID() . '. ' . '<input type="hidden" name="auctionID" value="' . $bidItem->getAuctionID() . '">' .
+                            $bidItem->getAuctionName() . '<input type="hidden" name="auctionName" value="' . $bidItem->getAuctionName() . '">' .
+                            '</p><p>' . $bidItem->getAuctionLocation() . '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
+                            ',</p><p>' . $bidItem->getAuctionDatetime() .'</p>' . '<input type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
+                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                            '</td><td>' . '£' . $bidItem->getBid() . '<input type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
+                            '</td><td>' . '<div class="button"><input type="submit" name="statusButton" value="Check" class="btn btn-secondary"></div>' .
+                            '</td><td>' . '<div><label>£</label><input type="text" name="newBid" placeholder="1000"></div><div class="button"><input type="submit" name="editBid" value="Edit" class="btn btn-primary"></div>' .
+                            '<div class="button"><input type="submit" name="removeBid" value="X" class="btn btn-danger"></div>' .
+                            '</td></tr></form>';
+                    }}?>
+        </tbody>
+    </table>
+</div>
+
+<?php require_once ('template/footer.phtml') ?>

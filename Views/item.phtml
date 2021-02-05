@@ -1,0 +1,102 @@
+<?php require ('template/header.phtml') ?>
+
+<div>
+    <form action="../auctionItem.php" method="post">
+        <input type="submit" name="back" value="back">
+    </form>
+</div>
+
+<div>
+    <form action="" method="post">
+        <div class="lotTitle">
+            <h3 class="display-4"><?php echo $view->lotID . '.'.  $view->lotTitle?></h3>
+            <h4><i><?php echo $_POST['lotMain']?></i></h4>
+        </div>
+        <div class="lotImage">
+            <img src="../images/<?php echo $_POST['lotImage']?>" alt="no image found" class="rounded-circle">
+        </div>
+        <div class="description">
+            <p><?php echo $_POST['lotDescription']?></p>
+        </div>
+    </form>
+    <div class="auctionTable">
+        <table class="table table-bordered">
+            <tr>
+                <th>AuctionID</th>
+                <th>Auction Name</th>
+                <th>Location</th>
+                <th>Date</th>
+
+            </tr>
+            <tr>
+                <td><?php echo $_POST['auctionID'] ?></td>
+                <td><?php echo $_POST['auctionName'] ?></td>
+                <td><?php echo $_POST['auctionLocation'] ?></td>
+                <td><?php echo $_POST['auctionDatetime'] ?></td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div>
+        <p><b>Place your bid now!</b></p>
+        <?php if (!isset($_SESSION['loggedIn'])) : ?>
+        <p style="color: #cf0e00"><b>You need to login before you can place a bid</b></p>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['loggedIn'])) : ?>
+
+        <form action="" method="post">
+            <div>
+                <label>Your bid: £</label>
+                <input type="text" name="userBid" placeholder="1000">
+
+                <input type="hidden" name="lot_id" value="<?php if (isset($view->lotID))
+                    {
+                       echo $view->lotID;
+                    } ?>">
+                <!--<input type="hidden" name="lot_id_filler" value="<?php /*if (isset($_POST['lot_id']))
+                {
+                    echo $_POST['lot_id'];
+                } */?>">-->
+
+                <input type="hidden" name="lot_title" value="<?php if (isset($view->lotTitle))
+                {
+                    echo $view->lotTitle;
+                }?>">
+
+                <input type="hidden" name="lot_main" value="<?php if (isset($view->lotMain))
+                {
+                    echo $view->lotMain;
+                }?>">
+
+                <div id="bidButton" class="button">
+                    <input type="submit" name="placeBid" value="Place" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+        <?php endif; ?>
+    </div>
+    <?php if (isset($view->error))
+        echo $view->error?>
+    <br />
+    <div>
+        <table class="table table-active">
+            <thead>
+                <th>Bid ID</th>
+                <th>Username</th>
+                <th>Bid</th>
+            </thead>
+            <tbody>
+                <?php
+                    foreach ($view->bidItemDataSet as $bidItem)
+                    {
+                        echo '<tr><td>' . $bidItem->getBidID() .
+                            '</td><td>' . $bidItem->getUsername() .
+                            '</td><td>' . $bidItem->getBid() .
+                            '</td></tr>';
+                    }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<?php require ('template/footer.phtml') ?>
