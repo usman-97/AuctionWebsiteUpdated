@@ -23,7 +23,7 @@
         <input type="password" name="pwd" placeholder="Password" class="form-control form-control-sm" required="">
     </div>
 
-    <div id="code" class="justify-content-center">
+    <div id="code" class="justify-content-center rounded-pill">
         <div class="recaptcha"><b><?php if (isset($view->reCaptcha))
             {
                 echo $view->reCaptcha;
@@ -36,14 +36,14 @@
             }?>">
     </div>
     <br />
-
-    <div class="error">
+    <?php if (isset($view->error)) : ?>
+    <div class="alert alert-danger" role="alert">
         <p><b>
-                <?php if (isset($view->error)) : ?>
                     <?php echo $view->error; ?>
-                <?php endif; ?>
+
             </b></p>
     </div>
+    <?php endif; ?>
 
     <div class="form-group">
         <button type="submit" name="login" value="Login" class="btn btn-success btn-block">Login</button>

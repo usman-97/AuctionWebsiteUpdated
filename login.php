@@ -83,7 +83,7 @@ if (isset($_POST['login'])) {
                             }
                         }
                         else {
-                            $view->error = "User doesn't exist";
+                            $view->error = "Invalid Username";
                             // require_once('Views/login.phtml');
                         }
                     }
@@ -104,6 +104,7 @@ if (isset($_POST['login'])) {
         session_start();
         unset($_SESSION['searchMode']);
         unset($_SESSION['viewItem']);
+
         $attempts = $view->login->checkLoginAttempts($_POST['username']);
         if ($attempts >= 8)
         {
@@ -120,10 +121,13 @@ if (isset($_POST['login'])) {
             }
         }
 
-        if ($_SESSION['coolDown'] < time() - $_SESSION['coolDownExpiry'])
+        if (isset($_SESSION['coolDown']) && isset($_SESSION['coolDownExpiry']))
         {
-            // $view->login->resetAttempts($_POST['username']);
-            unset($_SESSION['coolDown']);
+            if ($_SESSION['coolDown'] < time() - $_SESSION['coolDownExpiry'])
+            {
+                // $view->login->resetAttempts($_POST['username']);
+                unset($_SESSION['coolDown']);
+            }
         }
         // var_dump($attempts);
         // var_dump($_SESSION['coolDown']);
