@@ -18,7 +18,7 @@ if (isset($_POST['register']))
     if (empty($_POST['registerEmail'])) {
         // Checks if username field is not empty
         if (!empty(trim($_POST['registerUsername']))) {
-            var_dump(preg_match('/\d/', $_POST['registerUsername']));
+            // var_dump(preg_match('/\d/', $_POST['registerUsername']));
             $view->newUser = $_POST['registerUsername'];
             // Check that password is between 8 to 16 characters
             if (strlen($_POST['registerPassword']) >= 8 && strlen($_POST['registerPassword']) <= 16) {

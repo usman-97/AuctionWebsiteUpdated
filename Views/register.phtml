@@ -1,25 +1,83 @@
 <?php require ('template/header.phtml') ?>
 
-<p>Please fill this form to create an account:</p>
+<div id="RegistrationForm" class="container justify-content-center">
 
-<form id="register_form" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+    <!-- Page Heading -->
+    <h1 class="mt-4 mb-3"><?php echo $view->pageTitle; ?>
+        <small> </small>
+    </h1>
+
+    <p>Please fill this form to create an account:</p>
+
+    <form id="register_form" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+
+        <!-- Email Required -->
         <div class="form-group">
+            <input type="text" name="registerEmail" placeholder="email" class="form-control form-control-sm" id="registerEmail">
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="registerUsername" placeholder="Username" value="<?php if (isset($view->newUser))
+            {
+                echo $view->newUser;
+            }
+            ?>" class="form-control form-control-sm" required="">
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="registerPassword" placeholder="password" class="form-control form-control-sm" required="">
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="confirmPassword" placeholder="Confirm password" class="form-control form-control-sm" required="">
+        </div>
+
+        <div id="code" class="justify-content-center rounded-pill">
+            <div class="recaptcha"><b><?php if (isset($view->reCaptcha))
+                    {
+                        echo $view->reCaptcha;
+                    }?>
+                </b></div>
+            <input type="text" name="code" placeholder="Code" class="justify-content-center">
+            <input type="hidden" name="finalCode" value="<?php if (isset($view->reCaptcha))
+            {
+                echo $view->reCaptcha;
+            }?>">
+        </div>
+        <br />
+        <?php if (isset($view->error)) : ?>
+            <div class="alert alert-danger" role="alert">
+                <p><b>
+                        <?php echo $view->error; ?>
+
+                    </b></p>
+            </div>
+        <?php endif; ?>
+
+        <div class="form-group">
+            <button type="submit" name="register" class="btn btn-success btn-block">Register</button>
+        </div>
+
+        <div class="form-group text-center">
+            Already registered?<a href="login.php"> Sign in here</a>
+        </div>
+        <!--<div class="form-group">
             <label class="control-label col-sm-2">Username:</label>
             <div class="col-sm-10">
-                <input type="text" name="registerUsername" placeholder="username" value="<?php if (isset($view->newUser))
+                <input type="text" name="registerUsername" placeholder="username" value="<?php /*if (isset($view->newUser))
                 {
                     echo $view->newUser;
                 }
-                    ?>" required="required">
+                */?>" required="required">
             </div>
         </div>
-        <br />
-    <!-- Email is required -->
-    <div class="form-group">
-        <div class="col-sm-10">
-            <input id="registerEmail" type="text" name="registerEmail" placeholder="username">
+        <br />-->
+        <!-- Email is required -->
+        <!--<div class="form-group">
+            <div class="col-sm-10">
+                <input id="registerEmail" type="text" name="registerEmail" placeholder="username">
+            </div>
         </div>
-    </div>
         <br />
         <div class="form-group">
             <label class="control-label col-sm-2">Password:</label>
@@ -33,31 +91,24 @@
                 <input type="password" name="confirmPassword" placeholder="confirm password">
             </div>
             <div id="code" class="form-group">
-                <label class="control-label col-sm-2"><?php if (isset($view->reCaptcha))
+                <label class="control-label col-sm-2"><?php /*if (isset($view->reCaptcha))
                     {
                         echo $view->reCaptcha;
-                    }?></label>
+                    }*/?></label>
                 <div class="col-sm-10">
                     <input type="text" name="code" placeholder="Code" class="form-control">
-                    <input type="hidden" name="finalCode" value="<?php if (isset($view->reCaptcha))
+                    <input type="hidden" name="finalCode" value="<?php /*if (isset($view->reCaptcha))
                     {
                         echo $view->reCaptcha;
-                    }?>">
+                    }*/?>">
                 </div>
-        </div>
-        <div class="button">
-            <input type="submit" name="register" value="Sign up" class="btn btn-success"
-                   maxlength="16" minlength="8">
-        </div>
+            </div>
+            <div class="button">
+                <input type="submit" name="register" value="Sign up" class="btn btn-success"
+                       maxlength="16" minlength="8">
+            </div>-->
 
-</form>
-
-<div class="error">
-    <p><b>
-        <?php if (isset($view->error)) : ?>
-            <?php echo $view->error; ?>
-        <?php endif; ?>
-        </b></p>
+    </form>
 </div>
 
 <?php require ('template/footer.phtml') ?>
