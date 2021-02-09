@@ -108,6 +108,35 @@ class AuctionItemDateSet {
         return $dataSet;
     }
 
+    /**
+     * @param $start
+     * @param $limit
+     * @return mixed
+     */
+    public function fetchSpecificItem($start, $limit, $category)
+    {
+        $start = intval($start);
+        $limit = intval($limit);
+
+        // SQL query to select all lots with their auctions and use parameter to start it from
+        // first page. Used a limit to set the amount of pages to display in each page
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE category = CONCAT(:item) AND auction.auctionID = Lots.auction_id LIMIT :pageStart, :limit";
+
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        // $statement->bindParam(":auctionName", $auction, PDO::PARAM_STR);
+        $statement->bindParam(":item", $category, PDO::PARAM_STR);
+        $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
+        $statement->bindParam(":limit", $limit, PDO::PARAM_INT);
+        $statement->execute(); // execute the PDO statement
+
+        // List where all lots will be stored
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new AuctionItemData($row);
+        }
+        return $dataSet;
+    }
+
     /*
      * Gets total number of records from Lots table
      * @return total number of records in Lots table

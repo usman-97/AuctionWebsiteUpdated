@@ -76,6 +76,28 @@ body {
   display: none;
 }
 
+.card-header {
+  background-color: #343a40;
+  color: #fff3cd;
+}
+
+.card-footer {
+  background-color: #343a40;
+}
+
+#listing {
+  padding: 20px 50px;
+  background-color: #e6e6e6;
+  border: 2px solid #000000;
+}
+
+.page
+{
+  padding: 5px 10px;
+  background-color: #343a40;
+  color: #ffffff;
+}
+
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;

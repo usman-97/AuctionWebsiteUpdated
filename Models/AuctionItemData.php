@@ -3,7 +3,7 @@
 class AuctionItemData {
 
     // Class fields
-    protected $_lotID, $_lot_title, $_lot_main, $_description, $_price, $_image, $_auction_id;
+    protected $_lotID, $_lot_title, $_lot_main, $_description, $_price, $_image, $_category, $_auction_id;
     protected $_auction_name, $_location, $_datetime, $_user_id;
 
     /*
@@ -18,6 +18,7 @@ class AuctionItemData {
         $this->_description = $dbRow['description'];
         $this->_price = $dbRow['price'];
         $this->_image = $dbRow['image'];
+        $this->_category = $dbRow['category'];
         $this->_auction_id = $dbRow['auction_id'];
         $this->_auction_name = $dbRow['auction_name'];
         $this->_location = $dbRow['location'];
@@ -63,6 +64,13 @@ class AuctionItemData {
      */
     public function getImage() {
         return $this->_image;
+    }
+
+    /*
+    * @return $_image The picture of the lot
+    */
+    public function getCategory() {
+        return $this->_category;
     }
 
     /*
