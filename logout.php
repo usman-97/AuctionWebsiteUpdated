@@ -2,6 +2,7 @@
 
 // Start the session
 session_start();
+// var_dump($_SESSION['item']);
 
 // If logout button is pressed
 if (isset($_POST['logout']))

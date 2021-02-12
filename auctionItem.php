@@ -303,8 +303,18 @@ else {
     }*/
 
 // AuctionItemDataSet instance to display all lots in auction item
-    $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $limit);
+    // $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $limit);
+    // var_dump($_SESSION['item']);
     // $view->auctionDataSet = $auction->fetchAllAuctions();
+
+    if (isset($_SESSION['item']))
+    {
+        $view->auctionItem = $view->auctionItemDateSet->fetchSpecificItem($firstPage, $limit, $_SESSION['item']);
+    }
+    else
+    {
+        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $limit);
+    }
 }
 
 if (isset($_GET['page'])) {

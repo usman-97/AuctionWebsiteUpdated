@@ -8,6 +8,7 @@ $view->pageTitle = 'My Bidding List';
 require_once ('logout.php');
 unset($_SESSION['viewItem']);
 unset($_SESSION['searchMode']);
+unset($_SESSION['item']);
 
 $bidItemDataSet = new BidItemDataSet();
 $view->error = '';
