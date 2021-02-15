@@ -1,0 +1,17 @@
+<?php require ('template/header.phtml') ?>
+
+<div>
+    <h1><?php echo $view->pageTitle;?></h1>
+
+    <?php foreach ($view->allAuctions as $auction)
+    {
+        echo '<form action="" method="post"><div class="row"><h3>#' . $auction->getAuctionID() .
+            ': ' . $auction->getAuctionName() . '</h3></div>' .
+            '<div class="row"><p><b>Location: </b>' . $auction->getLocation() . '</p><br /><p><b>Start Date: </b>' .
+            $auction->getDateTime() .
+            '</p></div></form>';
+    }?>
+
+</div>
+
+<?php require ('template/footer.phtml') ?>

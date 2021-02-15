@@ -27,4 +27,14 @@ class AuctionDataSet {
         }
         return $dataSet;
     }
+
+    public function getAuctionAdmin($id)
+    {
+        $sqlQuery = "SELECT username FROM users, auction WHERE user_id = :id AND users.userID = auction.user_id";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
 }
