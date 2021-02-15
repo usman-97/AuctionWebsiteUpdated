@@ -5,7 +5,7 @@ require_once('Models/BidItemDataSet.php');
 require_once('Models/AuctionDataSet.php');
 
 $view = new stdClass();
-$view->pageTitle = 'Auction Cars';
+$view->pageTitle = 'Feature Lots';
 $view->lotID = '';
 $view->currentSearchItem = '';
 $view->filter  = '';
@@ -310,6 +310,10 @@ else {
     if (isset($_SESSION['item']))
     {
         $view->auctionItem = $view->auctionItemDateSet->fetchSpecificItem($firstPage, $limit, $_SESSION['item']);
+    }
+    elseif (isset($_SESSION['viewAuctionLots']))
+    {
+        $view->auctionItem = $view->auctionItemDateSet->fetchAuctionLots($firstPage, $limit, $_SESSION['viewAuctionLots']);
     }
     else
     {

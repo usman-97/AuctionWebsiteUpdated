@@ -3,6 +3,7 @@
 // Start the session
 session_start();
 // var_dump($_SESSION['item']);
+// var_dump( $_SESSION['viewAuctionLots']);
 
 // If logout button is pressed
 if (isset($_POST['logout']))

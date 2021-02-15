@@ -19,6 +19,18 @@
             <th>Auction</th>
             <th>Your Bid</th>
             <th>Status</th>-->
+
+    <h1 class="mt-4 mb-3"><?php echo $view->pageTitle; ?>
+        <small> </small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="index.php">Home</a>
+        </li>
+        <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
+    </ol>
+
             <p class="error"><b><?php if (isset($view->error)) {echo $view->error;} ?></b></p>
 <!--        </thead>
         <tbody>-->

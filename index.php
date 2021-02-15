@@ -8,11 +8,7 @@ $update = new UpdateViews();
 
 // session_start();
 require_once ('logout.php');
-// require_once ('login.php');
-
-unset($_SESSION['viewItem']);
-unset($_SESSION['searchMode']);
-unset($_SESSION['item']);
+require_once ('resetSessions.php');
 
 if (isset($_POST['SuperCar']))
 {

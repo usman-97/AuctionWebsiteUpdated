@@ -111,6 +111,7 @@ class AuctionItemDateSet {
     /**
      * @param $start
      * @param $limit
+     * @param $category
      * @return mixed
      */
     public function fetchSpecificItem($start, $limit, $category)
@@ -137,14 +138,41 @@ class AuctionItemDateSet {
         return $dataSet;
     }
 
-    /*
+    /**
+     * Fetch lots from specific auction.
+     * @param $start
+     * @param $limit
+     * @param $auction_id
+     * @return mixed
+     */
+    public function fetchAuctionLots($start, $limit, $auction_id)
+    {
+        $sqlQuery = 'SELECT * FROM auction, Lots WHERE auction_id = :id AND Lots.auction_id = auction.auctionID LIMIT :pageStart, :limit';
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $auction_id, PDO::PARAM_INT);
+        $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
+        $statement->bindParam(":limit", $limit, PDO::PARAM_INT);
+        $statement->execute();
+
+        $dataSet = [];
+        if ($statement->rowCount() > 0)
+        {
+            while ($row = $statement->fetch())
+            {
+                $dataSet[] = new AuctionItemData($row);
+            }
+            return $dataSet;
+        }
+    }
+
+    /**
      * Gets total number of records from Lots table
-     * @return total number of records in Lots table
+     * @return mixed
      */
     public function getTotalRecords()
     {
         // SQL query to get total number of lots
-        $sqlQuery = 'SELECT COUNT(lotID) FROM Lots';
+        $sqlQuery = 'SELECT lotID FROM Lots ORDER BY lotID DESC LIMIT 1';
 
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->execute();
