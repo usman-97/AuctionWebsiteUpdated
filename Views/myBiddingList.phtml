@@ -51,11 +51,11 @@
                             '<div class="button"><input type="submit" name="removeBid" value="X" class="btn btn-danger"></div>' .
                             '</td></tr></form>';
                     }}*/
-                        echo '<form action="" method="post"><div class="listContainer"><div id="listHeader" class="row"><div class="col-md-11"><h3>#' .
+                        echo '<form action="" method="post"><div class="listContainer"><div id="listHeader" class="row"><div class="col-sm-11"><h3>#' .
                             $bidItem->getLotID() . ': ' . $bidItem->getLotTitle() . ' - ' .
-                            $bidItem->getLotMain() . '</h3></div><div class="col-md-1">
+                            $bidItem->getLotMain() . '</h3></div><div class="col-sm-1">
                             <input type="submit" name="removeBid" value="X" class="btn btn-danger"></div>
-                            </div><div id="listBody" class="row"><div class="col-md-5">' .
+                            </div><div id="listBody" class="row"><div class="col-sm-5">' .
                             '<img src="images/' . $bidItem->getLotImage() . '.jpg" alt="Image not found">' .
                             '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
                             '<input type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
@@ -75,5 +75,6 @@
 <!--        </tbody>
     </table>-->
 </div>
+<br />
 
 <?php require_once ('template/footer.phtml') ?>

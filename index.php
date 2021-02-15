@@ -1,8 +1,10 @@
 <?php
 require_once ('Models/User.php');
+require_once ('Models/UpdateViews.php');
 
 $view = new stdClass();
-$view->pageTitle = 'Salford Cars';;
+$view->pageTitle = 'Salford Cars';
+$update = new UpdateViews();
 
 // session_start();
 require_once ('logout.php');
