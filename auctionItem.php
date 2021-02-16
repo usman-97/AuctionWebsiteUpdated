@@ -3,6 +3,7 @@
 require_once('Models/AuctionItemDateSet.php');
 require_once('Models/BidItemDataSet.php');
 require_once('Models/AuctionDataSet.php');
+require_once ('Models/AuctionDataSet.php');
 
 $view = new stdClass();
 $view->pageTitle = 'Feature Lots';
@@ -18,6 +19,7 @@ require_once ('logout.php');
 $view->auctionItemDateSet = new AuctionItemDateSet();
 // Instance of BidItemDataSet
 $bidItemDataSet = new BidItemDataSet();
+$auction = new AuctionDataSet();
 // Instance from AuctionDataSet
 // $auction = new AuctionDataSet();
 // Number of total pages to display
@@ -274,8 +276,8 @@ else {
     var_dump($view->currentPage);*/
 
     $limit = 20; // Limit of lots which will be displayed on auction item page
-    $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
-    $view->totalPages = $view->totalRecords / $limit; // Total number of pages
+    // $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
+    // $view->totalPages = $view->totalRecords / $limit; // Total number of pages
     // var_dump($view->totalRecords);
 
     // the first page in auction item
@@ -314,11 +316,15 @@ else {
     elseif (isset($_SESSION['viewAuctionLots']))
     {
         $view->auctionItem = $view->auctionItemDateSet->fetchAuctionLots($firstPage, $limit, $_SESSION['viewAuctionLots']);
+        $view->totalRecords = $auction->getTotalRecords($_SESSION['viewAuctionLots']);
     }
     else
     {
         $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $limit);
+        $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
+    $view->totalPages = $view->totalRecords / $limit; // Total number of pages
+    // var_dump($view->totalPages);
 }
 
 if (isset($_GET['page'])) {

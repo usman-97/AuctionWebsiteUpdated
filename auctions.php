@@ -16,4 +16,6 @@ if (isset($_POST['viewAuctionLots']))
     header("location: auctionItem.php");
 }
 
+// require_once ('pagination.php');
+
 require_once ('Views/auctions.phtml');

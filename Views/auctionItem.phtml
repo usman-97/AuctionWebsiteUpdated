@@ -203,7 +203,7 @@
                     $current = 10;
                 }*/
                 if (isset($view->currentPage)) {
-                    for ($page = $_GET['page'] - $view->currentPage; $page <= $_GET['page'] + $view->currentPage; $page++) {
+                    for ($page = $_GET['page'] - $view->currentPage; ($page <= $_GET['page'] + $view->currentPage) && ($page < $view->totalPages + 1); $page++) {
                         if ($page == 1)
                         {
                             for ($j = 1; $j < 5; $j++)
@@ -213,6 +213,7 @@
                                 $_SESSION['auctionItem'] = true;
                             };
                         }
+
                         echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '">' . $page . '</a></div>';
                         $_SESSION['auctionItem'] = true;
                     }

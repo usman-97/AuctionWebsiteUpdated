@@ -179,9 +179,10 @@ class AuctionItemDateSet {
         return $statement->fetchColumn();
     }
 
-    /*
+    /**
      * Gets total number of records searched by user
-     * @return total number of records searched by user
+     * @param $searchItem
+     * @return false|mixed
      */
     public function getTotalSearchRecords($searchItem)
     {
