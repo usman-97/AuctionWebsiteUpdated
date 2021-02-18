@@ -5,7 +5,7 @@ $view = new stdClass();
 $view->pageTitle = 'Feature Auctions';
 $view->auctions = new AuctionDataSet();
 $view->pagination = "auctions.php?page=";
-
+$view->totalRecords = $view->auctions->totalAuctions(); // Total number of records in Lots table
 
 require_once ('logout.php');
 require_once ('resetSessions.php');

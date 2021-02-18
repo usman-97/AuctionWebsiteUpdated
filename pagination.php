@@ -23,7 +23,6 @@ else
 }
 
 $limit = 20; // Limit of lots which will be displayed on auction item page
-$view->totalRecords = $view->auctions->totalAuctions(); // Total number of records in Lots table
 $view->totalPages = $view->totalRecords / $limit; // Total number of pages
 
 // the first page in auction item

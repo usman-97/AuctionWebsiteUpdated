@@ -12,22 +12,36 @@
         <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
     </ol>
 
-    <?php foreach ($view->allAuctions as $auction)
-    {
-        echo '<div class="auctionContainer" ><form action="" method="post"><div class="row" style="background-color: #343a40;color: #fff3cd;"><h3>#' . $auction->getAuctionID() .
-            ': ' . $auction->getAuctionName() . '</h3></div>' .
-            '<input type="hidden" name="auctionID" value="' . $auction->getAuctionID() . '">' .
-            '<input type="hidden" name="auctionName" value="' . $auction->getAuctionName() . '">' .
-            '<div class="row" style="background-color: #e6e6e6;"><div class="col-sm-5"><img src="images/' . $view->auctions->getAuctionImage($auction->getAuctionID()) . '.jpg">' .
-            '</div>' . '<div class="col-sm-5"><p><b>Location: </b>' . $auction->getLocation() . '</p>
+    <div class="page">
+        <p><i><?php if (isset($view->totalRecords)) {echo 'Total - ' . $view->totalRecords;} ?> /
+                <?php if (!isset($_SESSION['searchMode']))
+                    if (isset($_GET['page']))
+                        echo 'Page ' . $_GET['page'];
+                    else
+                    {
+                        echo 'Page 1';
+                    }?></i></p>
+    </div>
+    <br>
+
+    <div>
+        <?php foreach ($view->allAuctions as $auction)
+        {
+            echo '<div class="auctionContainer" ><form action="" method="post"><div class="row" style="padding: 10px; background-color: #343a40;color: #fff3cd;"><h3>#' . $auction->getAuctionID() .
+                ': ' . $auction->getAuctionName() . '</h3></div>' .
+                '<input type="hidden" name="auctionID" value="' . $auction->getAuctionID() . '">' .
+                '<input type="hidden" name="auctionName" value="' . $auction->getAuctionName() . '">' .
+                '<div class="row" style="background-color: #e6e6e6;"><div class="col-sm-5"><img src="images/' . $view->auctions->getAuctionImage($auction->getAuctionID()) . '.jpg">' .
+                '</div>' . '<div class="col-sm-5"><p><b>Location: </b>' . $auction->getLocation() . '</p>
              <input type="hidden" name="auctionLocation" value="' . $auction->getLocation() . '">
             <p><b>Start Date:</b> ' . $auction->getDateTime() . '</p>' .
-            '<input type="hidden" name="auctionDatetime" value="' . $auction->getDateTime() . '">' .
-            '<b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) .
-            '<input type="hidden" name="auctionAdmin" value="' . $auction->getAdmin() . '">' .
-            '<div><input type="submit" name="viewAuctionLots" value="View Lots" class="btn btn-primary"></div></div>' .
-            '</form></div></div><br>';
-    }?>
+                '<input type="hidden" name="auctionDatetime" value="' . $auction->getDateTime() . '">' .
+                '<b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) .
+                '<input type="hidden" name="auctionAdmin" value="' . $auction->getAdmin() . '">' .
+                '<div><input type="submit" name="viewAuctionLots" value="View Lots" class="btn btn-primary"></div></div>' .
+                '</form></div></div><br>';
+        }?>
+    </div>
 
     <div><?php require ('pagination.phtml')?></div>
 
