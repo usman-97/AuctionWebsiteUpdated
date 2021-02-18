@@ -14,21 +14,22 @@
 
     <?php foreach ($view->allAuctions as $auction)
     {
-        echo '<div class="auctionContainer"><form action="" method="post"><div class="row"><h3>#' . $auction->getAuctionID() .
+        echo '<div class="auctionContainer" ><form action="" method="post"><div class="row" style="background-color: #343a40;color: #fff3cd;"><h3>#' . $auction->getAuctionID() .
             ': ' . $auction->getAuctionName() . '</h3></div>' .
             '<input type="hidden" name="auctionID" value="' . $auction->getAuctionID() . '">' .
             '<input type="hidden" name="auctionName" value="' . $auction->getAuctionName() . '">' .
-            '<div class="row"><div class="col-sm-4"><p><b>Location: </b>' . $auction->getLocation() . '</p></div>
+            '<div class="row" style="background-color: #e6e6e6;"><div class="col-sm-5"><img src="images/' . $view->auctions->getAuctionImage($auction->getAuctionID()) . '.jpg">' .
+            '</div>' . '<div class="col-sm-5"><p><b>Location: </b>' . $auction->getLocation() . '</p>
              <input type="hidden" name="auctionLocation" value="' . $auction->getLocation() . '">
-            <div class="col-sm-4"><p><b>Start Date:</b> ' . $auction->getDateTime() . '</p></div></div>' .
+            <p><b>Start Date:</b> ' . $auction->getDateTime() . '</p>' .
             '<input type="hidden" name="auctionDatetime" value="' . $auction->getDateTime() . '">' .
-            '<div class="row"><div class="col-sm-4"><b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) .
+            '<b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) .
             '<input type="hidden" name="auctionAdmin" value="' . $auction->getAdmin() . '">' .
-            '</div><div class="col-sm-4"><input type="submit" name="viewAuctionLots" value="View Lots" class="btn btn-primary"></div>' .
-            '</div></form></div><br>';
+            '<div><input type="submit" name="viewAuctionLots" value="View Lots" class="btn btn-primary"></div></div>' .
+            '</form></div></div><br>';
     }?>
 
-    <?php /*require ('pagination.phtml')*/?>
+    <div><?php require ('pagination.phtml')?></div>
 
 </div>
 

@@ -102,12 +102,21 @@ body {
   font-size: 20px;
 }
 
+.auctionContainer input {
+  margin: 10px 50px;
+}
+
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;
   }
 
   #RegistrationForm {
+    width: 90%;
+  }
+
+  .auctionContainer {
+    margin: auto;
     width: 90%;
   }
 }

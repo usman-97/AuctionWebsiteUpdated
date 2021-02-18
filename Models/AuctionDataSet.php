@@ -50,9 +50,38 @@ class AuctionDataSet {
         return $statement->fetchColumn();
     }
 
+    /**
+     * Get number of total record for selected auction
+     * @param $id
+     * @return mixed
+     */
     public function getTotalRecords($id)
     {
-        $sqlQuery = "SELECT COUNT(auction_id) FROM Lots WHERE auction_id = :id";
+        $sqlQuery = "SELECT COUNT(lotID) FROM Lots WHERE auction_id = :id";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $id, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
+
+    public function totalAuctions()
+    {
+        $sqlQuery = "SELECT COUNT(auctionID) FROM auction";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * Get image of auction from Lots table
+     * @param $id
+     * @return mixed
+     */
+    public function getAuctionImage($id)
+    {
+        $sqlQuery = "SELECT image FROM Lots WHERE auction_id = :id LIMIT 1";
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
