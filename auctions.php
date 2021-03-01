@@ -11,6 +11,7 @@ require_once ('logout.php');
 require_once ('resetSessions.php');
 
 $view->allAuctions = $view->auctions->fetchAllAuctions();
+// var_dump($view->allAuctions);
 
 require ('pagination.php');
 
