@@ -112,7 +112,7 @@ body {
 }
 
 .passwordCheck div{
-  display: inline-block;
+  display: none;
   width: 30%;
   height: 5px;
   background-color: #4e555b;
@@ -120,6 +120,9 @@ body {
 
 .passwordCheck p {
   color: #000000;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 @media screen and (max-width: 800px) {

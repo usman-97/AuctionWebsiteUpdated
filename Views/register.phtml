@@ -28,11 +28,11 @@
             <input id="newPassword" type="password" name="registerPassword" placeholder="Password" class="form-control form-control-sm" required="" onkeyup="strength(this.value)">
         </div>
 
-        <div class="passwordCheck">
+        <div id="passwordStrength" class="passwordCheck">
             <div id="weak"></div>
             <div id="fair"></div>
             <div id="strong"></div>
-            <p id="passwordStatus"></p>
+            <p id="passwordStatus">Strength</p>
         </div>
 
         <div class="form-group">
@@ -119,45 +119,59 @@
 </div>
 
 <script type="text/javascript">
-    var userPassword = document.getElementById("newPassword");
+    var userPassword = document.getElementById("newPassword"); // text from new password field
 
-    var weak = document.getElementById("weak");
-    var fair = document.getElementById("fair");
-    var strong = document.getElementById("strong");
-    var status = document.getElementById("passwordStatus");
+    var weak = document.getElementById("weak"); // Weak strength container
+    var fair = document.getElementById("fair"); // Fair strength container
+    var strong = document.getElementById("strong"); // Strong strength container
+    var status = document.getElementById("passwordStatus"); // password strength status text
 
-    /*function changeColour(element, colour)
-    {
-        element.style.backgroundColor = colour;
-    }*/
-
+    /**
+     * Checks the strength of the password
+     * @param str - value of new password field
+     */
     function strength(str)
     {
-        let fairStrength = /\d/g;
-        let strongStrength = /[!£$@]?[A-Za-z0-9]+?[!£$@]/;
+        let fairStrength = /\d/g; // Fair password condition
+        let strongStrength = /[A-Z]*[a-z]*[0-9]*[-+_!@#$%^&*.,?]/; // Strong password condition
 
-        var changeColour = (element, colour) => {element.style.backgroundColor = colour;}
+        var changeColour = (element, colour) => {element.style.backgroundColor = colour;} // change the colour of element
 
+        // Get all nodes inside element with id 'passwordStrength'
+        var containers = document.getElementById("passwordStrength").children;
+        for (var i = 0; i < containers.length - 1; i++)
+        {
+            containers[i].style.display = "inline-block"; // set child elements' display to inline block
+        }
+        // console.log(containers);
+
+        // If user typed password length is less than 8
         if (str.length < 8)
         {
             changeColour(weak, "red");
             changeColour(fair, "#4e555b");
             changeColour(strong, "#4e555b");
             status.innerHTML = "Weak";
+            // console.log(status.innerHTML);
         }
 
+        // If user password has a number and greater than or equal to 8 characters
         if (fairStrength.test(str) && str.length >= 8)
         {
             changeColour(weak, "orange");
             changeColour(fair, "orange");
             changeColour(strong, "#4e555b");
+            status.innerHTML = "Fair";
         }
 
+        // If user password is greater than or equal to 8 character
+        // and contains one Uppercase or one lowercase with a number and a special character
         if (strongStrength.test(str) && str.length >= 8)
         {
             changeColour(weak, "green");
             changeColour(fair, "green");
             changeColour(strong, "green");
+            status.innerHTML = "Strong";
         }
     }
 </script>
