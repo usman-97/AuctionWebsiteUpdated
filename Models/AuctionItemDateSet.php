@@ -92,7 +92,7 @@ class AuctionItemDateSet {
 
         // SQL query to select all lots with their auctions and use parameter to start it from
         // first page. Used a limit to set the amount of pages to display in each page
-        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id LIMIT :pageStart, :limit";
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id ORDER BY views DESC LIMIT :pageStart, :limit";
 
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         // $statement->bindParam(":auctionName", $auction, PDO::PARAM_STR);
@@ -172,10 +172,25 @@ class AuctionItemDateSet {
     public function getTotalRecords()
     {
         // SQL query to get total number of lots
-        $sqlQuery = 'SELECT lotID FROM Lots ORDER BY lotID DESC LIMIT 1';
+        $sqlQuery = 'SELECT COUNT(lotID) FROM Lots';
 
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->execute();
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * Get total number record for selected category of lots
+     * @param $category - selected category to fetch lots
+     * @return mixed - total number of records of a certain category
+     */
+    public function getTotalCategoryRecords($category)
+    {
+        $sqlQuery = "SELECT COUNT(lotID) FROM Lots WHERE category = :item";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":item", $category, PDO::PARAM_STR);
+        $statement->execute();
+
         return $statement->fetchColumn();
     }
 

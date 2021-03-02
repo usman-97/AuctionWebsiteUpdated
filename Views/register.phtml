@@ -25,7 +25,14 @@
         </div>
 
         <div class="form-group">
-            <input type="password" name="registerPassword" placeholder="Password" class="form-control form-control-sm" required="">
+            <input id="newPassword" type="password" name="registerPassword" placeholder="Password" class="form-control form-control-sm" required="" onkeyup="strength(this.value)">
+        </div>
+
+        <div class="passwordCheck">
+            <div id="weak"></div>
+            <div id="fair"></div>
+            <div id="strong"></div>
+            <p id="passwordStatus"></p>
         </div>
 
         <div class="form-group">
@@ -110,6 +117,50 @@
 
     </form>
 </div>
+
+<script type="text/javascript">
+    var userPassword = document.getElementById("newPassword");
+
+    var weak = document.getElementById("weak");
+    var fair = document.getElementById("fair");
+    var strong = document.getElementById("strong");
+    var status = document.getElementById("passwordStatus");
+
+    /*function changeColour(element, colour)
+    {
+        element.style.backgroundColor = colour;
+    }*/
+
+    function strength(str)
+    {
+        let fairStrength = /\d/g;
+        let strongStrength = /[!£$@]?[A-Za-z0-9]+?[!£$@]/;
+
+        var changeColour = (element, colour) => {element.style.backgroundColor = colour;}
+
+        if (str.length < 8)
+        {
+            changeColour(weak, "red");
+            changeColour(fair, "#4e555b");
+            changeColour(strong, "#4e555b");
+            status.innerHTML = "Weak";
+        }
+
+        if (fairStrength.test(str) && str.length >= 8)
+        {
+            changeColour(weak, "orange");
+            changeColour(fair, "orange");
+            changeColour(strong, "#4e555b");
+        }
+
+        if (strongStrength.test(str) && str.length >= 8)
+        {
+            changeColour(weak, "green");
+            changeColour(fair, "green");
+            changeColour(strong, "green");
+        }
+    }
+</script>
 
 <?php require ('template/footer.phtml') ?>
 

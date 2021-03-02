@@ -43,6 +43,19 @@ class User {
         // unset($statement);
     }
 
+    public function countUserID()
+    {
+        // SQL query to get total number of rows in user table
+        $countStatement = 'SELECT userID FROM users ORDER BY userID DESC LIMIT 1';
+        // Prepare PDO statement
+        $countRows = $this->_dbHandle->prepare($countStatement);
+        //Execute PDO statement
+        $countRows->execute();
+        // Store Total number of rows
+        return $countRows->fetchColumn();
+        // var_dump($totalRows);
+    }
+
     /*
      * Register new account for user
      * @param $user The new username of account
@@ -50,14 +63,14 @@ class User {
      */
     public function registerAccount()
     {
-        // SQL query to get total number of rows in user table
-        $countStatement = 'SELECT COUNT(userID) FROM users';
+        /*// SQL query to get total number of rows in user table
+        $countStatement = 'SELECT userID FROM users ORDER BY userID DESC LIMIT 1';
         // Prepare PDO statement
         $countRows = $this->_dbHandle->prepare($countStatement);
         //Execute PDO statement
-        $countRows->execute();
+        $countRows->execute();*/
         // Store Total number of rows
-        $totalRows = $countRows->fetchColumn();
+        $totalRows = $this->countUserID();
         // var_dump($totalRows);
 
         // SQL query to insert user detail into users database

@@ -312,6 +312,7 @@ else {
     if (isset($_SESSION['item']))
     {
         $view->auctionItem = $view->auctionItemDateSet->fetchSpecificItem($firstPage, $limit, $_SESSION['item']);
+        $view->totalRecords = $view->auctionItemDateSet->getTotalCategoryRecords($_SESSION['item']);
     }
     elseif (isset($_SESSION['viewAuctionLots']))
     {
@@ -321,6 +322,7 @@ else {
     else
     {
         $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $limit);
+        shuffle($view->auctionItem);
         $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
     $view->totalPages = $view->totalRecords / $limit; // Total number of pages

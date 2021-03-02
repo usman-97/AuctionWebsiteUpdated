@@ -46,9 +46,10 @@ class BidItemDataSet {
 
     }
 
-    /*
-     * Gets all bids which are made on specific item.
-     * @param $id The ID of an item
+    /**
+     *Gets all bids which are made on specific item.
+     * @param $id
+     * @return array|false
      */
     public function fetchItemBids($id)
     {
@@ -75,6 +76,16 @@ class BidItemDataSet {
         }
     }
 
+    public function countBidID()
+    {
+        // SQL query counts number of total bids in bid table
+        $bidIDQuery = 'SELECT bidID FROM bid ORDER BY bidID DESC LIMIT 1';
+        $bidStatement = $this->_dbHandle->prepare( $bidIDQuery);
+        $bidStatement->execute();
+
+        return $bidStatement->fetchColumn();
+    }
+
     /*
      * Allows user to place a bid on item.
      * Insert new record in bid table
@@ -85,21 +96,21 @@ class BidItemDataSet {
      */
     public function placeBid($userID, $lotID, $auctionID, $bid)
     {
-        // SQL query counts number of total bids in bid table
-        $bidIDQuery = 'SELECT COUNT(bidID) FROM bid';
+        /*// SQL query counts number of total bids in bid table
+        $bidIDQuery = 'SELECT bidID FROM bid ORDER BY bidID DESC LIMIT 1';
         $bidStatement = $this->_dbHandle->prepare( $bidIDQuery);
-        $bidStatement->execute();
+        $bidStatement->execute();*/
 
-        $id = $bidStatement->fetchColumn();
+        $id = $this->countBidID() + 1;
 
-        if ($bidStatement->rowCount() == 0)
+        /*if ($bidStatement->rowCount() == 0)
         {
             $id = 1;
         }
         else
         {
             $id += 1;
-        }
+        }*/
         // var_dump($id);
 
         $sqlQuery = 'INSERT INTO bid (bidID, user_id, lot_id, auction_id, bid) VALUES (:id, :user_id, :lot_id, :auction_id, :userBid)';

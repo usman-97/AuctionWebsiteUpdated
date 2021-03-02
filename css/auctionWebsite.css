@@ -111,6 +111,17 @@ body {
   margin-bottom: 20px;
 }
 
+.passwordCheck div{
+  display: inline-block;
+  width: 30%;
+  height: 5px;
+  background-color: #4e555b;
+}
+
+.passwordCheck p {
+  color: #000000;
+}
+
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;
