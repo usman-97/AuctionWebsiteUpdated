@@ -133,7 +133,11 @@
     function strength(str)
     {
         let fairStrength = /\d/g; // Fair password condition
-        let strongStrength = /[A-Z]*[a-z]*[0-9]*[-+_!@#$%^&*.,?]/; // Strong password condition
+        //let strongStrength = /[A-Z]*[a-z]*[0-9]*[-+_!@#$%^&*.,?]/; // Strong password condition
+        let uppercaseCheck = /[A-Z]/g; // Upper case letter check
+        let specialCharacterCheck = /[-+_!@#$%^&*.,?]/g; // special character check
+
+        var status = document.getElementById("passwordStatus");
 
         var changeColour = (element, colour) => {element.style.backgroundColor = colour;} // change the colour of element
 
@@ -152,7 +156,6 @@
             changeColour(fair, "#4e555b");
             changeColour(strong, "#4e555b");
             status.innerHTML = "Weak";
-            // console.log(status.innerHTML);
         }
 
         // If user password has a number and greater than or equal to 8 characters
@@ -166,7 +169,7 @@
 
         // If user password is greater than or equal to 8 character
         // and contains one Uppercase or one lowercase with a number and a special character
-        if (strongStrength.test(str) && str.length >= 8)
+        if (uppercaseCheck.test(str) && specialCharacterCheck.test(str) && fairStrength.test(str) && str.length >= 8)
         {
             changeColour(weak, "green");
             changeColour(fair, "green");

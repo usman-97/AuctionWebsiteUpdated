@@ -6,7 +6,7 @@ require_once('Models/AuctionItemData.php');
 class AuctionItemDateSet {
     protected $_dbHandle, $_dbInstance;
 
-    /*
+    /**
      * AuctionItemDataSet constructor
      * Establish connection to database
      */
@@ -15,10 +15,13 @@ class AuctionItemDateSet {
         $this->_dbHandle = $this->_dbInstance->getdbConnection(); // Establish connection to database
     }
 
-    /*
+    /**
      * Searches item in Lots table by user's given keyword
-     * @param $search
-     * @return $dataSet The list of lots for Lots table
+     * @param $searchItem
+     * @param $start
+     * @param $limit
+     * @param $filter
+     * @return array $dataSet The list of lots for Lots table
      */
     public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter)
     {
@@ -79,12 +82,12 @@ class AuctionItemDateSet {
         return $dataSet;
     }
 
-    /*
+    /**
      * Displays all lots in Lots table with their auction
      * Displays Lots corresponding to pages
-     * @param $start The first page
-     * @param $limit The number of lots to display on each page
-     * @return dataSet The list will all lots from Lots table
+     * @param $start - The first page
+     * @param $limit - The number of lots to display on each page
+     * @return array The list will all lots from Lots table
      */
     public function fetchAllAuctionItem($start, $limit) {
         $start = intval($start);
@@ -163,6 +166,25 @@ class AuctionItemDateSet {
             }
             return $dataSet;
         }
+        return null;
+    }
+
+    /**
+     * Fetch single item from database using its id
+     * @param $id - id of the lot
+     */
+    public function fetchSingleLot($id)
+    {
+        $sqlQuery = "SELECT * FROM auction, Lots WHERE lotID = :id AND Lots.auction_id = auction.auctionID";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        $dataSet = [];
+        $row = $statement->fetch();
+        $dataSet[] = new AuctionItemData($row);
+
+        return $dataSet;
     }
 
     /**
@@ -232,8 +254,10 @@ class AuctionItemDateSet {
         return $dataSet;
     }*/
 
-    /*
+    /**
      * Gets Auction admin using user_id in auction table
+     * @param $user_id
+     * @return mixed
      */
     public function getAuctionAdmin($user_id)
     {
@@ -245,9 +269,10 @@ class AuctionItemDateSet {
         return $statement->fetchColumn();
     }
 
-    /*
+    /**
      * Get view value for an item
-     * @param $lot_id The id of an item
+     * @param $lot_id - The id of an item
+     * @return mixed
      */
     public function getView($lot_id)
     {
@@ -259,9 +284,9 @@ class AuctionItemDateSet {
         return $statement->fetchColumn();
     }
 
-    /*
+    /**
      * Increase view when specific item is viewed by user
-     * @param $lot_id The id of an item which is viewd by user
+     * @param $lot_id - The id of an item which is viewd by user
      */
     public function incrementView($lot_id)
     {

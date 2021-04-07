@@ -1,0 +1,103 @@
+<?php require ('template/header.phtml')?>
+
+<div class="button">
+    <form action="/auctionItem.php" method="post">
+        <input type="submit" name="back" value="back" class="btn btn-danger">
+    </form>
+</div>
+<br />
+<form action="" method="post">
+<div class="row" style="padding: 10px; background-color: #e6e6e6">
+    <div class="col-sm-4">
+        <img src="images/<?php echo $view->getItem[0]->getImage()?>.jpg" alt="no image found" class="img-fluid">
+        <input type="hidden" name="lotImage" value="<?php $view->getItem[0]->getImage() ?>">
+    </div>
+
+    <div class="col-sm-5">
+        <h3 class="my-3"><?php echo 'Lot ID #' . $view->getItem[0]->getLotID() . ':'.  $view->getItem[0]->getLotTitle() .
+                ' - ' .  $view->getItem[0]->getLotMain()?></h3>
+        <p><?php echo $view->getItem[0]->getDescription()?></p>
+        <p><b>Opening bid: </b>£<?php echo $view->getItem[0]->getPrice()?></p>
+
+        <input type="hidden" name="lotID" value="<?php echo $view->getItem[0]->getLotID() ?>">
+        <input type="hidden" name="lotTitle" value="<?php $view->getItem[0]->getLotTitle() ?>">
+        <input type="hidden" name="lotMain" value="<?php $view->getItem[0]->getLotMain() ?>">
+        <input type="hidden" name="lotDescription" value="<?php $view->getItem[0]->getDescription() ?>">
+        <input type="hidden" name="lotPrice" value="<?php $view->getItem[0]->getPrice() ?>">
+    </div>
+    <div class="col-sm-3">
+        <h3><b><?php echo $view->getItem[0]->getAuctionName();?></b></h3>
+        <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+            </svg><b><?php echo $view->getItem[0]->getLocation(); ?></b></p>
+        <p><b><?php echo $view->getItem[0]->getDatetime()?></b></p>
+        <p><b>Auctioneer: <?php echo $view->auctionItem->getAuctionAdmin($view->getItem[0]->getUserID())?></b></p>
+
+        <input type="hidden" name="auctionID" value="<?php echo $view->getItem[0]->getAuctionID() ?>">
+        <input type="hidden" name="auctionName" value="<?php echo $view->getItem[0]->getAuctionName() ?>">
+    </div>
+</div>
+<br />
+    <div><b>Place your bid now!</b></div>
+<div class="row">
+    <div>
+        <?php if (!isset($_SESSION['loggedIn'])) : ?>
+            <p style="color: #cf0e00"><b>You need to login before you can place a bid</b></p>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['loggedIn'])) : ?>
+        <!--    <form action="" method="post">-->
+        <div>
+            <label>Your bid: £</label>
+            <input type="text" name="userBid" placeholder="1000">
+            <div id="bidButton" class="button" style="display: inline-block">
+                <input type="submit" name="placeBid" value="Place" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+
+    <p class="error"><b><?php if (isset($view->userBidError))
+                echo $view->userBidError?></b></p>
+    <?php if (isset($view->bidError))
+        echo $view->bidError?>
+    <br />
+    <?php endif;?>
+</div>
+</form>
+<br />
+<div class="row">
+    <div>
+        <table class="table table-active">
+            <thead>
+            <th>Bid ID</th>
+            <th>Username</th>
+            <th>Bid</th>
+            </thead>
+            <tbody>
+            <?php
+            if (isset($view->lotPrice))
+            {
+                echo '<p><b>Opening bid £' . $view->lotPrice . '</b></p>';
+            }
+
+            if (isset($view->bidItemDataSet))
+            {
+                if (!$view->bidItemDataSet)
+                {
+                    echo $view->emptyBidError;
+                }
+                else {
+                    foreach ($view->bidItemDataSet as $bidItem) {
+                        echo '<tr><td>' . $bidItem->getBidID() .
+                            '</td><td>' . $bidItem->getUsername() .
+                            '</td><td>' . '£' . $bidItem->getBid() .
+                            '</td></tr>';
+                    }
+                }
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php require ('template/footer.phtml')?>

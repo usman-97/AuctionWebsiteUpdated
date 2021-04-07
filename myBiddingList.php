@@ -14,6 +14,7 @@ $view->bidStatus = '';
 
 if (isset($_SESSION['userID'])) {
     $view->bidItemDataSet = $bidItemDataSet->fetchAllBids($_SESSION['userID']);
+    // var_dump($view->bidItemDataSet[0]->getBid());
     if (!$view->bidItemDataSet) {
         $view->bidError = 'You don\'t have any bids.';
     }
@@ -54,11 +55,11 @@ if (isset($_POST['statusButton'])) {
     // var_dump(intval($_SESSION['userID']));
 }
 
-
-if (isset($_POST['logout']))
+if (isset($_POST['viewItem']))
 {
-    require_once('index.php');
+    $_SESSION['viewLotID'] = $_POST['lotID'];
+    header("location: viewItem.php");
+    // var_dump($_SESSION['viewLotID']);
 }
-else {
-    require_once('Views/myBiddingList.phtml');
-}
+
+require_once('Views/myBiddingList.phtml');

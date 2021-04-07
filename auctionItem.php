@@ -103,6 +103,7 @@ if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST
     {
         // Then store the value of search bar
         $view->currentSearchItem = $_POST['searchBar'];
+        $_SESSION['searchedItem'] = $_POST['searchBar'];
         $view->currentLimit = 0;
     }
     else
@@ -112,6 +113,10 @@ if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST
         {
             // Then store the value of save search field
             $view->currentSearchItem = $_POST['saveSearch'];
+        }
+        elseif (isset($_SESSION['searchedItem']))
+        {
+            $view->currentSearchItem = $_SESSION['searchedItem'];
         }
     }
 }
@@ -136,6 +141,7 @@ if (isset($_POST['clearSearch'])) {
     // $_SESSION['searchItem'] = null; // Clear search item session
     $_POST['searchBar'] = null; // Clear search field
     unset($_SESSION['viewItem']); // Clear view item session
+    unset($_SESSION['searchedItem']);
 }
 
 // If searchMode session is set
@@ -368,7 +374,9 @@ if (isset($_POST['view']))
 
     // Start viewItem session
     $_SESSION['viewItem'] = true;
-    $view->auctionItemDateSet->incrementView( $view->lotID);
+    $_SESSION['viewLotID'] = $view->lotID;
+    $view->auctionItemDateSet->incrementView($view->lotID);
+    header("Location: viewItem.php");
 
     // If searchMode session is set when view button is pressed
     if (isset($_SESSION['searchMode']))
@@ -378,7 +386,7 @@ if (isset($_POST['view']))
     }
 }
 
-// If back button is pressed
+/*// If back button is pressed
 if (isset($_POST['back']))
 {
     // require_once('item.php');
@@ -388,17 +396,18 @@ if (isset($_POST['back']))
     if (!empty($view->currentSearchItem))
     {
         $_SESSION['searchMode'] = true;
-    }
-}
 
-// Fetch all bids for items
+    }
+}*/
+
+/*// Fetch all bids for items
 $view->bidItemDataSet = $bidItemDataSet->fetchItemBids($view->lotID);
 // If there are no bids for items
 if (!$view->bidItemDataSet)
 {
     // Then display a message to inform user
     $view->emptyBidError = 'No bid has been place on this item yet.';
-}
+}*/
 // var_dump($view->bidItemDataSet);
 
 
@@ -512,7 +521,7 @@ else
     }
 }
 
-// If placeBid button is pressed
+/*// If placeBid button is pressed
 if (isset($_POST['placeBid']))
 {
     // If user bid is not empty
@@ -558,7 +567,7 @@ if (isset($_POST['placeBid']))
 else
 {
     $view->userBidError = '';
-}
+}*/
 
 if (isset($_POST['applyFilter']))
 {

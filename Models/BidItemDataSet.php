@@ -16,15 +16,38 @@ class BidItemDataSet {
         $this->_dbHandle = $this->_dbInstance->getdbConnection();
     }
 
-    /*
+/*    private function userHighestLotsBid($dataSet)
+    {
+        $tempDataSet = [];
+
+        for ($i = 0; $i < count($dataSet); $i++)
+        {
+            $tempLotDataSet = [];
+            $lot = $dataSet[$i]->getLotID();
+            $bid = $dataSet[$i]->getBid();
+
+            while ($dataSet[$i] == $lot)
+            {
+                if ($bid < $dataSet[$i]->getBid())
+                {
+                    $bid = $dataSet[$i]->getBid();
+                }
+
+                $i++;
+            }
+        }
+    }*/
+
+    /**
      * Gets all bid for users.
      * Displays the list of user bids
-     * @param $id The ID of user
+     * @param - $id The ID of user
+     * @return array|false
      */
     public function fetchAllBids($id)
     {
         // SQL query to get all user's bids on all items
-        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE users.userID = bid.user_id AND Lots.lotID = bid.lot_id AND auction.auctionID = bid.auction_id AND bid.user_id = :id';
+        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE users.userID = bid.user_id AND Lots.lotID = bid.lot_id AND auction.auctionID = bid.auction_id AND bid.user_id = :id ORDER BY lot_id';
         $statement = $this->_dbHandle->prepare($sqlQuery); // Prepare PDO statement
         $statement->bindParam(":id", $id, PDO::PARAM_INT); // Assign parameter :id in query
         $statement->execute(); // execute SQL query
@@ -53,7 +76,7 @@ class BidItemDataSet {
      */
     public function fetchItemBids($id)
     {
-        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE Lots.lotID = bid.lot_id AND bid.user_id = users.userID AND auction.auctionID = bid.auction_id AND bid.lot_id = :id ORDER BY bid;';
+        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE Lots.lotID = bid.lot_id AND bid.user_id = users.userID AND auction.auctionID = bid.auction_id AND bid.lot_id = :id ORDER BY bid DESC ';
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
@@ -76,6 +99,10 @@ class BidItemDataSet {
         }
     }
 
+    /**
+     * Count total number of records in bid table
+     * @return mixed
+     */
     public function countBidID()
     {
         // SQL query counts number of total bids in bid table
@@ -86,13 +113,13 @@ class BidItemDataSet {
         return $bidStatement->fetchColumn();
     }
 
-    /*
+    /**
      * Allows user to place a bid on item.
      * Insert new record in bid table
-     * @param $userID The user who is placing bid
-     * @param $lotID The item which user is placing bid on
-     * @param $auctionID The auction where user is placing bid
-     * @param $bid The amount of bid
+     * @param $userID - The user who is placing bid
+     * @param $lotID - The item which user is placing bid on
+     * @param $auctionID - The auction where user is placing bid
+     * @param $bid - The amount of bid
      */
     public function placeBid($userID, $lotID, $auctionID, $bid)
     {
@@ -102,6 +129,7 @@ class BidItemDataSet {
         $bidStatement->execute();*/
 
         $id = $this->countBidID() + 1;
+        var_dump($lotID);
 
         /*if ($bidStatement->rowCount() == 0)
         {
@@ -125,9 +153,9 @@ class BidItemDataSet {
         // var_dump($statement->execute());
     }
 
-    /*
+    /**
      * Removes user bid from bid table
-     * @param $id The bid which user wants to remove
+     * @param $id - The bid which user wants to remove
      */
     public function removeBid($id)
     {
@@ -137,9 +165,9 @@ class BidItemDataSet {
         $statement->execute();
     }
 
-    /*
+    /**
      * Modify or edit current user bid.
-     * @param $id The bid which user wants to modify
+     * @param $id - The bid which user wants to modify
      */
     public function editBid($id, $newBid)
     {
@@ -150,11 +178,11 @@ class BidItemDataSet {
         $statement->execute();
     }
 
-    /*
+    /**
      * Get the highest bid on selected item and check if user
      * given amount for bid is higher than current highest bid
-     * @param $id The item which user wants to place a bid
-     * @param amount The amount which user wants to
+     * @param $id - The item which user wants to place a bid
+     * @param $amount - amount The amount which user wants to
      */
     public function checkHighestBid($id, $amount)
     {
@@ -182,8 +210,10 @@ class BidItemDataSet {
         }
     }
 
-    /*
+    /**
      * Gets The highest bid of user on specific item
+     * @param $_lot_id - the lot id
+     * @return false|mixed
      */
     public function getItemHighestBid($_lot_id)
     {
@@ -203,10 +233,10 @@ class BidItemDataSet {
         }
     }
 
-    /*
+    /**
      * Checks if user is the highest bidder or not
-     * @param $userID The current user
-     * @param $lotID The item which user have bid on
+     * @param $userID - The current user
+     * @param $lotID - The item which user have bid on
      */
     public function getUserHighestBid($userID, $lotID)
     {
@@ -215,8 +245,6 @@ class BidItemDataSet {
         $statement->bindParam(":id", $lotID, PDO::PARAM_INT);
         $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
         $statement->execute();
-        // var_dump($userID);
-        // var_dump($lotID);
 
         if ($statement->rowCount() > 0)
         {
