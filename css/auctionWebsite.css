@@ -125,6 +125,11 @@ body {
   font-size: 20px;
 }
 
+.dfContainer {
+  padding: 10px;
+  background-color: #e6e6e6;
+}
+
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;
