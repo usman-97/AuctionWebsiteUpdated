@@ -73,4 +73,9 @@ else
     $view->userBidError = '';
 }
 
+/*if (isset($_POST['back']))
+{
+    header("location: auctionItem.php");
+}*/
+
 require_once ('Views/viewItem.phtml');

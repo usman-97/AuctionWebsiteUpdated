@@ -27,31 +27,29 @@ class AuctionItemDateSet {
     {
         $start = intval($start);
         $limit = intval($limit);
-        // var_dump($start);
-        // var_dump($limit);g
 
         // SQL query to get item by it's title or main or auction name
         if ($filter == 'popular')
         {
-            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE :item OR auction.auction_name LIKE :item ORDER BY views LIMIT :pageStart, :limitPage";
+            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY views LIMIT :pageStart, :limitPage";
         }
         elseif ($filter == 'recent')
         {
-            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE :item OR auction.auction_name LIKE :item ORDER BY datetime LIMIT :pageStart, :limitPage";
+            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY datetime LIMIT :pageStart, :limitPage";
         }
         else
         {
             if ($filter == 'ascendingOrder')
             {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE :item OR auction.auction_name LIKE :item ORDER BY lot_main LIMIT :pageStart, :limitPage";
+                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY lot_main LIMIT :pageStart, :limitPage";
             }
             elseif ($filter == 'descendingOrder')
             {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE :item OR auction.auction_name LIKE :item ORDER BY lot_main DESC LIMIT :pageStart, :limitPage";
+                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY lot_main DESC LIMIT :pageStart, :limitPage";
             }
             else
             {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE :item OR auction.auction_name LIKE :item LIMIT :pageStart, :limitPage";
+                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT(:item, '%') OR lot_main LIKE CONCAT(:item, '%') OR auction.auction_name LIKE CONCAT(:item, '%') LIMIT :pageStart, :limitPage";
             }
         }
 
@@ -223,7 +221,7 @@ class AuctionItemDateSet {
      */
     public function getTotalSearchRecords($searchItem)
     {
-        $sqlQuery = "SELECT COUNT(lotID) FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main = :item OR auction_name LIKE :item";
+        $sqlQuery = "SELECT COUNT(lotID) FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction_name LIKE CONCAT('%', :item, '%')";
         $statement =$this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":item",$searchItem, PDO::PARAM_STR);
         $statement->execute();
