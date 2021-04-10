@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="97376934-574e-4e21-9f10-1f28e7b6796a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Views/viewItem.phtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/viewItem.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Workshops/Workshop 10/getHint.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AuctionWebsite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AuctionItemUpdated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AuctionItemUpdated.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/AuctionItemDateSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/AuctionItemDateSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/BidItemDataSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/BidItemDataSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/auctionItem.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/auctionItem.phtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/register.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/register.phtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/template/footer.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/template/footer.phtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/template/header.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/template/header.phtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auctionItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/auctionItem.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpTemplates">
+    <option name="NEW_PHP_FILE_LAST_EXTENSION" value="phtml" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.1" />
+  <component name="ProjectId" id="1o2D8Pji6M1Z0UHwj5lXqD8RYQl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="TestServer" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="$PROJECT_DIR$" port="8082">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="97376934-574e-4e21-9f10-1f28e7b6796a" name="Default Changelist" comment="" />
+      <created>1612475632932</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1612475632932</updated>
+      <workItem from="1612475634727" duration="2512000" />
+      <workItem from="1612484528423" duration="3769000" />
+      <workItem from="1612549093613" duration="10490000" />
+      <workItem from="1612792823093" duration="429000" />
+      <workItem from="1612813643951" duration="7398000" />
+      <workItem from="1612833519384" duration="5187000" />
+      <workItem from="1612882563509" duration="2604000" />
+      <workItem from="1612913031987" duration="4670000" />
+      <workItem from="1613011626453" duration="941000" />
+      <workItem from="1613089642952" duration="2691000" />
+      <workItem from="1613353143791" duration="1546000" />
+      <workItem from="1613408829803" duration="134000" />
+      <workItem from="1613430301728" duration="2597000" />
+      <workItem from="1613469923979" duration="18000" />
+      <workItem from="1613513119614" duration="3158000" />
+      <workItem from="1613675713596" duration="3286000" />
+      <workItem from="1613683545002" duration="3638000" />
+      <workItem from="1614273934183" duration="61000" />
+      <workItem from="1614625118897" duration="3311000" />
+      <workItem from="1614632188635" duration="5158000" />
+      <workItem from="1614647940371" duration="4231000" />
+      <workItem from="1614679683448" duration="13000" />
+      <workItem from="1614724069874" duration="2739000" />
+      <workItem from="1614879268841" duration="20000" />
+      <workItem from="1615889176588" duration="3111000" />
+      <workItem from="1618021145661" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

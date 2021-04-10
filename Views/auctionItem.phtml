@@ -57,8 +57,7 @@
 
 <div class="page">
     <p><i><?php if (isset($view->totalRecords)) {echo 'Total - ' . $view->totalRecords;} ?>
-    <?php//  if (!isset($_SESSION['searchMode']))
-            if (isset($_GET['page'])) {
+    <?php if (isset($_GET['page'])) {
                 echo 'Page ' . $_GET['page'];
             }
         else
