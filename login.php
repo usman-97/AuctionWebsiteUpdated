@@ -72,10 +72,10 @@ if (isset($_POST['login'])) {
                                 // require_once('Views/login.phtml');
                                 // var_dump($view->login->checkLoginAttempts());
 
-                                echo $_POST['username'] . ' has successfully logged in!';
+                                // echo $_POST['username'] . ' has successfully logged in!';
                                 header("Location: index.php");
                                 // require_once('Views/index.phtml');
-                                var_dump($_SESSION['username']);
+                                // var_dump($_SESSION['username']);
                             }
                             else {
                                 $view->error = 'Invalid Password';

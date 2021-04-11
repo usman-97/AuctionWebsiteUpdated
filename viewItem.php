@@ -47,7 +47,14 @@ if (isset($_POST['placeBid']))
                 if ($highestBid == true) {
                     $userBid = $_POST['userBid'];;
                     // Place user bid
-                    $bidItemDataSet->placeBid(intval($_SESSION['userID']), intval($_POST['lotID']), intval($_POST['auctionID']), $userBid);
+                    if ($bidItemDataSet->checkUserLotBid($_POST['lotID'], $_SESSION['userID']))
+                    {
+                        $bidItemDataSet->updateUserBid($_POST['lotID'], $_SESSION['userID'], $userBid);
+                    }
+                    else
+                    {
+                        $bidItemDataSet->placeBid(intval($_SESSION['userID']), intval($_POST['lotID']), intval($_POST['auctionID']), $userBid);
+                    }
                     $userBid = '';
                     $view->userBidError = '';
                     header("location: viewItem.php");

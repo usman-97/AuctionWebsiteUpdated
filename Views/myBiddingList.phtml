@@ -79,7 +79,8 @@
                             '<p>' . $bidItem->getAuctionLocation() . '</p>' . '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
                             '<p>' . $bidItem->getAuctionDatetime() . '</p>' . '<input type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
                             '<p><b>Your Bid: </b>£' . $bidItem->getBid() . '</p>' . '<input type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
-                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">p' .
+                            '<!--<p id="bidStatus">status</p>-->' .
                             '<label>£</label><input type="text" name="newBid" placeholder="1000">' .
                             '<div><input type="submit" name="editBid" value="Edit" class="btn btn-primary">
                              <input type="submit" name="statusButton" value="Check" class="btn btn-secondary">
@@ -90,5 +91,26 @@
     </table>-->
 </div>
 <br />
+
+<script type="text/javascript">
+
+    function UserBidStatus(lot)
+    {
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function ()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                console.log(this.responseText);
+                let bidStatus = document.getElementById("bidStatus");
+                bidStatus.innerHTML = this.responseText;
+            }
+        }
+
+        xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + lot, true);
+        xmlhttp.send();
+    }
+</script>
 
 <?php require_once ('template/footer.phtml') ?>

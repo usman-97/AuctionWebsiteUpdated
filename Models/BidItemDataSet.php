@@ -114,6 +114,33 @@ class BidItemDataSet {
     }
 
     /**
+     * Check if user has already placed a bid on a specific
+     * item.
+     * @param $lot
+     * @param $user
+     * @return bool
+     */
+    public function checkUserLotBid($lot, $user)
+    {
+        $sqlQuery = 'SELECT * FROM bid WHERE lot_id = :lot AND user_id = :usr';
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+
+        $statement->bindParam(":lot", $lot);
+        $statement->bindParam(":usr", $user);
+
+        $statement->execute();
+
+        if ($statement->rowCount() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
      * Allows user to place a bid on item.
      * Insert new record in bid table
      * @param $userID - The user who is placing bid
@@ -123,23 +150,8 @@ class BidItemDataSet {
      */
     public function placeBid($userID, $lotID, $auctionID, $bid)
     {
-        /*// SQL query counts number of total bids in bid table
-        $bidIDQuery = 'SELECT bidID FROM bid ORDER BY bidID DESC LIMIT 1';
-        $bidStatement = $this->_dbHandle->prepare( $bidIDQuery);
-        $bidStatement->execute();*/
-
         $id = $this->countBidID() + 1;
-        var_dump($lotID);
-
-        /*if ($bidStatement->rowCount() == 0)
-        {
-            $id = 1;
-        }
-        else
-        {
-            $id += 1;
-        }*/
-        // var_dump($id);
+        // var_dump($lotID);
 
         $sqlQuery = 'INSERT INTO bid (bidID, user_id, lot_id, auction_id, bid) VALUES (:id, :user_id, :lot_id, :auction_id, :userBid)';
         $statement = $this->_dbHandle->prepare($sqlQuery);
@@ -151,6 +163,25 @@ class BidItemDataSet {
 
         $statement->execute();
         // var_dump($statement->execute());
+    }
+
+    /**
+     * Update user bid for where user has already
+     * placed a bid
+     * @param $lot
+     * @param $user
+     * @param $bid
+     */
+    public function updateUserBid($lot, $user, $bid)
+    {
+        $sqlQuery = 'UPDATE bid SET bid = :bid WHERE user_id = :usr AND lot_id = :lot';
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+
+        $statement->bindParam(":bid", $bid);
+        $statement->bindParam(":lot", $lot);
+        $statement->bindParam(":usr", $user);
+
+        $statement->execute();
     }
 
     /**
