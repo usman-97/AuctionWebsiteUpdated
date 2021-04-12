@@ -70,7 +70,7 @@
                             </div><div id="listBody" class="row"><div class="col-sm-5">' .
                             '<img src="images/' . $bidItem->getLotImage() . '.jpg" alt="Image not found">' .
                             '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
-                            '<input type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
+                            '<input id="lot_id" type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
                             '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
                             '<input type="hidden" name="lotMain" value="' . $bidItem->getLotMain() . '">' .
                             '</div><div class="col-md-6"><p><b>' . $bidItem->getAuctionID() . ' - ' . $bidItem->getAuctionName() . '</b></p>' .
@@ -79,38 +79,54 @@
                             '<p>' . $bidItem->getAuctionLocation() . '</p>' . '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
                             '<p>' . $bidItem->getAuctionDatetime() . '</p>' . '<input type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
                             '<p><b>Your Bid: </b>£' . $bidItem->getBid() . '</p>' . '<input type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
-                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">p' .
-                            '<!--<p id="bidStatus">status</p>-->' .
-                            '<label>£</label><input type="text" name="newBid" placeholder="1000">' .
+                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                            '<div><span id="bidStatus" class="btn btn-secondary" onclick="console.log(new UserBidStatus(this, ' . $bidItem->getLotID() .'))">status</span></div>' .
+                            '<br /><label>£</label><input type="text" name="newBid" placeholder="1000">' .
                             '<div><input type="submit" name="editBid" value="Edit" class="btn btn-primary">
-                             <input type="submit" name="statusButton" value="Check" class="btn btn-secondary">
+                             <!--<input type="submit" name="statusButton" value="Check" class="btn btn-secondary">-->
                              <input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
-                            '</div></div></div></form>';
+                            '</div></div></div><br /></form>' .
+                             '<script type="text/javascript" src="js/bidStatus.js"></script>';
                     }}?>
 <!--        </tbody>
     </table>-->
 </div>
 <br />
 
-<script type="text/javascript">
+<!--<script type="text/javascript" src="js/bidStatus.js">
 
-    function UserBidStatus(lot)
+    /*var bidStatus = document.getElementById("bidStatus");
+    var userBid = document.getElementById("lot_id");*/
+
+    /*function UserBidStatus(bidStatus, userBid)
     {
         var xmlhttp = new XMLHttpRequest();
+        // console.log(userBid);
+        // console.log(bidStatus);
 
         xmlhttp.onreadystatechange = function ()
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                console.log(this.responseText);
-                let bidStatus = document.getElementById("bidStatus");
+                // console.log(this.responseText);
                 bidStatus.innerHTML = this.responseText;
+
+                if (this.responseText == "Highest bid")
+                {
+                    bidStatus.style.backgroundColor = "green";
+                }
+                else if (this.responseText == "Outbid")
+                {
+                    bidStatus.style.backgroundColor = "red";
+                }
             }
         }
 
-        xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + lot, true);
+        xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + userBid, true);
         xmlhttp.send();
-    }
-</script>
+    }*/
+    // let userBidStatus = new UserBidStatus(userBid.value, bidStatus);
+    // document.window.addEventListener('click', new UserBidStatus(userBid, bidStatus), true);
+</script>-->
 
 <?php require_once ('template/footer.phtml') ?>

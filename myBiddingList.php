@@ -42,11 +42,11 @@ if (isset($_POST['statusButton'])) {
     $userHighestBid = $bidItemDataSet->getUserHighestBid(intval($_SESSION['userID']), intval($_POST['lotID']));
     if ($highestItemBid == $userHighestBid)
     {
-        $view->bidStatus = 'Highest bidder';
+        $view->bidStatus = 'Highest';
     }
     else
     {
-        $view->bidStatus = 'Outbid by other bidder';
+        $view->bidStatus = 'Outbid';
     }
 
     // var_dump($highestItemBid);

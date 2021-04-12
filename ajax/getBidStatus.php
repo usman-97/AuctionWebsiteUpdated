@@ -12,14 +12,19 @@ if ($q != "")
 {
     $lotBid = $bid->getItemHighestBid($q);
     $userBid = $bid->getUserHighestBid($_SESSION['userID'], $q);
+    // var_dump($lotBid);
+    // var_dump($userBid);
 
-    if (intval($lotBid) == intval($userBid))
+    if ($lotBid != null)
     {
-        $status = "Highest bid";
-    }
-    else
-    {
-        $status = "Outbid";
+        if ($lotBid === $userBid)
+        {
+            $status = "Highest bid";
+        }
+        else
+        {
+            $status = "Outbid";
+        }
     }
 
 }
