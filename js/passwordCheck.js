@@ -15,7 +15,7 @@ function Strength(str)
     let fairStrength = /\d/g; // Fair password condition
     //let strongStrength = /[A-Z]*[a-z]*[0-9]*[-+_!@#$%^&*.,?]/; // Strong password condition
     let uppercaseCheck = /[A-Z]/g; // Upper case letter check
-    let lowercaseCheck = /[A-Z]/g; // Upper case letter check
+    let lowercaseCheck = /[a-z]/g; // Upper case letter check
     let specialCharacterCheck = /[-+_!@#$%^&*.,?]/g; // special character check
 
     var status = document.getElementById("passwordStatus");

@@ -25,6 +25,16 @@ if (isset($_POST['register']))
                 if ($_POST['registerPassword'] == $_POST['confirmPassword'])
                 {
                     if ($_POST['code'] == $_POST['finalCode']) {
+
+                        $numberCheck = '/\d/';
+                        $uppercaseCheck = '/[A-Z]/';
+                        $lowercaseCheck = '/[a-z]/';
+                        $specialCharacterCheck = '/[-+_!@#$%^&*.,?]/';
+
+                        if (preg_match($numberCheck, $_POST['registerPassword']) && preg_match($uppercaseCheck, $_POST['registerPassword']) &&
+                            preg_match($lowercaseCheck, $_POST['registerPassword']) && preg_match($specialCharacterCheck, $_POST['registerPassword']))
+                        {
+
                             $view->user->setUsername($_POST['registerUsername']);
                             $view->user->setPassword($_POST['registerPassword']);
 
@@ -41,11 +51,16 @@ if (isset($_POST['register']))
                                 // On successful registration, redirect user to login page
                                 header('location: login.php');
                                 $view->error = null;
-                                echo 'You have successfully registered';
+                                // echo 'You have successfully registered';
                             } else {
                                 $view->error = "This username is already taken
                   , please use different username...";
                             }
+                        }
+                        else
+                        {
+                            $view->error = "Your password strength is not strong, please choose different password.";
+                        }
                     }
                     else
                     {
