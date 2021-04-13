@@ -37,7 +37,7 @@ if (isset($_POST['editBid']))
     }
 }
 
-if (isset($_POST['statusButton'])) {
+/*if (isset($_POST['statusButton'])) {
     $highestItemBid = $bidItemDataSet->getItemHighestBid(intval($_POST['lotID']));
     $userHighestBid = $bidItemDataSet->getUserHighestBid(intval($_SESSION['userID']), intval($_POST['lotID']));
     if ($highestItemBid == $userHighestBid)
@@ -53,7 +53,7 @@ if (isset($_POST['statusButton'])) {
     // var_dump($userHighestBid);
     // var_dump(intval($_POST['lotID']));
     // var_dump(intval($_SESSION['userID']));
-}
+}*/
 
 if (isset($_POST['viewItem']))
 {
