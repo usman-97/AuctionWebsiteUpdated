@@ -79,11 +79,15 @@
                 '<img src="images/' . $auctionItemData->getImage(). '.jpg">' .
                 '<input type="hidden" name="lotImage" value="'. $auctionItemData->getImage() . '.jpg">' .
                 '<div class="card-body">' .
+                '<h5><b>' . $auctionItemData->getAuctionName() . '</b></h5>' .
+                '<p class="card-text">' . $auctionItemData->getDescription() . '</p>' .
+                '<p class="card-text"><b>Opening bid Price: £' . $auctionItemData->getPrice() . '</b></p>' .
+                '<p style="color: #4e555b"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                    </svg><b><i>' . $auctionItemData->getLocation() .'</i>   -   ' . $auctionItemData->getDatetime() .' GMT</b></p>' .
                 '<input type="hidden" name="lotID" value="'. $auctionItemData->getLotId() . '">' .
                 '<input type="hidden" name="lotTitle" value="'. $auctionItemData->getLotTitle() . '">' .
                 '<input type="hidden" name="lotMain" value="'. $auctionItemData->getLotMain() . '">' .
-                '<p class="card-text">' . $auctionItemData->getDescription() . '</p>' .
-                '<p class="card-text"><b>Opening bid Price: £' . $auctionItemData->getPrice() . '</b></p>' .
                 '<input type="hidden" name="lotDescription" value="'. $auctionItemData->getDescription() . '">' .
                 '<input type="hidden" name="lotPrice" value="'. $auctionItemData->getPrice() . '">' .
                 '<input type="hidden" name="auctionID" value="'. $auctionItemData->getAuctionID() . '">' .

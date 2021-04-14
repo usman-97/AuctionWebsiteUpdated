@@ -2,12 +2,13 @@
 
 class AuctionData {
 
-    protected $_auction_id, $_auction_name, $_location, $_datetime, $_admin;
+    protected $_auction_id, $_auction_name, $_location, $_datetime, $_endDatetime, $_admin;
 
-    /*
+    /**
      * Constructor auctionData which will be used to fetch
      * data from auction table
-     * @param $dbRow The row from auction table
+     * @param $dbRow - The row from auction table
+     * @var mixed
      */
     public function __construct($dbRow)
     {
@@ -15,10 +16,11 @@ class AuctionData {
         $this->_auction_name = $dbRow['auction_name'];
         $this->_location = $dbRow['location'];
         $this->_datetime = $dbRow['datetime'];
+        $this->_endDatetime = $dbRow['endDatetime'];
         $this->_admin = $dbRow['user_id'];
     }
 
-    /*
+    /**
      * Gets auction id from auction table
      */
     public function getAuctionID()
@@ -26,7 +28,7 @@ class AuctionData {
         return $this->_auction_id;
     }
 
-    /*
+    /**
      * Gets auction name from auction table
      */
     public function getAuctionName()
@@ -34,7 +36,7 @@ class AuctionData {
         return $this->_auction_name;
     }
 
-    /*
+    /**
      * Gets auction location from auction table
      */
     public function getLocation()
@@ -42,7 +44,7 @@ class AuctionData {
         return $this->_location;
     }
 
-    /*
+    /**
      * Gets auction data time from auction table
      */
     public function getDatetime()
@@ -50,7 +52,16 @@ class AuctionData {
         return $this->_datetime;
     }
 
-    /*
+    /**
+     * Gets auction end date time
+     * @return mixed
+     */
+    public function getEndDatetime()
+    {
+        return $this->_endDatetime;
+    }
+
+    /**
      * Gets auction admin from auction table
      */
     public function getAdmin()

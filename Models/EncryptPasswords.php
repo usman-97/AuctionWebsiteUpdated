@@ -41,4 +41,24 @@ class EncryptPasswords {
         $statement->execute();
         var_dump($password);
     }
+
+    public function updateAuctionDate()
+    {
+        $dateArray = ["2021-05-25", "2021-05-30", "2021-05-05", "2020-05-21"];
+        $timeArray = ["15:00", "07:00", "16:00", "12:00", "18:00"];
+
+        for ($i = 1; $i <= 20; $i++)
+        {
+            $randDate = array_rand($dateArray, 1);
+            $randTime = array_rand($timeArray, 1);
+            $randDateTime = $dateArray[$randDate] . " " . $timeArray[$randTime];
+
+            $sqlQuery = 'UPDATE auction SET endDatetime = :datetime WHERE auctionID = :id';
+            $statement = $this->_dbHandle->prepare($sqlQuery);
+            $statement->bindParam(":datetime", $randDateTime);
+            $statement->bindParam(":id", $i);
+            var_dump($randDateTime);
+            $statement->execute();
+        }
+    }
 }
