@@ -72,33 +72,291 @@
 
     <!-- Listings -->
     <div id="listing" class="row">
-        <?php foreach ($view->auctionItem as $auctionItemData) {
+        <?php $num = 1;
+        foreach ($view->auctionItem as $auctionItemData) {
+            // echo $num;
             echo '<div class="col-lg-6 portfolio-item"><form action="" method="post"><div class="card h-100">' .
                 '<h4 class="card-header">Lot ID #' . $auctionItemData->getLotID() .
                 ': ' . $auctionItemData->getLotTitle() . ' - ' . $auctionItemData->getLotMain() . '</h4>' .
-                '<img src="images/' . $auctionItemData->getImage(). '.jpg">' .
-                '<input type="hidden" name="lotImage" value="'. $auctionItemData->getImage() . '.jpg">' .
+                '<img src="images/' . $auctionItemData->getImage() . '.jpg">' .
+                '<input type="hidden" name="lotImage" value="' . $auctionItemData->getImage() . '.jpg">' .
                 '<div class="card-body">' .
                 '<h5><b>' . $auctionItemData->getAuctionName() . '</b></h5>' .
                 '<p class="card-text">' . $auctionItemData->getDescription() . '</p>' .
                 '<p class="card-text"><b>Opening bid Price: £' . $auctionItemData->getPrice() . '</b></p>' .
                 '<p style="color: #4e555b"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                    </svg><b><i>' . $auctionItemData->getLocation() .'</i>   -   ' . $auctionItemData->getDatetime() .' GMT</b></p>' .
-                '<input type="hidden" name="lotID" value="'. $auctionItemData->getLotId() . '">' .
-                '<input type="hidden" name="lotTitle" value="'. $auctionItemData->getLotTitle() . '">' .
-                '<input type="hidden" name="lotMain" value="'. $auctionItemData->getLotMain() . '">' .
-                '<input type="hidden" name="lotDescription" value="'. $auctionItemData->getDescription() . '">' .
-                '<input type="hidden" name="lotPrice" value="'. $auctionItemData->getPrice() . '">' .
-                '<input type="hidden" name="auctionID" value="'. $auctionItemData->getAuctionID() . '">' .
-                '<input type="hidden" name="auctionName" value="'. $auctionItemData->getAuctionName() . '">' .
-                '<input type="hidden" name="auctionLocation" value="'. $auctionItemData->getLocation() . '">' .
-                '<input type="hidden" name="auctionDatetime" value="'. $auctionItemData->getDatetime() . '">' .
-                '<input type="hidden" name="auctionAdmin" value="'. $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '">' .
-                '</div><div class="card-footer"><input type="submit" name="view" value="View" class="btn btn-primary"/></div></div></form></div>';
+                    </svg><b><i>' . $auctionItemData->getLocation() . '</i></b></p>' .
+                '<p id="startTime" style="color: #4e555b"><b>' . $auctionItemData->getDatetime() . ' GMT</b></p>' .
+                '<p id="countDownTimer' . $num .' ">start</p>' .
+                /*'<p id="countDownTimer2">start</p>' .
+                '<p id="countDownTimer3">start</p>' .
+                '<p id="countDownTimer4">start</p>' .
+                '<p id="countDownTimer5">start</p>' .
+                '<p id="countDownTimer6">start</p>' .
+                '<p id="countDownTimer7">start</p>' .
+                '<p id="countDownTimer8">start</p>' .
+                '<p id="countDownTimer9">start</p>' .
+                '<p id="countDownTimer10">start</p>' .
+                '<p id="countDownTimer11">start</p>' .
+                '<p id="countDownTimer12">start</p>' .
+                '<p id="countDownTimer13">start</p>' .
+                '<p id="countDownTimer14">start</p>' .
+                '<p id="countDownTimer15">start</p>' .
+                '<p id="countDownTimer16">start</p>' .
+                '<p id="countDownTimer17">start</p>' .
+                '<p id="countDownTimer18">start</p>' .
+                '<p id="countDownTimer19">start</p>' .
+                '<p id="countDownTimer20">start</p>' .*/
+                '<input id="lot_id" type="hidden" name="lotID" value="' . $auctionItemData->getLotId() . '">' .
+                '<input type="hidden" name="lotTitle" value="' . $auctionItemData->getLotTitle() . '">' .
+                '<input type="hidden" name="lotMain" value="' . $auctionItemData->getLotMain() . '">' .
+                '<input type="hidden" name="lotDescription" value="' . $auctionItemData->getDescription() . '">' .
+                '<input type="hidden" name="lotPrice" value="' . $auctionItemData->getPrice() . '">' .
+                '<input type="hidden" name="auctionID" value="' . $auctionItemData->getAuctionID() . '">' .
+                '<input type="hidden" name="auctionName" value="' . $auctionItemData->getAuctionName() . '">' .
+                '<input type="hidden" name="auctionLocation" value="' . $auctionItemData->getLocation() . '">' .
+                '<input id="start" type="hidden" name="auctionDatetime" value="' . $auctionItemData->getDatetime() . '">' .
+                '<input id="endDateTime" type="hidden" name="auctionEndDatetime" value="' . $auctionItemData->getEndDatetime() . '">' .
+                '<input type="hidden" name="auctionAdmin" value="' . $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '">' .
+                '<input id="trackCount" type="hidden" name="auctionAdmin" value="' . $num . '">' .
+                '</div><div class="card-footer"><input type="submit" name="view" value="View" class="btn btn-primary"/></div></div></form></div>' .
+                '<script type="text/javascript">
+                            var start = document.getElementById("start").value;
+        var endDate = document.getElementById("endDateTime").value;
+        // var timer = document.getElementById("countDownTimer");
+        var startTime = document.getElementById("startTime");
+        // console.log("countdowntimer" + 1);
+        // console.log(document.getElementById("countDownTimer"));
+
+        function CountDown()
+        {
+            let startDate = new Date(start);
+            let countDownTime = new Date(endDate).getTime();
+            let now = new Date().getTime();
+            // console.log(new Date(start));
+            // console.log();
+
+            if (startDate <= now)
+            {
+                let x = setInterval(function () {
+                    let now = new Date().getTime();
+                    let difference = countDownTime - now;
+                    // console.log(difference);
+
+                    let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                    let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                    // console.log(days);
+
+                    // for (var i = 1; i <= 20; i++)
+                    // {
+                        document.getElementById("countDownTimer" + ' . $num . ').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                        startTime.innerHTML = "LIVE";
+
+                        if (difference < 0)
+                        {
+                            clearInterval(x);
+                            document.getElementById("countDownTimer" + ' . $num . ').innerText = "END";
+                        }
+                    // }
+                }, 1000)
+            }
+        }
+
+        x = new CountDown();
+        // window.onload = new CountDown();        
+                </script>';
+            $num++;
         }?>
     </div>
     <br />
+    <script type="text/javascript">
+        // var start = document.getElementById("start").value;
+        // var endDate = document.getElementById("endDateTime").value;
+        // // var timer = document.getElementById("countDownTimer");
+        // var startTime = document.getElementById("startTime");
+        // // console.log("countdowntimer" + 1);
+        // // console.log(document.getElementById("countDownTimer"));
+        //
+        // function CountDown()
+        // {
+        //     let startDate = new Date(start);
+        //     let countDownTime = new Date(endDate).getTime();
+        //     let now = new Date().getTime();
+        //     // console.log(new Date(start));
+        //     // console.log();
+        //
+        //     if (startDate <= now)
+        //     {
+        //         let x = setInterval(function () {
+        //             let now = new Date().getTime();
+        //             let difference = countDownTime - now;
+        //             // console.log(difference);
+        //
+        //             let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        //             let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        //             let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        //             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        //             // console.log(days);
+        //
+        //             for (var i = 1; i <= 20; i++)
+        //             {
+        //                 document.getElementById("countDownTimer" + i).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+        //                 startTime.innerHTML = "LIVE";
+        //
+        //                 if (difference < 0)
+        //                 {
+        //                     clearInterval(x);
+        //                     document.getElementById("countDownTimer" + i).innerText = "END";
+        //                 }
+        //             }
+        //         }, 1000)
+        //     }
+        // }
+        //
+        // window.onload = new CountDown();
+
+        /*var start = document.getElementById("start").value;
+        var endDate = document.getElementById("endDateTime").value;
+        // var timer = document.getElementById("countDownTimer");
+        var startTime = document.getElementById("startTime");
+        // console.log("countdowntimer" + 1);
+        // console.log(document.getElementById("countDownTimer"));
+
+        function CountDown(event)
+        {
+            let startDate = new Date(start);
+            let countDownTime = new Date(endDate).getTime();
+            let now = new Date().getTime();
+            // console.log(new Date(start));
+            // console.log();
+
+            if (startDate <= now)
+            {
+                let x = setInterval(function () {
+                    let now = new Date().getTime();
+                    let difference = countDownTime - now;
+                    // console.log(difference);
+
+                    let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                    let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                    // console.log(days);
+
+                    for (var i = 1; i <= 20; i++)
+                    {
+                        document.getElementById("countDownTimer" + i).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                        startTime.innerHTML = "LIVE";
+
+                        if (difference < 0)
+                        {
+                            clearInterval(x);
+                            document.getElementById("countDownTimer" + i).innerText = "END";
+                        }
+                    }
+                }, 1000)
+            }
+        }
+
+        x = new CountDown();*/
+        // x.startCoundownTimer();
+        // window.addEventListener(\'load\', countDown, true);
+        // window.onload = x.startCountdownTimer;
+
+        /*var start = document.getElementById("start").value;
+        var endDate = document.getElementById("endDateTime").value;
+        var timer = document.getElementById("countDownTimer");
+        var startTime = document.getElementById("startTime");
+
+        function CountDown()
+        {
+            let startDate = new Date(start);
+            let countDownTime = new Date(endDate).getTime();
+            let now = new Date().getTime();
+            // console.log(new Date(start));
+            // console.log(document.getElementById("lot_id"));
+
+            if (startDate <= now)
+            {
+                let x = setInterval(function () {
+                    let now = new Date().getTime();
+                    let difference = countDownTime - now;
+                    // console.log(difference);
+
+                    let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                    let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                    // console.log(days);
+
+                    timer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                    startTime.innerHTML = "LIVE";
+
+                    if (difference < 0)
+                    {
+                        clearInterval(x);
+                        document.getElementById("countDownTimer").innerText = "END";
+                    }
+                }, 1000)
+            }
+        }
+
+        x = new CountDown();*/
+
+        /*function countDown()
+        {
+            var endDate = document.getElementById("endDateTime").value;
+            var countDownTime = new Date(endDate).getTime();
+            console.log(new Date(endDate));
+            // console.log(new Date("2021-04-14 22:00"));
+
+            var x = setInterval(function () {
+                let now = new Date().getTime();
+                let difference = countDownTime - now;
+                // console.log(difference);
+
+                let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                // console.log(days);
+
+                document.getElementById("countDownTimer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                document.getElementById("startTime").innerHTML = "LIVE";
+
+                if (difference < 0)
+                {
+                    clearInterval(x);
+                    document.getElementById("countDownTimer").innerText = "END";
+                }
+            }, 1000)
+        }
+
+        x = new countDown();*/
+
+        // function countDown() {
+        //     let now = new Date().getTime();
+        //     let difference = now - countDownTime;
+        //     // console.log(difference);
+        //
+        //     let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //     let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        //     let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        //
+        //     document.getElementById("countDownTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+        //
+        //     if (difference < 0)
+        //     {
+        //         clearInterval(this);
+        //         document.getElementById("countDownTimer").innerText = "END";
+        //     }
+        // }
+        // var x = setInterval(countDown(), 1000);
+        // console.log(x);
+    </script>
 
     <!-- Pagination -->
     <?php /*if (!isset($_SESSION['searchMode'])) : */?>

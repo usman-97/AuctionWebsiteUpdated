@@ -8,7 +8,7 @@ require_once ('Models/AuctionDataSet.php');
 $view = new stdClass();
 $view->pageTitle = 'Feature Lot';
 $view->lotID = '';
-$bidItemDataSet = new BidItemDataSet();
+$view->bidItemDataSet = new BidItemDataSet();
 
 // logout script
 require_once ('logout.php');
@@ -17,7 +17,7 @@ $view->auctionItem = new AuctionItemDateSet();
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']);
 
 // Fetch all bids for items
-$view->bidItemDataSet = $bidItemDataSet->fetchItemBids($_SESSION['viewLotID']);
+$view->bidItemData = $view->bidItemDataSet->fetchItemBids($_SESSION['viewLotID']);
 // If there are no bids for items
 if (!$view->bidItemDataSet)
 {
@@ -39,22 +39,23 @@ if (isset($_POST['placeBid']))
         if (is_numeric($_POST['userBid']))
         {
             // Get the highest bid for item
-            $highestBid = $bidItemDataSet->checkHighestBid($_POST['lotID'], $_POST['userBid']);
+            $highestBid = $view->bidItemDataSet->checkHighestBid($_POST['lotID'], $_POST['userBid']);
 
             // Check If user's bid is greater than opening item bid
             if ($_POST['lotPrice'] < $_POST['userBid']) {
                 // Check if user's bid is greater than current highest bid
                 if ($highestBid == true) {
-                    $userBid = $_POST['userBid'];;
+                    $userBid = $_POST['userBid'];
                     // Place user bid
-                    if ($bidItemDataSet->checkUserLotBid($_POST['lotID'], $_SESSION['userID']))
+                    $view->bidItemDataSet->placeBid(intval($_SESSION['userID']), intval($_POST['lotID']), intval($_POST['auctionID']), $userBid);
+                    /*if ($bidItemDataSet->checkUserLotBid($_POST['lotID'], $_SESSION['userID']))
                     {
                         $bidItemDataSet->updateUserBid($_POST['lotID'], $_SESSION['userID'], $userBid);
                     }
                     else
                     {
                         $bidItemDataSet->placeBid(intval($_SESSION['userID']), intval($_POST['lotID']), intval($_POST['auctionID']), $userBid);
-                    }
+                    }*/
                     $userBid = '';
                     $view->userBidError = '';
                     header("location: viewItem.php");

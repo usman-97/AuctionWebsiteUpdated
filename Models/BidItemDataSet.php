@@ -38,6 +38,22 @@ class BidItemDataSet {
         }
     }*/
 
+    public function getUserBidLots($id)
+    {
+        $sqlQuery = 'SELECT DISTINCT lot_id FROM bid WHERE user_id = :id';
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+
+        $dataSet = [];
+        while ($row = $statement->fetchColumn())
+        {
+            $dataSet[] = $row;
+        }
+        return $dataSet;
+
+    }
+
     /**
      * Gets all bid for users.
      * Displays the list of user bids
@@ -46,6 +62,7 @@ class BidItemDataSet {
      */
     public function fetchAllBids($id)
     {
+        var_dump($this->getUserBidLots($id));
         // SQL query to get all user's bids on all items
         $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE users.userID = bid.user_id AND Lots.lotID = bid.lot_id AND auction.auctionID = bid.auction_id AND bid.user_id = :id ORDER BY lot_id';
         $statement = $this->_dbHandle->prepare($sqlQuery); // Prepare PDO statement
@@ -66,7 +83,6 @@ class BidItemDataSet {
         {
             return $dataSet;
         }
-
     }
 
     /**
@@ -151,7 +167,6 @@ class BidItemDataSet {
     public function placeBid($userID, $lotID, $auctionID, $bid)
     {
         $id = $this->countBidID() + 1;
-        // var_dump($lotID);
 
         $sqlQuery = 'INSERT INTO bid (bidID, user_id, lot_id, auction_id, bid) VALUES (:id, :user_id, :lot_id, :auction_id, :userBid)';
         $statement = $this->_dbHandle->prepare($sqlQuery);
@@ -281,5 +296,17 @@ class BidItemDataSet {
         {
             return $statement->fetchColumn();
         }
+    }
+
+    public function hideBidderName($user)
+    {
+        $firstLetter = substr($user, 0, 1);
+        $lastLetter = substr($user, -1, 1);
+
+        $hiddenName = $firstLetter;
+        $hiddenName .= str_repeat("*", strlen($user) - 2);
+        $hiddenName .= $lastLetter;
+
+        return $hiddenName;
     }
 }

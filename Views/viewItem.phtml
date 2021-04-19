@@ -92,11 +92,14 @@
                         echo $view->emptyBidError;
                     }
                     else {
-                        foreach ($view->bidItemDataSet as $bidItem) {
+                        foreach ($view->bidItemData as $bidItem) {
                             echo '<div class="row dfContainer"><div class="col-sm-4">' . $bidItem->getBidID() .
-                                '</div><div class="col-sm-4">' . $bidItem->getUsername() .
+                                '</div><div class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) .
                                 '</div><div class="col-sm-4">' . '£' . $bidItem->getBid() .
-                                '</div></div>';
+                                '</div></div>' .
+                                '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                                '<input type="hidden" name="username" value="' . $bidItem->getUsername() . '">' .
+                                '<input type="hidden" name="userPlacedBid" value="' . $bidItem->getBid() . '">';
                         }
                     }
                 }
