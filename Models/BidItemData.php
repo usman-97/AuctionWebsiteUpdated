@@ -4,7 +4,7 @@
  * Class BidItemData
  * It stores data from bid table
  */
-class BidItemData {
+class BidItemData implements JsonSerializable {
     protected $_bidID, $_bid, $_userID, $_username;
     protected $_lotID, $_lot_title, $_lot_main, $_lot_image;
     protected $_auctionID, $_auction_name, $_auction_location, $_auction_datetime;
@@ -27,6 +27,24 @@ class BidItemData {
         $this->_auction_location = $dbRow['location'];
         $this->_auction_datetime = $dbRow['datetime'];
         $this->_bid = $dbRow['bid'];
+    }
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            '_bidID' => $this->_bidID,
+            '_userID' => $this->_userID,
+            '_username' => $this->_username,
+            '_lotID' => $this->_lotID,
+            '_lot_title' => $this->_lot_title,
+            '_lot_main' => $this->_lot_main,
+            '_lot_image' => $this->_auctionID,
+            '_auctionID' => $this->_auction_name,
+            '_auction_name' => $this->_auction_location,
+            '_auction_location' => $this->_auction_datetime,
+            '_bid' => $this->_bid
+        ];
     }
 
     public function getBidID()

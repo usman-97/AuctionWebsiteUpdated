@@ -88,7 +88,7 @@
                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                     </svg><b><i>' . $auctionItemData->getLocation() . '</i></b></p>' .
                 '<p id="startTime" style="color: #4e555b"><b>' . $auctionItemData->getDatetime() . ' GMT</b></p>' .
-                '<p id="countDownTimer' . $num .' ">start</p>' .
+                '<p id="countDownTimer' . $num .'">start</p>' .
                 /*'<p id="countDownTimer2">start</p>' .
                 '<p id="countDownTimer3">start</p>' .
                 '<p id="countDownTimer4">start</p>' .
@@ -120,9 +120,13 @@
                 '<input id="endDateTime" type="hidden" name="auctionEndDatetime" value="' . $auctionItemData->getEndDatetime() . '">' .
                 '<input type="hidden" name="auctionAdmin" value="' . $view->auctionItemDateSet->getAuctionAdmin(intval($auctionItemData->getUserID())) . '">' .
                 '<input id="trackCount" type="hidden" name="auctionAdmin" value="' . $num . '">' .
-                '</div><div class="card-footer"><input type="submit" name="view" value="View" class="btn btn-primary"/></div></div></form></div>' .
-                '<script type="text/javascript">
-                            var start = document.getElementById("start").value;
+                '</div><div class="card-footer"><input type="submit" name="view" value="View" class="btn btn-primary"/></div></div></form></div>';
+            $num++;
+        }?>
+    </div>
+    <br />
+    <script type="text/javascript">
+        var start = document.getElementById("start").value;
         var endDate = document.getElementById("endDateTime").value;
         // var timer = document.getElementById("countDownTimer");
         var startTime = document.getElementById("startTime");
@@ -132,6 +136,7 @@
         function CountDown()
         {
             let startDate = new Date(start);
+            console.log(startDate);
             let countDownTime = new Date(endDate).getTime();
             let now = new Date().getTime();
             // console.log(new Date(start));
@@ -150,72 +155,23 @@
                     let seconds = Math.floor((difference % (1000 * 60)) / 1000);
                     // console.log(days);
 
-                    // for (var i = 1; i <= 20; i++)
-                    // {
-                        document.getElementById("countDownTimer" + ' . $num . ').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                    for (var i = 1; i <= 20; i++)
+                    {
+                        document.getElementById("countDownTimer" + i).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
                         startTime.innerHTML = "LIVE";
+                        // console.log("countDownTimer" + i);
 
                         if (difference < 0)
                         {
                             clearInterval(x);
-                            document.getElementById("countDownTimer" + ' . $num . ').innerText = "END";
+                            document.getElementById("countDownTimer" + i).innerText = "END";
                         }
-                    // }
+                    }
                 }, 1000)
             }
         }
 
-        x = new CountDown();
-        // window.onload = new CountDown();        
-                </script>';
-            $num++;
-        }?>
-    </div>
-    <br />
-    <script type="text/javascript">
-        // var start = document.getElementById("start").value;
-        // var endDate = document.getElementById("endDateTime").value;
-        // // var timer = document.getElementById("countDownTimer");
-        // var startTime = document.getElementById("startTime");
-        // // console.log("countdowntimer" + 1);
-        // // console.log(document.getElementById("countDownTimer"));
-        //
-        // function CountDown()
-        // {
-        //     let startDate = new Date(start);
-        //     let countDownTime = new Date(endDate).getTime();
-        //     let now = new Date().getTime();
-        //     // console.log(new Date(start));
-        //     // console.log();
-        //
-        //     if (startDate <= now)
-        //     {
-        //         let x = setInterval(function () {
-        //             let now = new Date().getTime();
-        //             let difference = countDownTime - now;
-        //             // console.log(difference);
-        //
-        //             let days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        //             let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        //             let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        //             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
-        //             // console.log(days);
-        //
-        //             for (var i = 1; i <= 20; i++)
-        //             {
-        //                 document.getElementById("countDownTimer" + i).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-        //                 startTime.innerHTML = "LIVE";
-        //
-        //                 if (difference < 0)
-        //                 {
-        //                     clearInterval(x);
-        //                     document.getElementById("countDownTimer" + i).innerText = "END";
-        //                 }
-        //             }
-        //         }, 1000)
-        //     }
-        // }
-        //
+        var x = new CountDown();
         // window.onload = new CountDown();
 
         /*var start = document.getElementById("start").value;

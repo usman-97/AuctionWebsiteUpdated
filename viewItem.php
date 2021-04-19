@@ -19,7 +19,7 @@ $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']);
 // Fetch all bids for items
 $view->bidItemData = $view->bidItemDataSet->fetchItemBids($_SESSION['viewLotID']);
 // If there are no bids for items
-if (!$view->bidItemDataSet)
+if (!$view->bidItemData)
 {
     // Then display a message to inform user
     $view->emptyBidError = 'No bid has been placed on this item yet.';

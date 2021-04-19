@@ -104,6 +104,8 @@ class BidItemDataSet {
             while ($row = $statement->fetch())
             {
                 $dataSet[] = new BidItemData($row);
+                // $data = new BidItemData($row);
+                // $dataSet[] = $data->jsonSerialize();
                 // $dataSet['userID'] = $row['user_id'];
                 // $dataSet['bid'] = $row['bid'];
             }

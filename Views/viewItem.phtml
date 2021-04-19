@@ -21,7 +21,7 @@
             <p><?php echo $view->getItem[0]->getDescription()?></p>
             <p><b>Opening bid: </b>£<?php echo $view->getItem[0]->getPrice()?></p>
 
-            <input type="hidden" name="lotID" value="<?php echo $view->getItem[0]->getLotID() ?>">
+            <input id="lotID" type="hidden" name="lotID" value="<?php echo $view->getItem[0]->getLotID() ?>">
             <input type="hidden" name="lotTitle" value="<?php $view->getItem[0]->getLotTitle() ?>">
             <input type="hidden" name="lotMain" value="<?php $view->getItem[0]->getLotMain() ?>">
             <input type="hidden" name="lotDescription" value="<?php $view->getItem[0]->getDescription() ?>">
@@ -87,23 +87,54 @@
 
                 if (isset($view->bidItemDataSet))
                 {
-                    if (!$view->bidItemDataSet)
+                    if (!$view->bidItemData)
                     {
                         echo $view->emptyBidError;
                     }
                     else {
+                        $num = 1;
                         foreach ($view->bidItemData as $bidItem) {
-                            echo '<div class="row dfContainer"><div class="col-sm-4">' . $bidItem->getBidID() .
-                                '</div><div class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) .
-                                '</div><div class="col-sm-4">' . '£' . $bidItem->getBid() .
-                                '</div></div>' .
+                            echo '<div id="bidRow' . $num .'" class="row dfContainer"><!--<div id="idCol' . $num . '" class="col-sm-4">' . $bidItem->getBidID() .
+                                '</div><div id="bidderCol1" class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) .
+                                '</div><div id="bidCol1" class="col-sm-4">' . '£' . $bidItem->getBid() .
+                                '</div>--></div>' .
                                 '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
                                 '<input type="hidden" name="username" value="' . $bidItem->getUsername() . '">' .
                                 '<input type="hidden" name="userPlacedBid" value="' . $bidItem->getBid() . '">';
+                            $num++;
                         }
                     }
                 }
                 ?>
+                <script type="text/javascript">
+                    var userID = document.getElementById("lotID").value;
+                    // console.log(userID);
+
+                    function LoadLotBids()
+                    {
+                        let xmlhttp = new XMLHttpRequest();
+
+                        xmlhttp.onreadystatechange = function ()
+                        {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                            {
+                                let lotBid = JSON.parse(this.responseText);
+                                console.log(lotBid);
+
+                                lotBid.forEach(function (obj){
+                                    document.getElementById("bidRow1").innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
+                                        "<div class='col-sm-4'>" + obj._username + "</div>" +
+                                        "<divclass='col-sm-4'>" + obj._bid +"</div>";
+                                });
+                            }
+                        }
+
+                        xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + userID, true);
+                        xmlhttp.send();
+                    }
+
+                    var x = new LoadLotBids();
+                </script>
             </div>
         </div>
     </div>
