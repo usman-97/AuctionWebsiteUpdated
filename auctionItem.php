@@ -135,6 +135,8 @@ if (isset($_POST['searchButton'])) {
         // Then start searchMode session
         $_SESSION['searchMode'] = true;
     }
+
+    header("location: auctionItem.php");
 }
 // var_dump($_SESSION['searchMode']);
 
