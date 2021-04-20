@@ -14,7 +14,7 @@ $view->bidStatus = '';
 
 if (isset($_SESSION['userID'])) {
     $view->bidItemDataSet = $bidItemDataSet->fetchAllBids($_SESSION['userID']);
-    // var_dump($view->bidItemDataSet[0]->getBid());
+    var_dump($view->bidItemDataSet);
     if (!$view->bidItemDataSet) {
         $view->bidError = 'You don\'t have any bids.';
     }

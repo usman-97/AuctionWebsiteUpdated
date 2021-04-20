@@ -58,9 +58,9 @@ if (isset($_POST['placeBid']))
                     }*/
                     $userBid = '';
                     $view->userBidError = '';
-                    header("location: viewItem.php");
+                    // header("location: viewItem.php");
                     // unset($_SESSION['viewItem']);
-                    echo 'You have successfully placed a bid!';
+                    // echo 'You have successfully placed a bid!';
                 } else {
                     $view->userBidError = 'Your bid is lower than the highest bid for this item.';
                 }

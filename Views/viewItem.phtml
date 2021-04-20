@@ -110,7 +110,7 @@
                     var userID = document.getElementById("lotID").value;
                     // console.log(userID);
 
-                    function LoadLotBids()
+                    function LoadLotBids(event)
                     {
                         let xmlhttp = new XMLHttpRequest();
 
@@ -121,10 +121,12 @@
                                 let lotBid = JSON.parse(this.responseText);
                                 console.log(lotBid);
 
+                                let counter = 1;
                                 lotBid.forEach(function (obj){
-                                    document.getElementById("bidRow1").innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
+                                    document.getElementById("bidRow" + counter).innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
                                         "<div class='col-sm-4'>" + obj._username + "</div>" +
                                         "<divclass='col-sm-4'>" + obj._bid +"</div>";
+                                    counter++;
                                 });
                             }
                         }
@@ -133,7 +135,8 @@
                         xmlhttp.send();
                     }
 
-                    var x = new LoadLotBids();
+                    // var x = new LoadLotBids();
+                    window.onload = LoadLotBids;
                 </script>
             </div>
         </div>

@@ -6,7 +6,7 @@ require_once ('AuctionItemData.php');
 class BidItemDataSet {
     protected $_dbInstance, $_dbHandle;
 
-    /*
+    /**
      * Constructor for BideItemDataSet class
      * It establishes the connection to database
      */
@@ -60,19 +60,26 @@ class BidItemDataSet {
      * @param - $id The ID of user
      * @return array|false
      */
-    public function fetchAllBids($id)
+    public function fetchAllBids($user)
     {
-        var_dump($this->getUserBidLots($id));
-        // SQL query to get all user's bids on all items
-        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE users.userID = bid.user_id AND Lots.lotID = bid.lot_id AND auction.auctionID = bid.auction_id AND bid.user_id = :id ORDER BY lot_id';
-        $statement = $this->_dbHandle->prepare($sqlQuery); // Prepare PDO statement
-        $statement->bindParam(":id", $id, PDO::PARAM_INT); // Assign parameter :id in query
-        $statement->execute(); // execute SQL query
+        $allUserBids = $this->getUserBidLots($user);
+        var_dump($allUserBids);
 
         $dataSet = []; // List where all details about users' bids will be stored;
-        while ($row = $statement->fetch())
-        {
-            $dataSet[] = new BidItemData($row);
+
+        for ($i = 0; $i < count($allUserBids); $i++) {
+            // SQL query to get all user's bids on all items
+            $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE bid.user_id = :usr AND bid.lot_id = :lot AND users.userID = bid.user_id AND Lots.lotID = bid.lot_id AND auction.auctionID = bid.auction_id  ORDER BY bid DESC LIMIT 1';
+            $statement = $this->_dbHandle->prepare($sqlQuery); // Prepare PDO statement
+            $statement->bindParam(":usr", $user, PDO::PARAM_INT); // Assign parameter :id in query
+            $statement->bindParam(":lot", $allUserBids[$i], PDO::PARAM_INT);
+            $statement->execute(); // execute SQL query
+
+            $dataSet[] = new BidItemData($statement->fetch());
+//            while ($row = $statement->fetch()) {
+//                $dataSet[] = new BidItemData($row);
+//                var_dump($dataSet);
+//            }
         }
 
         if (count($dataSet) == 0)
@@ -81,8 +88,10 @@ class BidItemDataSet {
         }
         else
         {
+            // var_dump($dataSet);
             return $dataSet;
         }
+
     }
 
     /**
