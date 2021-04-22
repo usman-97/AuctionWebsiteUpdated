@@ -33,12 +33,16 @@
                 <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                     </svg><b><?php echo $view->getItem[0]->getLocation(); ?></b></p>
-                <p><b><?php echo $view->getItem[0]->getDatetime() . " GMT"?></b></p>
+                <p><b><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg> <?php echo $view->getItem[0]->getDatetime() . " GMT"?></b></p>
                 <p><b>Auctioneer: <?php echo $view->auctionItem->getAuctionAdmin($view->getItem[0]->getUserID())?></b></p>
 
                 <input id="auctionID" type="hidden" name="auctionID" value="<?php echo $view->getItem[0]->getAuctionID() ?>">
                 <input type="hidden" name="auctionName" value="<?php echo $view->getItem[0]->getAuctionName() ?>">
                 <input type="hidden" name="auctionDatetime" value="<?php echo $view->getItem[0]->getDatetime() ?>">
+                <input id="endDateTim" type="hidden" name="auctionEndDatetime" value="<?php echo $view->getItem[0]->getEndDatetime()?>">
                 <input type="hidden" name="auctionAdmin" value="<?php echo $view->auctionItem->getAuctionAdmin($view->getItem[0]->getUserID()) ?>">
             </div>
         </div>
@@ -49,12 +53,12 @@
         <div class="col-sm-4">
             <div class="page">
                 <b>Place your bid now!</b>
-                    <?php if (!isset($_SESSION['loggedIn'])) : ?>
+                    <?php if ($view->lotStatus) : ?>
                 <div>
-                        <p style="color: #cf0e00"><b>You need to login before you can place a bid</b></p>
+                        <p style="color: #cf0e00"><b><?php echo $view->lotStatus?></b></p>
                 </div>
                     <?php endif; ?>
-                    <?php if (isset($_SESSION['loggedIn'])) : ?>
+                    <?php if (!$view->lotStatus) : ?>
                 <div>
                 <!--    <form action="" method="post">-->
                     <label>Your bid: £</label>
@@ -114,92 +118,7 @@
                 ?>
 
                 <script type="text/javascript" src="js/loadLotBids.js"></script>
-                <script type="text/javascript">
-                    var lotID = document.getElementById("lotID").value;
-                    var bid = document.getElementById("usrBid");
-                    var error = document.getElementById("bidError");
-                    var auction = document.getElementById("auctionID");
-                    // console.log(bid);
-
-                    // function LoadLotBids(lot)
-                    // {
-                    //     let xmlhttp = new XMLHttpRequest();
-                    //
-                    //     xmlhttp.onreadystatechange = function ()
-                    //     {
-                    //         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    //         {
-                    //             let lotBid = JSON.parse(this.responseText);
-                    //             console.log(lotBid);
-                    //
-                    //             let counter = 1;
-                    //             lotBid.forEach(function (obj){
-                    //                 document.getElementById("bidRow" + counter).innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
-                    //                     "<div class='col-sm-4'>" + obj._username + "</div>" +
-                    //                     "<divclass='col-sm-4'>£" + obj._bid +"</div>";
-                    //                 counter++;
-                    //             });
-                    //         }
-                    //     }
-                    //
-                    //     xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + lot, true);
-                    //     xmlhttp.send();
-                    // }
-
-                    function PlaceBid(bid)
-                    {
-                        console.log();
-                        // let usrbid = undefined;
-                        // this.usrbid = (bid) =>
-                        // {
-                        //     // usrbid = document.getElementById("usrBid").value;
-                        //     // console.log(usrbid);
-                        //     return bid;
-                        // }
-
-                        if (bid.value.length > 0)
-                        {
-                            if (!isNaN(bid.value))
-                            {
-                                error.innerHTML = "";
-
-                                let xmlhttp = new XMLHttpRequest();
-
-                                xmlhttp.onreadystatechange = function ()
-                                {
-                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                                    {
-                                        // let txt = this.responseText;
-                                        // console.log(txt);
-
-                                        error.innerHTML = this.responseText;
-                                        bid.value = "";
-                                    }
-                                }
-
-                                // console.log(usrbid);
-                                xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value, true)
-                                xmlhttp.send();
-                            }
-                            else
-                            {
-                                error.innerHTML = "Invalid amount";
-                            }
-                        }
-                        else
-                        {
-                            error.innerHTML = "Insufficient amount"
-                        }
-                    }
-
-                    // var x = new PlaceBid(error);
-
-                    // var x = new LoadLotBids();
-                    // window.onload = LoadLotBids(lotID);
-                    // document.getElementById("bidButton").addEventListener('click', new LoadLotBids(lotID), true);
-                    // document.getElementById("bidButton").addEventListener('click', PlaceBid(document.getElementById("usrBid").value), true);
-                    // bid.addEventListener('focusout', x.fetchUserBid, true)
-                </script>
+                <script type="text/javascript" src="js/placeBid.js"></script>
             </div>
         </div>
     </div>
