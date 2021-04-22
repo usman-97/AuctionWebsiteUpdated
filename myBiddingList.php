@@ -14,7 +14,7 @@ $view->bidStatus = '';
 
 if (isset($_SESSION['userID'])) {
     $view->bidItemDataSet = $bidItemDataSet->fetchAllBids($_SESSION['userID']);
-    var_dump($view->bidItemDataSet);
+    // var_dump($view->bidItemDataSet);
     if (!$view->bidItemDataSet) {
         $view->bidError = 'You don\'t have any bids.';
     }
@@ -58,6 +58,7 @@ if (isset($_POST['editBid']))
 if (isset($_POST['viewItem']))
 {
     $_SESSION['viewLotID'] = $_POST['lotID'];
+    $_SESSION['viewAuctionID'] = $_POST['auctionID'];
     header("location: viewItem.php");
     // var_dump($_SESSION['viewLotID']);
 }

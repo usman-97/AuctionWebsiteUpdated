@@ -12,6 +12,7 @@ $view->bidItemDataSet = new BidItemDataSet();
 
 // logout script
 require_once ('logout.php');
+// var_dump($_SESSION['viewAuctionID']);
 
 $view->auctionItem = new AuctionItemDateSet();
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']);
@@ -80,6 +81,13 @@ else
 {
     $view->userBidError = '';
 }
+
+//if (isset($_POST['bidBtn']))
+//{
+//    // $_SESSION['userCurrentBid'] = $_POST['userBid'];
+//    $_POST['userBidStore'] = $_POST['userBid'];
+//}
+//var_dump($_SESSION['userCurrentBid']);
 
 /*if (isset($_POST['back']))
 {

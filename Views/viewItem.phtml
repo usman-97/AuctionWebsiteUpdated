@@ -1,7 +1,7 @@
 <?php require ('template/header.phtml')?>
 
 <div class="button">
-    <form action="/auctionItem.php" method="post">
+    <form action="auctionItem.php" method="post">
         <input type="submit" name="back" value="back" class="btn btn-danger">
     </form>
 </div>
@@ -36,13 +36,14 @@
                 <p><b><?php echo $view->getItem[0]->getDatetime() . " GMT"?></b></p>
                 <p><b>Auctioneer: <?php echo $view->auctionItem->getAuctionAdmin($view->getItem[0]->getUserID())?></b></p>
 
-                <input type="hidden" name="auctionID" value="<?php echo $view->getItem[0]->getAuctionID() ?>">
+                <input id="auctionID" type="hidden" name="auctionID" value="<?php echo $view->getItem[0]->getAuctionID() ?>">
                 <input type="hidden" name="auctionName" value="<?php echo $view->getItem[0]->getAuctionName() ?>">
                 <input type="hidden" name="auctionDatetime" value="<?php echo $view->getItem[0]->getDatetime() ?>">
                 <input type="hidden" name="auctionAdmin" value="<?php echo $view->auctionItem->getAuctionAdmin($view->getItem[0]->getUserID()) ?>">
             </div>
         </div>
     </div>
+</form>
     <br />
     <div class="row">
         <div class="col-sm-4">
@@ -57,12 +58,16 @@
                 <div>
                 <!--    <form action="" method="post">-->
                     <label>Your bid: £</label>
-                    <input type="text" name="userBid" placeholder="1000">
-                    <div id="bidButton" class="button" style="display: inline-block">
-                        <input type="submit" name="placeBid" value="Place" class="btn btn-primary">
+                    <input id="usrBid" type="text" name="userBid" placeholder="1000">
+                    <input id="storeBid" type="hidden" name="userBidStore" placeholder="1000">
+                    <div class="button" style="display: inline-block " onclick="LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer')); PlaceBid(document.getElementById('usrBid'))">
+                        <!--<input id="bidButton" type="submit" name="place" value="Place" class="btn btn-primary">-->
+                        <button id="bidButton" name="bidBtn" class="btn btn-primary">Place</button>
+
+                        <p id="txt"></p>
                     </div>
                     <div>
-                        <p class="error"><b><?php if (isset($view->userBidError))
+                        <p id="bidError" class="error"><b><?php if (isset($view->userBidError))
                                     echo $view->userBidError?></b></p>
                         <?php if (isset($view->bidError))
                             echo $view->bidError?>
@@ -78,7 +83,8 @@
                 <div class="col-sm-4"><h4><b>Bidder</b></h4></div>
                 <div class="col-sm-4"><h4><b>Bid</b></h4></div>
             </div>
-            <div class="">
+            <form action="" method="post">
+            <div id="bidContainer" class="">
                 <?php
                 if (isset($view->lotPrice))
                 {
@@ -94,10 +100,10 @@
                     else {
                         $num = 1;
                         foreach ($view->bidItemData as $bidItem) {
-                            echo '<div id="bidRow' . $num .'" class="row dfContainer"><!--<div id="idCol' . $num . '" class="col-sm-4">' . $bidItem->getBidID() .
+                            echo '<div id="bidRow' . $num .'" class="row dfContainer"><div id="idCol' . $num . '" class="col-sm-4">' . $bidItem->getBidID() .
                                 '</div><div id="bidderCol1" class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) .
                                 '</div><div id="bidCol1" class="col-sm-4">' . '£' . $bidItem->getBid() .
-                                '</div>--></div>' .
+                                '</div></div>' .
                                 '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
                                 '<input type="hidden" name="username" value="' . $bidItem->getUsername() . '">' .
                                 '<input type="hidden" name="userPlacedBid" value="' . $bidItem->getBid() . '">';
@@ -106,37 +112,93 @@
                     }
                 }
                 ?>
+
+                <script type="text/javascript" src="js/loadLotBids.js"></script>
                 <script type="text/javascript">
-                    var userID = document.getElementById("lotID").value;
-                    // console.log(userID);
+                    var lotID = document.getElementById("lotID").value;
+                    var bid = document.getElementById("usrBid");
+                    var error = document.getElementById("bidError");
+                    var auction = document.getElementById("auctionID");
+                    // console.log(bid);
 
-                    function LoadLotBids(event)
+                    // function LoadLotBids(lot)
+                    // {
+                    //     let xmlhttp = new XMLHttpRequest();
+                    //
+                    //     xmlhttp.onreadystatechange = function ()
+                    //     {
+                    //         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    //         {
+                    //             let lotBid = JSON.parse(this.responseText);
+                    //             console.log(lotBid);
+                    //
+                    //             let counter = 1;
+                    //             lotBid.forEach(function (obj){
+                    //                 document.getElementById("bidRow" + counter).innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
+                    //                     "<div class='col-sm-4'>" + obj._username + "</div>" +
+                    //                     "<divclass='col-sm-4'>£" + obj._bid +"</div>";
+                    //                 counter++;
+                    //             });
+                    //         }
+                    //     }
+                    //
+                    //     xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + lot, true);
+                    //     xmlhttp.send();
+                    // }
+
+                    function PlaceBid(bid)
                     {
-                        let xmlhttp = new XMLHttpRequest();
+                        console.log();
+                        // let usrbid = undefined;
+                        // this.usrbid = (bid) =>
+                        // {
+                        //     // usrbid = document.getElementById("usrBid").value;
+                        //     // console.log(usrbid);
+                        //     return bid;
+                        // }
 
-                        xmlhttp.onreadystatechange = function ()
+                        if (bid.value.length > 0)
                         {
-                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                            if (!isNaN(bid.value))
                             {
-                                let lotBid = JSON.parse(this.responseText);
-                                console.log(lotBid);
+                                error.innerHTML = "";
 
-                                let counter = 1;
-                                lotBid.forEach(function (obj){
-                                    document.getElementById("bidRow" + counter).innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
-                                        "<div class='col-sm-4'>" + obj._username + "</div>" +
-                                        "<divclass='col-sm-4'>" + obj._bid +"</div>";
-                                    counter++;
-                                });
+                                let xmlhttp = new XMLHttpRequest();
+
+                                xmlhttp.onreadystatechange = function ()
+                                {
+                                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                                    {
+                                        // let txt = this.responseText;
+                                        // console.log(txt);
+
+                                        error.innerHTML = this.responseText;
+                                        bid.value = "";
+                                    }
+                                }
+
+                                // console.log(usrbid);
+                                xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value, true)
+                                xmlhttp.send();
+                            }
+                            else
+                            {
+                                error.innerHTML = "Invalid amount";
                             }
                         }
-
-                        xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + userID, true);
-                        xmlhttp.send();
+                        else
+                        {
+                            error.innerHTML = "Insufficient amount"
+                        }
                     }
 
+                    // var x = new PlaceBid(error);
+
                     // var x = new LoadLotBids();
-                    window.onload = LoadLotBids;
+                    // window.onload = LoadLotBids(lotID);
+                    // document.getElementById("bidButton").addEventListener('click', new LoadLotBids(lotID), true);
+                    // document.getElementById("bidButton").addEventListener('click', PlaceBid(document.getElementById("usrBid").value), true);
+                    // bid.addEventListener('focusout', x.fetchUserBid, true)
                 </script>
             </div>
         </div>

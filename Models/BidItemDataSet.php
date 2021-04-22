@@ -63,7 +63,7 @@ class BidItemDataSet {
     public function fetchAllBids($user)
     {
         $allUserBids = $this->getUserBidLots($user);
-        var_dump($allUserBids);
+        // var_dump($allUserBids);
 
         $dataSet = []; // List where all details about users' bids will be stored;
 
@@ -101,7 +101,7 @@ class BidItemDataSet {
      */
     public function fetchItemBids($id)
     {
-        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE Lots.lotID = bid.lot_id AND bid.user_id = users.userID AND auction.auctionID = bid.auction_id AND bid.lot_id = :id ORDER BY bid DESC ';
+        $sqlQuery = 'SELECT * FROM users, bid, Lots, auction WHERE bid.lot_id = :id AND Lots.lotID = bid.lot_id AND bid.user_id = users.userID AND auction.auctionID = bid.auction_id ORDER BY bid DESC';
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":id", $id, PDO::PARAM_INT);
         $statement->execute();
@@ -185,8 +185,9 @@ class BidItemDataSet {
         $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
         $statement->bindParam(":lot_id", $lotID, PDO::PARAM_INT);
         $statement->bindParam(":auction_id", $auctionID, PDO::PARAM_INT);
-        $statement->bindParam(":userBid", $bid, PDO::PARAM_STR);
+        $statement->bindParam(":userBid", $bid);
 
+        // var_dump($statement->execute());
         $statement->execute();
         // var_dump($statement->execute());
     }

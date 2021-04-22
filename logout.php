@@ -22,7 +22,8 @@ if (isset($_SESSION['timeout'])) {
     if ($_SESSION['timeout'] < time() - $_SESSION['expire']) {
         unset($_SESSION['loggedIn']);
         session_destroy();
-        echo 'Please sign in again';
+        // echo 'Please sign in again';
+        header("location: index.php");
     }
 }
 // var_dump($_SESSION['timeout']);

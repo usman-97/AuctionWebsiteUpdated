@@ -230,6 +230,7 @@ if (isset($_POST['view']))
     // Start viewItem session
     $_SESSION['viewItem'] = true;
     $_SESSION['viewLotID'] = $view->lotID;
+    $_SESSION['viewAuctionID'] = $_POST['auctionID'];
     $view->auctionItemDateSet->incrementView($view->lotID);
     header("Location: viewItem.php");
 }
