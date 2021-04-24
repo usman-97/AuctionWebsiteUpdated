@@ -1,5 +1,5 @@
 
-function PlaceBid(bid)
+function PlaceBid(bid, error)
 {
     if (bid.value.length > 0)
     {

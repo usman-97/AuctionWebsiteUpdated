@@ -7,7 +7,7 @@
 class BidItemData implements JsonSerializable {
     protected $_bidID, $_bid, $_userID, $_username;
     protected $_lotID, $_lot_title, $_lot_main, $_lot_image;
-    protected $_auctionID, $_auction_name, $_auction_location, $_auction_datetime;
+    protected $_auctionID, $_auction_name, $_auction_location, $_auction_datetime, $_auction_endDatetime;
 
     /**
      * BidItemData constructor.
@@ -26,6 +26,7 @@ class BidItemData implements JsonSerializable {
         $this->_auction_name = $dbRow['auction_name'];
         $this->_auction_location = $dbRow['location'];
         $this->_auction_datetime = $dbRow['datetime'];
+        $this->_auction_endDatetime = $dbRow['endDatetime'];
         $this->_bid = $dbRow['bid'];
     }
 
@@ -43,6 +44,7 @@ class BidItemData implements JsonSerializable {
             '_auctionID' => $this->_auction_name,
             '_auction_name' => $this->_auction_location,
             '_auction_location' => $this->_auction_datetime,
+            'auction_endDatetime' => $this->_auction_endDatetime,
             '_bid' => $this->_bid
         ];
     }
@@ -105,5 +107,10 @@ class BidItemData implements JsonSerializable {
     public function getAuctionDatetime()
     {
         return $this->_auction_datetime;
+    }
+
+    public function getAuctionEndDatetime()
+    {
+        return $this->_auction_endDatetime;
     }
 }

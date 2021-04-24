@@ -17,7 +17,7 @@ if ($q != "")
 
     if ($lotBid != null)
     {
-        if ($lotBid === $userBid)
+        if ($lotBid == $userBid)
         {
             $status = "Highest bid";
         }
@@ -27,6 +27,5 @@ if ($q != "")
         }
     }
 
+    echo $status;
 }
-
-echo $status;

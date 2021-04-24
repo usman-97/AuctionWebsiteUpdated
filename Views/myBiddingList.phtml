@@ -44,33 +44,23 @@
                     {
                         echo '<h3>' . $view->bidStatus . '</h3>';
                     }
+
+                    $num = 1;
                     foreach ($view->bidItemDataSet as $bidItem)
                     {
-                        /*echo '<form action="" method="post">' .
-                            '<tr><td><p>' . $bidItem->getLotID() . '. ' . '<input type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
-                            $bidItem->getLotTitle() . '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
-                            ', ' . $bidItem->getLotMain() . '<input type="hidden" name="lotMain" value="' . $bidItem->getLotMain() . '">' .
-                            '</p><img src="../images/' . $bidItem->getLotImage() . '.jpg" alt="Image not found">' .
-                            '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
-                            '</td><td><p>' . $bidItem->getAuctionID() . '. ' . '<input type="hidden" name="auctionID" value="' . $bidItem->getAuctionID() . '">' .
-                            $bidItem->getAuctionName() . '<input type="hidden" name="auctionName" value="' . $bidItem->getAuctionName() . '">' .
-                            '</p><p>' . $bidItem->getAuctionLocation() . '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
-                            ',</p><p>' . $bidItem->getAuctionDatetime() .'</p>' . '<input type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
-                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
-                            '</td><td>' . '£' . $bidItem->getBid() . '<input type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
-                            '</td><td>' . '<div class="button"><input type="submit" name="statusButton" value="Check" class="btn btn-secondary"></div>' .
-                            '</td><td>' . '<div><label>£</label><input type="text" name="newBid" placeholder="1000"></div><div class="button"><input type="submit" name="editBid" value="Edit" class="btn btn-primary"></div>' .
-                            '<div class="button"><input type="submit" name="removeBid" value="X" class="btn btn-danger"></div>' .
-                            '</td></tr></form>';
-                    }}*/
+                        // var_dump($view->currentDate > $bidItem->getAuctionEndDatetime());
+                        // var_dump($bidItem->getAuctionEndDatetime());
                         echo '<form action="" method="post"><div class="listContainer"><div id="listHeader" class="row"><div class="col-sm-11"><h3>#' .
                             $bidItem->getLotID() . ': ' . $bidItem->getLotTitle() . ' - ' .
-                            $bidItem->getLotMain() . '</h3></div><div class="col-sm-1">
-                            <input type="submit" name="removeBid" value="X" class="btn btn-danger"></div>
-                            </div><div id="listBody" class="row"><div class="col-sm-5">' .
+                            $bidItem->getLotMain() . '</h3></div><div class="col-sm-1">';
+
+                        if ($view->currentDate > $bidItem->getAuctionEndDatetime())
+                            echo '<input id="removeBtn'. $num .'" type="submit" name="removeBid" value="X" class="btn btn-danger">';
+
+                        echo '</div></div><div id="listBody" class="row"><div class="col-sm-5">' .
                             '<img src="images/' . $bidItem->getLotImage() . '.jpg" alt="Image not found">' .
                             '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
-                            '<input id="lot_id" type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
+                            '<input id="lot_id'. $num .'" type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
                             '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
                             '<input type="hidden" name="lotMain" value="' . $bidItem->getLotMain() . '">' .
                             '</div><div class="col-md-6"><p><b>' . $bidItem->getAuctionID() . ' - ' . $bidItem->getAuctionName() . '</b></p>' .
@@ -78,20 +68,50 @@
                             '<input type="hidden" name="auctionName" value="' . $bidItem->getAuctionName() . '">' .
                             '<p>' . $bidItem->getAuctionLocation() . '</p>' . '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
                             '<p>' . $bidItem->getAuctionDatetime() . '</p>' . '<input type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
-                            '<p><b>Your Bid: </b>£' . $bidItem->getBid() . '</p>' . '<input type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
+                            '<input id="auctionEndDatetime'. $num .'" type="hidden" name="auctionEndDatetime" value="' . $bidItem->getAuctionEndDatetime() . '">' .
+                            '<p><b>Your Bid: </b>£' . $bidItem->getBid() . '  <span id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;" class="btn-success"></span></p>' .
+                            '<input id="userBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
                             '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
-                            '<div><span id="bidStatus" class="btn btn-secondary" onclick="console.log(new UserBidStatus(this, ' . $bidItem->getLotID() .'))">status</span></div>' .
-                            '<br /><label>£</label><input type="text" name="newBid" placeholder="1000">' .
+                            '<label>£</label><input type="text" name="newBid" placeholder="1000">' .
                             '<div><input type="submit" name="editBid" value="Edit" class="btn btn-primary">
                              <!--<input type="submit" name="statusButton" value="Check" class="btn btn-secondary">-->
                              <input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
                             '</div></div></div><br /></form>' .
-                             '<script type="text/javascript" src="js/bidStatus.js"></script>';
+                            '<script type="text/javascript" src="js/bidStatus.js"></script>';
+                        $num++;
                     }}?>
 <!--        </tbody>
     </table>-->
 </div>
 <br />
+<script type="text/javascript" src="js/bidStatus.js"></script>
+<script type="text/javascript">
+    var totalBid = <?php echo count($view->bidItemDataSet) ?>;
+    // console.log(totalBid);
+
+    for (let i = 1; i <= totalBid; i++)
+    {
+        var x = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value)
+    }
+
+    // let today = new Date().getTime();
+
+    // let todayDate = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+    // let time = today.getHours() + ":" + today.getMinutes();
+    // let todayDatetime = todayDate + " " + time;
+
+    //for (let i = 1; i < <?php //echo $num; ?>//; i++)
+    //{
+    //    let auctionEndDatetime = new Date(document.getElementById("auctionEndDatetime" + i).value).getTime();
+    //    console.log(auctionEndDatetime.value);
+    //    if (auctionEndDatetime < today)
+    //    {
+    //        document.getElementById("removeBtn" + i).type = "submit";
+    //        console.log(auctionEndDatetime.value < today);
+    //    }
+    //}
+
+</script>
 
 <!--<script type="text/javascript" src="js/bidStatus.js">
 

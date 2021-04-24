@@ -61,7 +61,7 @@ if (isset($_POST['login'])) {
                                 $_SESSION['username'] = $view->username; // Get username
                                 $_SESSION['userID'] = $view->user->getUserID(); // Get user id from users table
                                 $_SESSION['timeout'] = time(); // User last activity session
-                                $_SESSION['expire'] = 3600; // Session expiry time in seconds
+                                $_SESSION['expire'] = 7200; // Session expiry time in seconds
 
                                 // Set error to null on user successful login
                                 $view->error = null;

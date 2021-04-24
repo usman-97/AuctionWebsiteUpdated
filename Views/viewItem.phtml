@@ -64,7 +64,7 @@
                     <label>Your bid: £</label>
                     <input id="usrBid" type="text" name="userBid" placeholder="1000">
                     <input id="storeBid" type="hidden" name="userBidStore" placeholder="1000">
-                    <div class="button" style="display: inline-block " onclick="LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer')); PlaceBid(document.getElementById('usrBid'))">
+                    <div class="button" style="display: inline-block " onclick="LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer')); PlaceBid(document.getElementById('usrBid'), document.getElementById('bidError'))">
                         <!--<input id="bidButton" type="submit" name="place" value="Place" class="btn btn-primary">-->
                         <button id="bidButton" name="bidBtn" class="btn btn-primary">Place</button>
 

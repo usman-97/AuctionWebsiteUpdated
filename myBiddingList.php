@@ -7,10 +7,13 @@ $view->pageTitle = 'My Bidding List';
 
 require_once ('logout.php');
 require_once ('resetSessions.php');
+// var_dump($_SESSION['currentDate']);
 
 $bidItemDataSet = new BidItemDataSet();
 $view->error = '';
 $view->bidStatus = '';
+$view->currentDate = Date("Y-m-d H:m");
+// var_dump($view->currentDate);
 
 if (isset($_SESSION['userID'])) {
     $view->bidItemDataSet = $bidItemDataSet->fetchAllBids($_SESSION['userID']);

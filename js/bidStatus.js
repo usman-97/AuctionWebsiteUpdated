@@ -1,9 +1,9 @@
 
 
-function UserBidStatus(bidStatus, userBid)
+function UserBidStatus(bidStatus, lot)
 {
     var xmlhttp = new XMLHttpRequest();
-    // console.log(userBid);
+    // console.log(lot);
     // console.log(bidStatus);
 
     xmlhttp.onreadystatechange = function ()
@@ -15,15 +15,19 @@ function UserBidStatus(bidStatus, userBid)
 
             if (this.responseText == "Highest bid")
             {
-                bidStatus.style.backgroundColor = "green";
+                bidStatus.style.backgroundColor = "#036311";
             }
             else if (this.responseText == "Outbid")
             {
-                bidStatus.style.backgroundColor = "red";
+                bidStatus.style.backgroundColor = "#bf130a";
+            }
+            else
+            {
+                bidStatus.innerHTML = "error";
             }
         }
     }
 
-    xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + userBid, true);
+    xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + lot, true);
     xmlhttp.send();
 }

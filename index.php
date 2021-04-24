@@ -9,6 +9,7 @@ $update = new UpdateViews();
 // session_start();
 require_once ('logout.php');
 require_once ('resetSessions.php');
+$_SESSION['currentDate'] = Date("Y-m-m H:m:s");
 
 if (isset($_POST['SuperCar']))
 {
