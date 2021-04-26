@@ -123,7 +123,7 @@ if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST
 // var_dump($_SESSION['searchedItem']);
 
 // If search button is pressed
-if (isset($_POST['searchButton'])) {
+/*if (isset($_POST['searchButton'])) {
 
     $_SESSION['searchedItem'] = $_POST['searchBar'];
     unset($_SESSION['viewItem']); // set viewItem session to view individual item
@@ -137,7 +137,8 @@ if (isset($_POST['searchButton'])) {
     }
 
     header("location: auctionItem.php");
-}
+}*/
+require ('searchBar.php');
 // var_dump($_SESSION['searchMode']);
 
 // If clear button is pressed

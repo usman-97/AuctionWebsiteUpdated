@@ -1,22 +1,24 @@
 <?php
 
 require_once ("../Models/BidItemDataSet.php");
-session_start();
+session_start(); // start session
 
-$bid = new BidItemDataSet();
+$bid = new BidItemDataSet(); // BidItemDataSet instance
 
-$q = $_REQUEST["q"];
-$status = "";
+$q = $_REQUEST["q"]; // Request send by UserBidStatus javascript class
+$status = ""; // current status of the user bid
 
+// If received request is not empty
 if ($q != "")
 {
-    $lotBid = $bid->getItemHighestBid($q);
-    $userBid = $bid->getUserHighestBid($_SESSION['userID'], $q);
+    $lotBid = $bid->getItemHighestBid($q); // The highest bid on the lot
+    $userBid = $bid->getUserHighestBid($_SESSION['userID'], $q); // User highest bid on the lot
     // var_dump($lotBid);
     // var_dump($userBid);
 
     if ($lotBid != null)
     {
+        // If user bid is same as the lot highest bid
         if ($lotBid == $userBid)
         {
             // $status = "Highest bid";
@@ -24,10 +26,11 @@ if ($q != "")
         }
         else
         {
+            // If user bid is smaller than the lot highest bid
             // $status = "Outbid";
             $status = false;
         }
     }
 
-    echo $status;
+    echo $status; // status of the lot bid
 }

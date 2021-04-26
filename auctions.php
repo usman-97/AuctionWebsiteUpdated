@@ -13,6 +13,7 @@ require_once ('resetSessions.php');
 $view->allAuctions = $view->auctions->fetchAllAuctions();
 // var_dump($view->allAuctions);
 
+require_once ('searchBar.php');
 require ('pagination.php');
 
 if (isset($_POST['viewAuctionLots']))

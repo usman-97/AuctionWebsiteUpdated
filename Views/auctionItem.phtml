@@ -17,24 +17,18 @@
     <div class="searchBar">
         <p>You can search item lot by Lot Title, Lot Main or Auction.</p>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-            <input type="text" name="searchBar" value="<?php if (isset($view->currentSearchItem)) {echo $view->currentSearchItem;} ?>" placeholder="search. . .">
-            <input type="hidden" name="saveSearch" value="<?php if (isset($view->currentSearchItem)) {$view->currentSearchItem;} ?>">
+            <!--<input type="text" name="searchBar" value="<?php /*if (isset($view->currentSearchItem)) {echo $view->currentSearchItem;} */?>" placeholder="search. . .">
+            <input type="hidden" name="saveSearch" value="<?php /*if (isset($view->currentSearchItem)) {$view->currentSearchItem;} */?>">
             <button type="submit" name="searchButton" class="btn btn-info">Search</button>
-            <?php if (isset($_SESSION['searchMode'])) : ?>
+            <?php /*if (isset($_SESSION['searchMode'])) : */?>
                 <button type="submit" name="clearSearch" class="btn btn-danger">Clear</button>
                 <br />
                 <div>
-                    <?php /*for ($i = 1; $i <   $view->totalPages; $i++)
-                {
-                    echo '<button type="submit" name="page">'. $i .'</button>';
-                }*/?>
-                    <input type="hidden" name="pageLimit" value="<?php if (isset($view->currentLimit)) {echo $view->currentLimit;} ?>">
-                    <input type="hidden" name="savePageLimit" value="<?php if (isset($view->currentLimit)) {echo $view->currentLimit;} ?>">
-                    <!--<button id="loadPages" type="submit" name="morePages" class="btn btn-primary">Load more results</button>
-                    <button id="lessPages" type="submit" name="lessPages" class="btn btn-primary">few results</button>-->
+                    <input type="hidden" name="pageLimit" value="<?php /*if (isset($view->currentLimit)) {echo $view->currentLimit;} */?>">
+                    <input type="hidden" name="savePageLimit" value="<?php /*if (isset($view->currentLimit)) {echo $view->currentLimit;} */?>">
                 </div>
                 <br />
-            <?php endif; ?>
+            --><?php /*endif; */?>
 
             <!-- Filters -->
             <div>
@@ -115,15 +109,6 @@
 
         let total = <?php echo $view->totalRecords;?>;
         let limit = total >= 20 ? 20: total;
-        // if (total >= 20)
-        // {
-        //     limit = 20;
-        // }
-        // else
-        // {
-        //     limit = total;
-        // }
-        // console.log(limit);
 
         for (let i = 1; i <= limit; i++)
         {
@@ -139,8 +124,6 @@
     </script>
 
     <!-- Pagination -->
-    <?php /*if (!isset($_SESSION['searchMode'])) : */?>
-
         <ul class="pagination justify-content-center">
             <li class="page-item">
                 <a class="page-link" href="<?php if (isset($view->previous)) {echo $view->previous;} ?>" aria-label="Previous">
@@ -175,6 +158,5 @@
                 </a>
             </li>
         </ul>
-    <?php /*endif; */?>
 
 <?php require('template/footer.phtml') ?>

@@ -11,6 +11,8 @@ require_once ('logout.php');
 require_once ('resetSessions.php');
 $_SESSION['currentDate'] = Date("Y-m-m H:m:s");
 
+require_once ('searchBar.php');
+
 if (isset($_POST['SuperCar']))
 {
     $_SESSION['item'] = 'super car';

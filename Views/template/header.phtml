@@ -27,6 +27,16 @@
         <div>
             <a class="navbar-brand" href="index.php"><b><em>Salford Auctions</em></b></a>
         </div>
+        <div style="background-color: #ffffff">
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+                <input style="border-color: #ffffff" type="text" name="searchBar" value="<?php if (isset($_SESSION['searchedItem'])) {echo $_SESSION['searchedItem'];} ?>" placeholder="search. . .">
+                <!--<input type="hidden" name="saveSearch" value="<?php /*if (isset($view->currentSearchItem)) {$view->currentSearchItem;} */?>">-->
+                <button type="submit" name="searchButton" class="btn btn-info">Search</button>
+                <?php if (isset($_SESSION['searchMode'])) : ?>
+                    <button type="submit" name="clearSearch" class="btn btn-danger">Clear</button>
+            </form>
+                <?php endif; ?>
+        </div>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -20,6 +20,8 @@ $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']);
 $view->currentDate = date("Y-m-d H:i");
 $view->lotStatus = '';
 
+require_once ('searchBar.php');
+
 // $view->auctionDate = date($view->getItem[0]->getEndDatetime());
 // var_dump($view->auctionDate == $view->currentDate);
 // var_dump($view->currentDate > $view->getItem[0]->getDatetime());

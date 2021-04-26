@@ -18,6 +18,7 @@ $view->pagination = "myBiddingList.php?page=";
 $view->totalRecords = count($view->bidItem->getUserBidLots($_SESSION['userID']));
 // var_dump($view->totalRecords);
 
+require_once ('searchBar.php');
 require ('pagination.php');
 
 if (isset($_SESSION['userID'])) {
