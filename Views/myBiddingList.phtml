@@ -64,7 +64,7 @@
                             '</i></div><div class="btn-success" id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;">' .
                             '</div></div><br />' .
                             '<div id="countDownTimer'. $num .'"></div>' .
-                            '<p id="endDateTxt"></p>' .
+                            '<p id="endDateTxt'. $num .'"></p>' .
                             '<input type="hidden" name="lotImage" value="' . $bidItem->getLotImage() . '.jpg">' .
                             '<input id="lot_id'. $num .'" type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
                             '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
@@ -92,13 +92,23 @@
 <script type="text/javascript" src="js/bidStatus.js"></script>
 <script type="text/javascript" src="js/countDownTimer.js"></script>
 <script type="text/javascript">
-    var totalBid = <?php echo count($view->bidItemDataSet) ?>;
-    // console.log(totalBid);
+    let totalBids = <?php echo $view->totalRecords?>;
+    let limit = totalBids >= 20 ? 20: totalBids;
+    // console.log(limit);
 
-    for (let i = 1; i <= totalBid; i++)
+    for (let i = 1; i <= limit; i++)
     {
-        var x = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value, document.getElementById("auctionEndDatetime" + i).value)
+        var x = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value, document.getElementById("auctionEndDatetime" + i).value);
+
+        let startDate = document.getElementById("auctionDatetime" + i).value;
+        let endDate = document.getElementById("auctionEndDatetime" + i).value;
+        let timer = document.getElementById("countDownTimer" + i);
+        let liveTxt = document.getElementById("startTime" + i);
+        let endDateTxt = document.getElementById("endDateTxt" + i);
+
+        var y = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt)
     }
+
 
 
 

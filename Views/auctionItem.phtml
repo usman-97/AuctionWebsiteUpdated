@@ -112,7 +112,20 @@
     <br />
     <script type="text/javascript" src="js/countDownTimer.js"></script>
     <script type="text/javascript">
-        for (let i = 1; i <= 20; i++)
+
+        let total = <?php echo $view->totalRecords;?>;
+        let limit = total >= 20 ? 20: total;
+        // if (total >= 20)
+        // {
+        //     limit = 20;
+        // }
+        // else
+        // {
+        //     limit = total;
+        // }
+        // console.log(limit);
+
+        for (let i = 1; i <= limit; i++)
         {
             let start = document.getElementById("start" + i).value;
             let endDate = document.getElementById("endDateTime" + i).value;

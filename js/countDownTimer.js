@@ -1,10 +1,12 @@
 
-function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime)
+function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
 {
-    console.log(start);
-    console.log(endDate);
-    console.log(timer);
-    console.log(liveTxt);
+    // console.log(start);
+    // console.log(endDate);
+    // console.log(timer);
+    // console.log(liveTxt);
+    // console.log(endDateTxt);
+    // console.log(startTime);
 
     // for (let i = 1; i <= 20; i++) {
     let startDate = new Date(start);
@@ -18,7 +20,10 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime)
         endDateTxt.innerHTML = "<b>Ends on " + endDate + "</b>";
         endDateTxt.style.color = "#4e555b";
 
-        startTime.innerHTML = "";
+        if (startTime != "")
+        {
+            startTime.innerHTML = "";
+        }
 
         let x = setInterval(function () {
             let now = new Date().getTime();
@@ -51,4 +56,19 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime)
         }, 1000)
     }
     // }
+}
+
+CountDown.prototype.checkLimit = function (total)
+{
+    let limit;
+    if (total >= 20)
+    {
+        limit = 20;
+    }
+    else
+    {
+        limit = total;
+    }
+
+    return limit;
 }
