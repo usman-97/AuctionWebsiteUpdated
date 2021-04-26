@@ -9,14 +9,19 @@ require_once ('logout.php');
 require_once ('resetSessions.php');
 // var_dump($_SESSION['currentDate']);
 
-$bidItemDataSet = new BidItemDataSet();
+$view->bidItem = new BidItemDataSet();
 $view->error = '';
 $view->bidStatus = '';
 $view->currentDate = Date("Y-m-d H:m");
-// var_dump($view->currentDate);
+
+$view->pagination = "myBiddingList.php?page=";
+$view->totalRecords = count($view->bidItem->getUserBidLots($_SESSION['userID']));
+// var_dump($view->totalRecords);
+
+require ('pagination.php');
 
 if (isset($_SESSION['userID'])) {
-    $view->bidItemDataSet = $bidItemDataSet->fetchAllBids($_SESSION['userID']);
+    $view->bidItemDataSet = $view->bidItem->fetchAllBids($_SESSION['userID']);
     // var_dump($view->bidItemDataSet);
     if (!$view->bidItemDataSet) {
         $view->bidError = 'You don\'t have any bids.';
@@ -25,14 +30,14 @@ if (isset($_SESSION['userID'])) {
 
 if (isset($_POST['removeBid']))
 {
-    $bidItemDataSet->removeBid($_POST['bidID']);
+    $view->bidItem->removeBid($_POST['bidID']);
     header("location: myBiddingList.php");
 }
 
 if (isset($_POST['editBid']))
 {
     if (isset($_POST['newBid']) && is_numeric($_POST['newBid'])) {
-        $bidItemDataSet->editBid($_POST['bidID'], $_POST['newBid']);
+        $view->bidItem->editBid($_POST['bidID'], $_POST['newBid']);
     }
     else
     {

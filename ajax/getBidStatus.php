@@ -19,11 +19,13 @@ if ($q != "")
     {
         if ($lotBid == $userBid)
         {
-            $status = "Highest bid";
+            // $status = "Highest bid";
+            $status = true;
         }
         else
         {
-            $status = "Outbid";
+            // $status = "Outbid";
+            $status = false;
         }
     }
 

@@ -55,6 +55,21 @@ class BidItemDataSet {
     }
 
     /**
+     * Fetch total numbers of bid a certain user has made.
+     * @param $user
+     * @return mixed
+     */
+//    public function totalUserBids($user)
+//    {
+//        $sqlQuery = 'SELECT COUNT(bidID) FROM bid WHERE user_id = :id';
+//        $statement = $this->_dbHandle->prepare($sqlQuery);
+//        $statement->bindParam(":id", $user);
+//        $statement->execute();
+//
+//        return $statement->fetchColumn();
+//    }
+
+    /**
      * Gets all bid for users.
      * Displays the list of user bids
      * @param - $id The ID of user
@@ -310,6 +325,10 @@ class BidItemDataSet {
         }
     }
 
+    /**
+     * @param $user
+     * @return string
+     */
     public function hideBidderName($user)
     {
         $firstLetter = substr($user, 0, 1);

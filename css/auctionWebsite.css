@@ -130,6 +130,15 @@ body {
   background-color: #e6e6e6;
 }
 
+.error {
+  color: #cf0e00;
+  font-weight: bold;
+}
+
+.bidInfo {
+  text-align: center;
+}
+
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;

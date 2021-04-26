@@ -55,7 +55,7 @@
                 <b>Place your bid now!</b>
                     <?php if ($view->lotStatus) : ?>
                 <div>
-                        <p style="color: #cf0e00"><b><?php echo $view->lotStatus?></b></p>
+                        <p class="error"><b><?php echo $view->lotStatus?></b></p>
                 </div>
                     <?php endif; ?>
                     <?php if (!$view->lotStatus) : ?>
