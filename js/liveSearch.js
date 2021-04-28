@@ -1,7 +1,7 @@
 
 function ShowHints(str, hintTxt)
 {
-    // console.log(token);
+    console.log(token);
     let xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function ()
@@ -16,7 +16,7 @@ function ShowHints(str, hintTxt)
         hints.forEach(function (obj){
             let hint = document.createElement("div");
             hint.innerHTML = "<div id='txtHint" + counter +"' class='row searchItemHint'><div class='col-sm-3'><a href='viewItem.php?q=" + obj._lotID + "&token=" +
-                token +"'>" +
+                token +"&a=" + obj._auction_id +"'>" +
                 "<img src='images/" + obj._image +".jpg' width='50px' height='50px'></div>" +
                 "<div class='col-sm-5'><span>" + obj._lot_title + " " + obj._lot_main + "</span></div></a></div>";
             hint.id = "hint" + counter;
@@ -29,7 +29,7 @@ function ShowHints(str, hintTxt)
 
     if (str.length >= 3)
     {
-        xmlhttp.open("GET", "ajax/liveSearch.php?q=" + str, true);
+        xmlhttp.open("GET", "ajax/liveSearch.php?q=" + str + "&token=" + token, true);
         xmlhttp.send();
     }
 }

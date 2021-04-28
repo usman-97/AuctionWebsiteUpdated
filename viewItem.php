@@ -20,6 +20,11 @@ if (isset($_GET["q"]))
     $_SESSION['viewLotID'] = $_GET["q"]; // Start viewLotID session
 }
 
+if (isset($_GET["a"]))
+{
+    $_SESSION['viewAuctionID'] = $_GET["a"]; // Start viewLotID session
+}
+
 $view->auctionItem = new AuctionItemDateSet();
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']); // Fetch data for chosen lot
 
