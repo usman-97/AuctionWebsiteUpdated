@@ -27,15 +27,19 @@
         <div>
             <a class="navbar-brand" href="index.php"><b><em>Salford Auctions</em></b></a>
         </div>
-        <div style="background-color: #ffffff">
+        <div>
             <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                <input style="border-color: #ffffff" type="text" name="searchBar" value="<?php if (isset($_SESSION['searchedItem'])) {echo $_SESSION['searchedItem'];} ?>" placeholder="search. . .">
-                <!--<input type="hidden" name="saveSearch" value="<?php /*if (isset($view->currentSearchItem)) {$view->currentSearchItem;} */?>">-->
-                <button type="submit" name="searchButton" class="btn btn-info">Search</button>
-                <?php if (isset($_SESSION['searchMode'])) : ?>
-                    <button type="submit" name="clearSearch" class="btn btn-danger">Clear</button>
+                <div class="searchBarCont">
+                    <input id="searchBar" type="text" name="searchBar" value="<?php if (isset($_SESSION['searchedItem'])) {echo $_SESSION['searchedItem'];} ?>" onkeyup="new ShowHints(this.value, document.getElementById('txtHint'))" onfocusout="hideSearchHints()" placeholder="search. . .">
+                    <?php if (isset($_SESSION['searchMode'])) : ?>
+                        <button id="clearSearch" type="submit" name="clearSearch" style="background-color#ffffff;">X</button>
+                    <?php endif; ?>
+                    <button type="submit" name="searchButton" class="btn btn-info" style="font-size: 20px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg></button>
+                </div>
+                <div class="list-group" id="txtHint" style="position: absolute; display: none; background-color: #ffffff;"></div>
             </form>
-                <?php endif; ?>
         </div>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -83,7 +87,6 @@
                             </svg>
                             My Bidding List</a>
                         <form action="" method="post">
-                            <!--<i class="fa fa-sign-out" aria-hidden="true"></i>-->
                             <div class="dropdown-item">
                                 <button type="submit" name="logout" class="btn btn-danger">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
@@ -93,7 +96,6 @@
                                     <span class="glyphicon glyphicon-log-out"></span> Log out
                                 </button>
                             </div>
-                            <!--<input type="submit" name="logout" value="logout" />-->
                         </form>
                     </div>
                 </li>
@@ -104,52 +106,28 @@
                     <a href="register.php"><button type="button"class="btn btn-outline-secondary">Register <span class="caret"></span></button></a>
                 </li>
                 <?php endif; ?>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="services.html">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Portfolio
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                        <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Blog
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                        <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                        <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Other Pages
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
-                        <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                        <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
-                        <a class="dropdown-item" href="faq.html">FAQ</a>
-                        <a class="dropdown-item" href="404.html">404</a>
-                        <a class="dropdown-item" href="pricing.html">Pricing Table</a>
-                    </div>
-                </li>-->
             </ul>
         </div>
     </div>
 </nav>
 
-<br />
+<?php //require_once ('generateToken.php'); ?>
+
+<script type="text/javascript">var token = "<?php echo $_SESSION['token']; ?>";</script>
+<script type="text/javascript" src="js/liveSearch.js"></script>
+<script type="text/javascript">
+    let hintTxt = document.getElementById("txtHint");
+
+    function hideSearchHints()
+    {
+        setTimeout(() => {hintTxt.style.display = "none";}, 100)
+        // txtHint.style.display = "none";
+    }
+
+    // document.getElementById("searchBar").addEventListener("focusout", hideSearchHints, true);
+</script>
+
+<br /><br />
 <!-- Page Content -->
 <div class="container">
         <!--<div id="pageTitle"><h1><?php /*echo $view->pageTitle; */?> </h1></div>-->

@@ -19,3 +19,8 @@ if (isset($_SESSION['viewAuctionLots']))
 {
     unset($_SESSION['viewAuctionLots']);
 }
+
+if (isset($_SESSION['searchedItem']))
+{
+    unset($_SESSION['searchedItem']);
+}

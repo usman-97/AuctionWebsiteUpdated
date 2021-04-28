@@ -1,6 +1,6 @@
 <?php
 
-class AuctionItemData {
+class AuctionItemData implements JsonSerializable {
 
     // Class fields
     protected $_lotID, $_lot_title, $_lot_main, $_description, $_price, $_image, $_category, $_auction_id;
@@ -25,6 +25,30 @@ class AuctionItemData {
         $this->_datetime = $dbRow['datetime'];
         $this->_endDatetime = $dbRow['endDatetime'];
         $this->_user_id = $dbRow['user_id'];
+    }
+
+    /**
+     * Convert data from database to JSON format
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            '_lotID' => $this->_lotID,
+            '_lot_title' => $this->_lot_title,
+            '_lot_main' => $this->_lot_main,
+            '_description' => $this->_description,
+            '_price' => $this->_price,
+            '_image' => $this->_image,
+            '_category' => $this->_category,
+            '_auction_id' => $this->_auction_id,
+            '_auction_name' => $this->_auction_name,
+            '_location' => $this->_location,
+            '_datetime' => $this->_datetime,
+            '_endDatetime' => $this->_endDatetime,
+            '_user_id' => $this->_user_id
+        ];
     }
 
     /**

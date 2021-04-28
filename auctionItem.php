@@ -10,7 +10,6 @@ $view->pageTitle = 'Feature Lots';
 $view->lotID = '';
 $view->currentSearchItem = '';
 $view->filter  = '';
-// $view->currentPage = 10;
 
 // logout script
 require_once ('logout.php');
@@ -20,9 +19,7 @@ $view->auctionItemDateSet = new AuctionItemDateSet();
 // Instance of BidItemDataSet
 $bidItemDataSet = new BidItemDataSet();
 $auction = new AuctionDataSet();
-// Instance from AuctionDataSet
-// $auction = new AuctionDataSet();
-// Number of total pages to display
+
 $view->totalPages = '';
 $view->nameOfAuction = '';
 $view->currentLimit ='';
@@ -56,6 +53,21 @@ else
 }
 var_dump($view->nameOfAuction);
 var_dump($_GET['nameOfAuction']);*/
+
+//if (isset($_GET['token'])) {
+//    $_GET['token'] = $_SESSION['token'];
+//    header("auctionItem.php?page=" . $_GET['page'] ."&token=" . $_GET['token'] ."");
+//}
+
+if (isset($_GET["token"]))
+{
+    echo "<br /><br /><br /><br /><br /><br /><br /><br />";
+    // $_SESSION['token'] = $_GET["token"];
+    var_dump($_GET["token"]);
+//    var_dump($_GET["page"]);
+    var_dump($_SESSION['token']);
+//    header("location: auctionItem.php?page=" . $_GET['page'] . "&token=" . $_SESSION['token'] ."");
+}
 
 if (isset($_POST['filters']))
 {
@@ -141,15 +153,14 @@ if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST
 require ('searchBar.php');
 // var_dump($_SESSION['searchMode']);
 
-// If clear button is pressed
-if (isset($_POST['clearSearch'])) {
-    $_SESSION['searchMode'] = null; // Delete searchMode session
-    // $_SESSION['searchItem'] = null; // Clear search item session
-    $_POST['searchBar'] = null; // Clear search field
-    unset($_SESSION['viewItem']); // Clear view item session
-    unset($_SESSION['searchedItem']);
-}
-
+//// If clear button is pressed
+//if (isset($_POST['clearSearch'])) {
+//    $_SESSION['searchMode'] = null; // Delete searchMode session
+//    // $_SESSION['searchItem'] = null; // Clear search item session
+//    $_POST['searchBar'] = null; // Clear search field
+//    unset($_SESSION['viewItem']); // Clear view item session
+//    unset($_SESSION['searchedItem']);
+//}
 
 $view->limit = 20;
 $firstPage = ($page - 1) * $view->limit;
@@ -164,9 +175,9 @@ if (isset($_SESSION['searchMode'])) {
         $view->error = $_SESSION['searchedItem'] . ' not found';
     }
 
-    $view->totalPages = $view->totalRecords/$view->limit;
+    $view->totalPages = ceil($view->totalRecords/$view->limit);
 
-    // var_dump($_SESSION['searchedItem']);
+    var_dump($view->totalPages);
     // only show records that match the entered search term
     $view->auctionItem = $view->auctionItemDateSet->fetchSomeAuctionItem($_SESSION['searchedItem'], $firstPage, $view->limit, $view->filter);
 }

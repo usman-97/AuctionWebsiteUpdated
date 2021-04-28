@@ -135,18 +135,27 @@
                 <?php
                 if (isset($view->currentPage)) {
                     for ($page = $_GET['page'] - $view->currentPage; ($page <= $_GET['page'] + $view->currentPage) && ($page < $view->totalPages + 1); $page++) {
+
                         if ($page == 1)
                         {
-                            for ($j = 1; $j < 5; $j++)
+                            $pageLimit = $view->totalPages >= 5 ? 5: $view->totalPages;
+                            for ($j = 1; $j < $pageLimit; $j++)
                             {
-                                echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '">' . $page . '</a></div>';
+                                // $token = $_SESSION['token'];
+                                echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&token=' . $_SESSION['token'] .'">' . $page . '</a></div>';
                                 $page++;
                                 $_SESSION['auctionItem'] = true;
-                            };
+                                // require_once ('generateToken.php');
+                            }
                         }
 
-                        echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '">' . $page . '</a></div>';
+                        echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&token=' . $_SESSION['token'] .'">' . $page . '</a></div>';
                         $_SESSION['auctionItem'] = true;
+                        // require_once ('generateToken.php');
+                        // $_SESSION['token'] = substr(str_shuffle(MD5(microtime())), 0, 20);
+                        // $token = $_SESSION['token'];
+                        // var_dump($_GET["token"]);
+                        // var_dump($token);
                     }
                 }
                 ?>

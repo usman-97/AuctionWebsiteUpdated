@@ -1,5 +1,4 @@
 <?php
-
 require_once('Models/AuctionItemDateSet.php');
 require_once('Models/BidItemDataSet.php');
 require_once('Models/AuctionDataSet.php');
@@ -8,23 +7,33 @@ require_once ('Models/AuctionDataSet.php');
 $view = new stdClass();
 $view->pageTitle = 'Feature Lot';
 $view->lotID = '';
-$view->bidItemDataSet = new BidItemDataSet();
+$view->bidItemDataSet = new BidItemDataSet(); // BidItemDataSet instance
 
 // logout script
 require_once ('logout.php');
 // var_dump($_SESSION['viewAuctionID']);
+// var_dump($_GET["q"]);
+
+// Lot ID
+if (isset($_GET["q"]))
+{
+    $_SESSION['viewLotID'] = $_GET["q"]; // Start viewLotID session
+}
 
 $view->auctionItem = new AuctionItemDateSet();
-$view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']);
+$view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']); // Fetch data for chosen lot
 
-$view->currentDate = date("Y-m-d H:i");
+$view->currentDate = date("Y-m-d H:i"); // current date
 $view->lotStatus = '';
 
-require_once ('searchBar.php');
+require_once ('searchBar.php'); // Lot Search script
 
 // $view->auctionDate = date($view->getItem[0]->getEndDatetime());
 // var_dump($view->auctionDate == $view->currentDate);
 // var_dump($view->currentDate > $view->getItem[0]->getDatetime());
+
+// If auction has been started and then
+// Inform user according to that
 if ($view->currentDate <= $view->getItem[0]->getDatetime())
 {
     $view->lotStatus = "Auction has not started yet.";
@@ -35,6 +44,7 @@ elseif ($view->currentDate >= $view->getItem[0]->getEndDatetime())
 }
 else
 {
+    // If auction is live then make sure user is logged in to place bid on the lot
     if ($view->currentDate > $view->getItem[0]->getDatetime() && $view->currentDate < $view->getItem[0]->getEndDatetime())
     {
         if (isset($_SESSION['loggedIn']))

@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="aee451">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.20">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.21">
     <root id="1">
       <ServerVersion>5.7.33</ServerVersion>
+      <Grants>aee451|schema||aee451||ALTER|G
+aee451|schema||aee451||ALTER ROUTINE|G
+aee451|schema||aee451||CREATE|G
+aee451|schema||aee451||CREATE ROUTINE|G
+aee451|schema||aee451||CREATE TEMPORARY TABLES|G
+aee451|schema||aee451||CREATE VIEW|G
+aee451|schema||aee451||DELETE|G
+aee451|schema||aee451||DROP|G
+aee451|schema||aee451||EVENT|G
+aee451|schema||aee451||EXECUTE|G
+aee451|schema||aee451||INDEX|G
+aee451|schema||aee451||INSERT|G
+aee451|schema||aee451||LOCK TABLES|G
+aee451|schema||aee451||REFERENCES|G
+aee451|schema||aee451||SELECT|G
+aee451|schema||aee451||SHOW VIEW|G
+aee451|schema||aee451||TRIGGER|G
+aee451|schema||aee451||UPDATE|G
+aee451|schema||aee451||grant option|G
+aee451\\_hackcamp|schema||aee451||ALTER|G
+aee451\\_hackcamp|schema||aee451||ALTER ROUTINE|G
+aee451\\_hackcamp|schema||aee451||CREATE|G
+aee451\\_hackcamp|schema||aee451||CREATE ROUTINE|G
+aee451\\_hackcamp|schema||aee451||CREATE TEMPORARY TABLES|G
+aee451\\_hackcamp|schema||aee451||CREATE VIEW|G
+aee451\\_hackcamp|schema||aee451||DELETE|G
+aee451\\_hackcamp|schema||aee451||DROP|G
+aee451\\_hackcamp|schema||aee451||EVENT|G
+aee451\\_hackcamp|schema||aee451||EXECUTE|G
+aee451\\_hackcamp|schema||aee451||INDEX|G
+aee451\\_hackcamp|schema||aee451||INSERT|G
+aee451\\_hackcamp|schema||aee451||LOCK TABLES|G
+aee451\\_hackcamp|schema||aee451||REFERENCES|G
+aee451\\_hackcamp|schema||aee451||SELECT|G
+aee451\\_hackcamp|schema||aee451||SHOW VIEW|G
+aee451\\_hackcamp|schema||aee451||TRIGGER|G
+aee451\\_hackcamp|schema||aee451||UPDATE|G
+aee451\\_hackcamp|schema||aee451||grant option|G</Grants>
       <DefaultEngine>InnoDB</DefaultEngine>
       <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
       <DefaultCasing>exact</DefaultCasing>
@@ -721,12 +759,7 @@
     <collation id="225" parent="1" name="utf8mb4_vietnamese_ci">
       <Charset>utf8mb4</Charset>
     </collation>
-    <user id="226" parent="1" name="aee451">
-      <Host>%</Host>
-      <ObjectGrants>ALL PRIVILEGES|aee451!
-ALL PRIVILEGES|aee451\_hackcamp!
-</ObjectGrants>
-    </user>
+    <user id="226" parent="1" name="aee451"/>
     <table id="227" parent="2" name="Lots"/>
     <table id="228" parent="2" name="auction"/>
     <table id="229" parent="2" name="bid"/>
@@ -814,169 +847,173 @@ ALL PRIVILEGES|aee451\_hackcamp!
     </column>
     <column id="248" parent="228" name="datetime">
       <Position>4</Position>
-      <DataType>varchar(15)|0s</DataType>
+      <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="249" parent="228" name="user_id">
+    <column id="249" parent="228" name="endDatetime">
       <Position>5</Position>
+      <DataType>varchar(45)|0s</DataType>
+    </column>
+    <column id="250" parent="228" name="user_id">
+      <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="250" parent="228" name="admin_idx">
+    <index id="251" parent="228" name="admin_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="251" parent="228" name="PRIMARY">
+    <key id="252" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>auctionID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="252" parent="228" name="admin">
+    <foreign-key id="253" parent="228" name="admin">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>userID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="253" parent="229" name="bidID">
+    <column id="254" parent="229" name="bidID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="254" parent="229" name="user_id">
+    <column id="255" parent="229" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="255" parent="229" name="lot_id">
+    <column id="256" parent="229" name="lot_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="256" parent="229" name="auction_id">
+    <column id="257" parent="229" name="auction_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="257" parent="229" name="bid">
+    <column id="258" parent="229" name="bid">
       <Position>5</Position>
-      <DataType>varchar(45)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="258" parent="229" name="user_id_idx">
+    <index id="259" parent="229" name="user_id_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="259" parent="229" name="lot_id_idx">
+    <index id="260" parent="229" name="lot_id_idx">
       <ColNames>lot_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="260" parent="229" name="auction_id_idx">
+    <index id="261" parent="229" name="auction_id_idx">
       <ColNames>auction_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="261" parent="229" name="auction_idx">
+    <index id="262" parent="229" name="auction_idx">
       <ColNames>auction_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="262" parent="229" name="PRIMARY">
+    <key id="263" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>bidID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="263" parent="229" name="user_id">
+    <foreign-key id="264" parent="229" name="user_id">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>userID</RefColNames>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <foreign-key id="264" parent="229" name="lot_id">
+    <foreign-key id="265" parent="229" name="lot_id">
       <ColNames>lot_id</ColNames>
       <RefTableName>Lots</RefTableName>
       <RefColNames>lotID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="265" parent="229" name="auction">
+    <foreign-key id="266" parent="229" name="auction">
       <ColNames>auction_id</ColNames>
       <RefTableName>auction</RefTableName>
       <RefColNames>auctionID</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="266" parent="230" name="courseID">
+    <column id="267" parent="230" name="courseID">
       <Position>1</Position>
       <DataType>varchar(3)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="267" parent="230" name="course_name">
+    <column id="268" parent="230" name="course_name">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="268" parent="230" name="programme_leader">
+    <column id="269" parent="230" name="programme_leader">
       <Position>3</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="269" parent="230" name="PRIMARY">
+    <key id="270" parent="230" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>courseID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="270" parent="231" name="id">
+    <column id="271" parent="231" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="271" parent="231" name="first_name">
+    <column id="272" parent="231" name="first_name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="272" parent="231" name="last_name">
+    <column id="273" parent="231" name="last_name">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="273" parent="231" name="international">
+    <column id="274" parent="231" name="international">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="274" parent="231" name="courseID">
+    <column id="275" parent="231" name="courseID">
       <Position>5</Position>
       <DataType>varchar(3)|0s</DataType>
     </column>
-    <column id="275" parent="231" name="photo_name">
+    <column id="276" parent="231" name="photo_name">
       <Position>6</Position>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <key id="276" parent="231" name="PRIMARY">
+    <key id="277" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="277" parent="232" name="userID">
+    <column id="278" parent="232" name="userID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="278" parent="232" name="username">
+    <column id="279" parent="232" name="username">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="279" parent="232" name="password">
+    <column id="280" parent="232" name="password">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="280" parent="232" name="failed_login_attempt">
+    <column id="281" parent="232" name="failed_login_attempt">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="281" parent="232" name="PRIMARY">
+    <key id="282" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID</ColNames>
       <Primary>1</Primary>

@@ -1,7 +1,5 @@
 /*!
- * Start Bootstrap - Modern Business (https://startbootstrap.com/template/modern-business)
- * Copyright 2013-2020 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-logomodern-business-nav/blob/master/LICENSE)
+ * Main CSS for auction website
  */
 body {
   padding-top: 56px;
@@ -139,6 +137,41 @@ body {
   text-align: center;
 }
 
+.searchBarCont {
+  display: inline-block;
+  padding: 2px;
+  background: #ffffff;
+  font-size: 20px;
+  border-radius: 10px;
+  /*border-bottom-right-radius: 10px;*/
+}
+.searchBarCont input {
+  /*width: 100%;*/
+  outline: none;
+  border: none;
+}
+
+.searchBarCont button {
+  display: inline-block;
+  /*background-color: #dbdbd7;*/
+  color: #000000;
+  /*font-weight: bold;*/
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#clearSearch {
+  background: #ffffff;
+  border: none;
+}
+
+.searchItemHint {
+  padding: 5px;
+}
+
+/*
+  CSS style for small screen devices
+ */
 @media screen and (max-width: 800px) {
   #loginForm {
     width: 90%;

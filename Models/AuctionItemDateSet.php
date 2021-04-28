@@ -1,7 +1,7 @@
 <?php
 
-require_once ('Models/Database.php');
-require_once('Models/AuctionItemData.php');
+require_once ('Database.php');
+require_once('AuctionItemData.php');
 
 class AuctionItemDateSet {
     protected $_dbHandle, $_dbInstance;
@@ -49,7 +49,7 @@ class AuctionItemDateSet {
             }
             else
             {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT(:item, '%') OR lot_main LIKE CONCAT(:item, '%') OR auction.auction_name LIKE CONCAT(:item, '%') LIMIT :pageStart, :limitPage";
+                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND CONCAT(Lots.lot_title, ' ', Lots.lot_main) LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT(:item, '%') LIMIT :pageStart, :limitPage";
             }
         }
 
@@ -221,7 +221,7 @@ class AuctionItemDateSet {
      */
     public function getTotalSearchRecords($searchItem)
     {
-        $sqlQuery = "SELECT COUNT(lotID) FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction_name LIKE CONCAT('%', :item, '%')";
+        $sqlQuery = "SELECT COUNT(lotID) FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND CONCAT(Lots.lot_title, ' ', Lots.lot_main) LIKE CONCAT('%', :item, '%') OR auction_name LIKE CONCAT('%', :item, '%')";
         $statement =$this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":item",$searchItem, PDO::PARAM_STR);
         $statement->execute();
