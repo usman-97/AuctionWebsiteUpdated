@@ -6,6 +6,7 @@
  */
 function PlaceBid(bid, error)
 {
+    console.log(bid);
     // If bid is not empty
     if (bid.value.length > 0)
     {

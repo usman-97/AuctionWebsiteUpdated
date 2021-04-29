@@ -35,34 +35,16 @@ if (isset($_POST['removeBid']))
     header("location: myBiddingList.php");
 }
 
-if (isset($_POST['editBid']))
-{
-    if (isset($_POST['newBid']) && is_numeric($_POST['newBid'])) {
-        $view->bidItem->editBid($_POST['bidID'], $_POST['newBid']);
-    }
-    else
-    {
-        $view->error = 'Invalid amount';
-    }
-}
-
-/*if (isset($_POST['statusButton'])) {
-    $highestItemBid = $bidItemDataSet->getItemHighestBid(intval($_POST['lotID']));
-    $userHighestBid = $bidItemDataSet->getUserHighestBid(intval($_SESSION['userID']), intval($_POST['lotID']));
-    if ($highestItemBid == $userHighestBid)
-    {
-        $view->bidStatus = 'Highest';
-    }
-    else
-    {
-        $view->bidStatus = 'Outbid';
-    }
-
-    // var_dump($highestItemBid);
-    // var_dump($userHighestBid);
-    // var_dump(intval($_POST['lotID']));
-    // var_dump(intval($_SESSION['userID']));
-}*/
+//if (isset($_POST['editBid']))
+//{
+//    if (isset($_POST['newBid']) && is_numeric($_POST['newBid'])) {
+//        $view->bidItem->editBid($_POST['bidID'], $_POST['newBid']);
+//    }
+//    else
+//    {
+//        $view->error = 'Invalid amount';
+//    }
+//}
 
 if (isset($_POST['viewItem']))
 {

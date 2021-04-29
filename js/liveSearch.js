@@ -21,8 +21,6 @@ function ShowHints(str, hintTxt)
                 "<div class='col-sm-5'><span>" + obj._lot_title + " " + obj._lot_main + "</span></div></a></div>";
             hint.id = "hint" + counter;
             hintTxt.appendChild(hint);
-            // hint.style.border = "2px solid #000000";
-            // hintTxt.innerHTML += "<br>";
             counter++;
         });
     }

@@ -24,7 +24,7 @@
         <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
     </ol>
 
-            <p class="error"><b><?php if (isset($view->error)) {echo $view->error;} ?></b></p>
+            <p id="bidingError" class="error"><b><?php if (isset($view->error)) {echo $view->error;} ?></b></p>
             <?php if (!$view->bidItemDataSet)
             {
                 echo  $view->bidError;
@@ -54,11 +54,7 @@
                             <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                             </svg><i>' . $bidItem->getAuctionLocation() .'</i></span><span id="liveTxt"></span></h4>' .
-//                            '<p>' . $bidItem->getAuctionLocation() . '</p>' .
                             '<p id="startTime'. $num .'">' . $bidItem->getAuctionDatetime() . '</p>' .
-//                            '<p><b>Highest bid: </b> £' . $view->bidItem->getItemHighestBid($bidItem->getLotID()) . '</p>' .
-//                            '<p><b>Your Bid: </b>£' . $bidItem->getBid() .
-//                            '  <span id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;" class="btn-success"></span></p>' .
                             '<div class="row bidInfo"><div class="col-sm-4"><b>Highest bid</b><br />£' . $view->bidItem->getItemHighestBid($bidItem->getLotID()) .
                             '</div><div class="col-sm-4" style="border-left: 2px solid #000000;"><b>Your bid</b><br /><i>£' . $bidItem->getBid() .
                             '</i></div><div class="btn-success" id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;">' .
@@ -76,12 +72,11 @@
                             '<input id="auctionEndDatetime'. $num .'" type="hidden" name="auctionEndDatetime" value="' . $bidItem->getAuctionEndDatetime() . '">' .
                             '<input id="userBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
                             '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
-                            '<label>£</label><input type="text" name="newBid" placeholder="1000">' .
-                            '<div><input type="submit" name="editBid" value="Edit" class="btn btn-primary">
-                             <!--<input type="submit" name="statusButton" value="Check" class="btn btn-secondary">-->
+                            '<label>£</label><input id="newBid" type="text" name="newBid" placeholder="1000">' .
+                            '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
+                            <button id="quickPlaceBid" class="btn btn-dark" onclick=\'new PlaceBid(document.getElementById("newBid"' . $num .').value, document.getElementById("bidingError"))\'>place</button>
                              <input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
-                            '</div></div></div><br /></form>' .
-                            '<script type="text/javascript" src="js/bidStatus.js"></script>';
+                            '</div><br /></div></div><br /></form>';
                         $num++;
                     }}?>
 </div>
@@ -89,6 +84,7 @@
 
 <div><?php require ('pagination.phtml')?></div>
 
+<script type="text/javascript" src="js/placeBid.js"></script>
 <script type="text/javascript" src="js/bidStatus.js"></script>
 <script type="text/javascript" src="js/countDownTimer.js"></script>
 <script type="text/javascript">
@@ -108,27 +104,6 @@
 
         var y = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt)
     }
-
-
-
-
-    // let today = new Date().getTime();
-
-    // let todayDate = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
-    // let time = today.getHours() + ":" + today.getMinutes();
-    // let todayDatetime = todayDate + " " + time;
-
-    //for (let i = 1; i < <?php //echo $num; ?>//; i++)
-    //{
-    //    let auctionEndDatetime = new Date(document.getElementById("auctionEndDatetime" + i).value).getTime();
-    //    console.log(auctionEndDatetime.value);
-    //    if (auctionEndDatetime < today)
-    //    {
-    //        document.getElementById("removeBtn" + i).type = "submit";
-    //        console.log(auctionEndDatetime.value < today);
-    //    }
-    //}
-
 </script>
 
 <?php require_once ('template/footer.phtml') ?>
