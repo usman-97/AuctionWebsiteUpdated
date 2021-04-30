@@ -30,7 +30,7 @@ function LoadLotBids(str, bidContainer)
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
             let lotBid = JSON.parse(this.responseText); // User bids for the lot
-            // console.log(lotBid);
+
             bidContainer.innerHTML = ""; // Reset bid container
 
             let counter = 1;
@@ -39,12 +39,18 @@ function LoadLotBids(str, bidContainer)
                 container.id = "bidRow" + counter; // New id
                 container.className = "row dfContainer"; // Give class to new div element
                 // Set inner html for new div element
-                container.innerHTML = "<div class='col-sm-4'>" + obj._bidID + "</div>" +
-                        "<div class='col-sm-4'>" + hideUsername(obj._username) + "</div>" +
-                        "<divclass='col-sm-4'>£" + obj._bid +"</div>";
+                container.innerHTML = "<div class='col-sm-4'>" + hideUsername(obj._username) + "</div>" +
+                        "<div id='bid" + counter + "' class='col-sm-4'>£" + obj._bid +"</div>";
+                container.style.padding = "10px";
                 bidContainer.appendChild(container); // Make new element child of bid container
                 counter++;
             });
+
+            let currentHighestBidder = document.getElementById("bidRow" + 1);
+            currentHighestBidder.innerHTML += "<div class='col-sm-4'>Current</div>";
+            // currentHighestBidder.style.backgroundColor = "blue";
+            // currentHighestBidder.style.color = "white";
+            // console.log(currentHighestBidder);
         }
     }
 

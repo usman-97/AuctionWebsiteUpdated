@@ -59,15 +59,15 @@ var_dump($_GET['nameOfAuction']);*/
 //    header("auctionItem.php?page=" . $_GET['page'] ."&token=" . $_GET['token'] ."");
 //}
 
-if (isset($_GET["token"]))
-{
-    echo "<br /><br /><br /><br /><br /><br /><br /><br />";
-    // $_SESSION['token'] = $_GET["token"];
-    var_dump($_GET["token"]);
-//    var_dump($_GET["page"]);
-    var_dump($_SESSION['token']);
-//    header("location: auctionItem.php?page=" . $_GET['page'] . "&token=" . $_SESSION['token'] ."");
-}
+//if (isset($_GET["token"]))
+//{
+//    // echo "<br /><br /><br /><br /><br /><br /><br /><br />";
+//    // $_SESSION['token'] = $_GET["token"];
+//    // var_dump($_GET["token"]);
+////    var_dump($_GET["page"]);
+//    // var_dump($_SESSION['token']);
+////    header("location: auctionItem.php?page=" . $_GET['page'] . "&token=" . $_SESSION['token'] ."");
+//}
 
 if (isset($_POST['filters']))
 {

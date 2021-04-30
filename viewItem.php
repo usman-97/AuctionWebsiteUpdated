@@ -25,6 +25,9 @@ if (isset($_GET["a"]))
     $_SESSION['viewAuctionID'] = $_GET["a"]; // Start viewLotID session
 }
 
+$view->lotHighestBid = $view->bidItemDataSet->getItemHighestBid($_SESSION['viewLotID']);
+// var_dump($view->bidItemDataSet->fetchLotHighestBid($_SESSION['viewLotID']));
+
 $view->auctionItem = new AuctionItemDateSet();
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']); // Fetch data for chosen lot
 

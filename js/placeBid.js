@@ -6,7 +6,7 @@
  */
 function PlaceBid(bid, error)
 {
-    console.log(bid);
+    // console.log(bid);
     // If bid is not empty
     if (bid.value.length > 0)
     {
@@ -23,6 +23,7 @@ function PlaceBid(bid, error)
                 {
                     // let txt = this.responseText;
                     // console.log(txt);
+
 
                     error.innerHTML = this.responseText; // If there is an error then display it
                     bid.value = ""; // Clear bid field

@@ -52,7 +52,7 @@
 <div id="countDownTimer"></div>
 <div id="endDatetimeTxt"></div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6 bidInputContainer">
             <div class="page">
                 <b>Place your bid now!</b>
                     <?php if ($view->lotStatus) : ?>
@@ -61,18 +61,21 @@
                 </div>
                     <?php endif; ?>
                     <?php if (!$view->lotStatus) : ?>
-                <div>
+                <div class="row userBid" style="padding: 10px;width: 100%">
                 <!--    <form action="" method="post">-->
-                    <label>Your bid: £</label>
-                    <input id="usrBid" type="text" name="userBid" placeholder="1000">
-                    <input id="storeBid" type="hidden" name="userBidStore" placeholder="1000">
-                    <div class="button" style="display: inline-block " onclick="new LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer')); new PlaceBid(document.getElementById('usrBid'), document.getElementById('bidError'))">
+                        <label>Your bid: £ </label>
+                        <input id="usrBid" type="text" name="userBid" placeholder="1000" style="height: 40px; font-size: 16px">
+                    <!--<input id="storeBid" type="hidden" name="userBidStore" placeholder="1000">-->
+                    <div class="button" style="margin-left: 10px;display: inline-block ">
                         <!--<input id="bidButton" type="submit" name="place" value="Place" class="btn btn-primary">-->
-                        <button id="bidButton" name="bidBtn" class="btn btn-primary">Place</button>
+                        <button id="bidButton" name="bidBtn" class="btn btn-primary font-weight-bolder" onclick="new PlaceBid(document.getElementById('usrBid'), document.getElementById('bidError')); new LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer'))">Place</button>
 
                         <p id="txt"></p>
                     </div>
                     <div>
+                        <?php if ($view->lotHighestBid) : ?>
+                            <p><em>Your bid should be £<?php echo $view->lotHighestBid + 15 ?> or more.</em></p>
+                        <?php endif; ?>
                         <p id="bidError" class="error"><b><?php if (isset($view->userBidError))
                                     echo $view->userBidError?></b></p>
                         <?php if (isset($view->bidError))
@@ -83,10 +86,13 @@
                     <?php endif;?>
             </div>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="row page">
-                <div class="col-sm-4"><h4><b>Bid ID</b></h4></div>
-                <div class="col-sm-4"><h4><b>Bidder</b></h4></div>
+                <!--<div class="col-sm-4"><h4><b>Bid ID</b></h4></div>-->
+                <div class="col-sm-4"><div id="bidderInfo" class="infoBox" style="bottom: 50px;">To keep Salford Auctions safe place for buyers, their full username
+                        is not shown.</div><h4><b>Bidder<button id="bidderInfoBtn" class="infoBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-patch-question-fill" viewBox="0 0 16 16">
+                                    <path d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0zm1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.71 1.71 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627z"/>
+                                </svg></button></b></h4></div>
                 <div class="col-sm-4"><h4><b>Bid</b></h4></div>
             </div>
             <form action="" method="post">
@@ -106,21 +112,36 @@
                     else {
                         $num = 1;
                         foreach ($view->bidItemData as $bidItem) {
-                            echo '<div id="bidRow' . $num .'" class="row dfContainer"><div id="idCol' . $num . '" class="col-sm-4">' . $bidItem->getBidID() .
-                                '</div><div id="bidderCol1" class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) .
+                            $checkBidder = $bidItem->getBid() == $view->lotHighestBid ?  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>': '';
+                            echo '<div id="bidRow' . $num .'" class="row dfContainer"><!--<div id="idCol' . $num . '" class="col-sm-4">' . $bidItem->getBidID() .
+                                '</div>--><div id="bidderCol1" class="col-sm-4">' . $view->bidItemDataSet->hideBidderName($bidItem->getUsername()) . ' ' . $checkBidder .
                                 '</div><div id="bidCol1" class="col-sm-4">' . '£' . $bidItem->getBid() .
-                                '</div></div>' .
-                                '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                                '</div>';
+
+                            if ($bidItem->getBid() == $view->lotHighestBid)
+                            {
+                                echo '<div class="">Current</div>';
+                            }
+
+                            echo '</div><input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
                                 '<input type="hidden" name="username" value="' . $bidItem->getUsername() . '">' .
                                 '<input type="hidden" name="userPlacedBid" value="' . $bidItem->getBid() . '">';
                             $num++;
                         }
+                        $_SESSION['bidNo'] = $num;
+                        // var_dump($_SESSION['bidNo']);
                     }
                 }
                 ?>
 
-                <script type="text/javascript" src="js/loadLotBids.js"></script>
                 <script type="text/javascript" src="js/placeBid.js"></script>
+                <script type="text/javascript">
+                    //let bidNo = "<?php //echo $_SESSION['bidNo']; ?>//";
+                    //let userBid = document.getElementById("usrBid");
+                </script>
+                <script type="text/javascript" src="js/loadLotBids.js"></script>
                 <script type="text/javascript" src="js/countDownTimer.js"></script>
                 <script type="text/javascript">
                     let startDate = document.getElementById("auctionDatetime").value;
@@ -130,6 +151,26 @@
                     let endDateTxt = document.getElementById("endDatetimeTxt");
 
                     var x = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt);
+
+                    let bidderInfoBtn = document.getElementById("bidderInfoBtn");
+                    let bidderInfo = document.getElementById("bidderInfo");
+                    let showInfo = false;
+
+                    function showBidInfo()
+                    {
+                        if (!showInfo)
+                        {
+                            bidderInfo.style.display = "inline-block";
+                            showInfo = true;
+                        }
+                        else
+                        {
+                            bidderInfo.style.display = "none";
+                            showInfo = false;
+                        }
+                    }
+                    bidderInfoBtn.addEventListener('click', showBidInfo, true);
+                    console.log(bidderInfo);
                 </script>
             </div>
         </div>

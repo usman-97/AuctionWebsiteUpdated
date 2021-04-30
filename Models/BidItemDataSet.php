@@ -340,4 +340,28 @@ class BidItemDataSet {
 
         return $hiddenName;
     }
+
+    public function fetchLotHighestBid($lot)
+    {
+        $sqlQuery = "SELECT * FROM bid, users, Lots, auction WHERE bid.lot_id = :id AND bid.user_id = users.userID AND bid.lot_id = Lots.lotID AND bid.auction_id = auction.auctionID ORDER by bid.bid DESC LIMIT 0, 2";
+        $statement = $this->_dbHandle->prepare($sqlQuery);
+        $statement->bindParam(":id", $lot);
+        $statement->execute();
+
+        $dataSet = [];
+
+        if ($statement->rowCount() > 0)
+        {
+            while ($row = $statement->fetch())
+            {
+                $dataSet[] = new BidItemData($row);
+            }
+
+            return $dataSet;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
