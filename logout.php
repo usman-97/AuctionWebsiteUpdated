@@ -28,5 +28,5 @@ if (isset($_SESSION['timeout'])) {
 }
 // var_dump($_SESSION['timeout']);
 
-$token = substr(str_shuffle(MD5(microtime())), 0, 20);
-$_SESSION['token'] = $token;
+//$token = substr(str_shuffle(MD5(microtime())), 0, 20);
+//$_SESSION['token'] = $token;

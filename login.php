@@ -16,6 +16,14 @@ $view->reCaptcha = new ReCaptcha();
 $view->reCaptcha = $view->reCaptcha->generateReCaptcha();
 // var_dump($view->reCaptcha);
 
+session_start();
+require_once ('searchBar.php'); // Lot Search script
+
+if (isset($_SESSION['loggedIn']))
+{
+    unset($_SESSION['loggedIn']);
+}
+
 // If login button is pressed
 if (isset($_POST['login'])) {
     // var_dump($_POST['finalCode']);
@@ -52,7 +60,7 @@ if (isset($_POST['login'])) {
                             if ($view->user->verifyUser()) {
 
                                 // Start session
-                                session_start();
+                                // session_start();
                                 unset($_SESSION['viewItem']);
                                 unset($_SESSION['searchMode']);
 

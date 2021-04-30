@@ -10,7 +10,14 @@ $view->reCaptcha = new ReCaptcha();
 $view->reCaptcha = $view->reCaptcha->generateReCaptcha();
 
 require_once ('logout.php');
+
 unset($_SESSION['viewItem']);
+require_once ('searchBar.php'); // Lot Search script
+
+if (isset($_SESSION['loggedIn']))
+{
+    unset($_SESSION['loggedIn']);
+}
 
 // Checks if Sign up button is pressed
 if (isset($_POST['register']))

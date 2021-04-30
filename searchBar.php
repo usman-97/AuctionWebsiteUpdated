@@ -1,4 +1,6 @@
 <?php
+
+
 if (isset($_POST['searchButton'])) {
 
     if (isset($_SESSION['searchedItem']))
@@ -36,3 +38,6 @@ if (isset($_POST['clearSearch'])) {
     unset($_SESSION['viewItem']); // Clear view item session
     unset($_SESSION['searchedItem']);
 }
+
+$token = substr(str_shuffle(MD5(microtime())), 0, 20);
+$_SESSION['token'] = $token;

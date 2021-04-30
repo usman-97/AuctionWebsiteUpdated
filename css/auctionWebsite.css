@@ -20,6 +20,7 @@ body {
   margin-bottom: 30px;
 }
 
+
 #loginForm {
   margin-bottom: 10px;
   width: 50%;
@@ -206,6 +207,17 @@ body {
 
 .searchItemHint {
   padding: 5px;
+  font-weight: bold;
+}
+
+.searchHints {
+  position: absolute;
+  display: none;
+  background-color: #ffffff;
+}
+
+.hintContainers {
+  border-top: 2px dashed #000000;
 }
 
 /*
