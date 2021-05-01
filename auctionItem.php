@@ -68,7 +68,7 @@ var_dump($_GET['nameOfAuction']);*/
 //    // var_dump($_SESSION['token']);
 ////    header("location: auctionItem.php?page=" . $_GET['page'] . "&token=" . $_SESSION['token'] ."");
 //}
-
+// var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4));
 if (isset($_POST['filters']))
 {
     $view->filter = $_POST['filters'];

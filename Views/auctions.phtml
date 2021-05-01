@@ -25,25 +25,48 @@
     <br>
 
     <div>
-        <?php foreach ($view->allAuctions as $auction)
+        <?php
+        $num = 1;
+        foreach ($view->allAuctions as $auction)
         {
             echo '<div class="auctionContainer" ><form action="" method="post"><div class="row" style="padding: 10px; background-color: #343a40;color: #fff3cd;"><h3>#' . $auction->getAuctionID() .
                 ': ' . $auction->getAuctionName() . '</h3></div>' .
-                '<input type="hidden" name="auctionID" value="' . $auction->getAuctionID() . '">' .
-                '<input type="hidden" name="auctionName" value="' . $auction->getAuctionName() . '">' .
                 '<div class="row" style="background-color: #e6e6e6;"><div class="col-sm-5"><img src="images/' . $view->auctions->getAuctionImage($auction->getAuctionID()) . '.jpg">' .
                 '</div>' . '<div class="col-sm-5"><p><b>Location: </b>' . $auction->getLocation() . '</p>
-             <input type="hidden" name="auctionLocation" value="' . $auction->getLocation() . '">
-            <p><b>Start Date:</b> ' . $auction->getDateTime() . '</p>' .
-                '<input type="hidden" name="auctionDatetime" value="' . $auction->getDateTime() . '">' .
-                '<b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) .
+            <p id="startDatetimeTxt' . $num . '"><b>Start Date:</b> ' . $auction->getDateTime() . '</p>' .
+                '<p><b>Organised by : </b>' . $view->auctions->getAuctionAdmin($auction->getAdmin()) . '</p>' .
+                '<div id="countDownTimer' . $num . '"></div>' .
+                '<div id="endDatetimeTxt' . $num . '"></div>' .
+                '<input type="hidden" name="auctionID" value="' . $auction->getAuctionID() . '">' .
+                '<input type="hidden" name="auctionName" value="' . $auction->getAuctionName() . '">' .
+                '<input type="hidden" name="auctionLocation" value="' . $auction->getLocation() . '">' .
+                '<input id="startDatetime' . $num . '" type="hidden" name="auctionDatetime" value="' . $auction->getDateTime() . '">' .
+                '<input id="endDatetime' . $num . '" type="hidden" name="auctionEndDatetime" value="' . $auction->getEndDatetime() . '">' .
                 '<input type="hidden" name="auctionAdmin" value="' . $auction->getAdmin() . '">' .
                 '<div><input type="submit" name="viewAuctionLots" value="View Lots" class="btn btn-primary"></div></div>' .
                 '</form></div></div><br>';
+            $num++;
         }?>
     </div>
 
     <div><?php require ('pagination.phtml')?></div>
+
+    <script type="text/javascript" src="js/countDownTimer.js"></script>
+    <script type="text/javascript">
+        let total = "<?php echo $view->totalRecords ?>";
+        let limit = total >= 20 ? 20: total;
+
+        for (let i = 1; i <= limit; i++)
+        {
+            let start = document.getElementById("startDatetime" + i).value;
+            let endDate = document.getElementById("endDatetime" + i).value;
+            let timer = document.getElementById("countDownTimer" + i);
+            let liveTxt = document.getElementById("startDatetimeTxt" + i);
+            let endDateTxt = document.getElementById("endDatetimeTxt" + i);
+
+            var x = new CountDown(start, endDate, timer, liveTxt, endDateTxt);
+        }
+    </script>
 
 </div>
 

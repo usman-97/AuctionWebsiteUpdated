@@ -13,10 +13,10 @@
 </ol>
 
 <!-- Search bar -->
-<div class="breadcrumb">
-    <div class="searchBar">
-        <p>You can search item lot by Lot Title, Lot Main or Auction.</p>
-        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+<!--<div class="breadcrumb">
+    <div class="searchBar">-->
+        <!--<p>You can search item lot by Lot Title, Lot Main or Auction.</p>
+        <form action="<?php /*$_SERVER['PHP_SELF'] */?>" method="post">-->
             <!--<input type="text" name="searchBar" value="<?php /*if (isset($view->currentSearchItem)) {echo $view->currentSearchItem;} */?>" placeholder="search. . .">
             <input type="hidden" name="saveSearch" value="<?php /*if (isset($view->currentSearchItem)) {$view->currentSearchItem;} */?>">
             <button type="submit" name="searchButton" class="btn btn-info">Search</button>
@@ -31,25 +31,26 @@
             --><?php /*endif; */?>
 
             <!-- Filters -->
-            <div>
+            <!--<div>
                 <label>Filter: </label>
                 <select name="filters">
-                    <option value="<?php if (isset($view->filter)) {echo $view->filter;}?>">-</option>
+                    <option value="<?php /*if (isset($view->filter)) {echo $view->filter;}*/?>">-</option>
                     <option value="ascendingOrder">A - Z</option>
                     <option value="descendingOrder">Z - A</option>
                     <option value="popular">Most Popular</option>
                     <option value="recent">Most Recent</option>
                 </select>
-                <input type="hidden" name="filterOption" value="<?php if (isset($view->filter)) {echo $view->filter;}?>">
-                <?php if (isset($_SESSION['searchMode'])) : ?>
+                <input type="hidden" name="filterOption" value="<?php /*if (isset($view->filter)) {echo $view->filter;}*/?>">
+                <?php /*if (isset($_SESSION['searchMode'])) : */?>
                     <button type="submit" name="clearFilter" class="btn btn-secondary">Clear</button>
-                <?php endif; ?>
-            </div>
+                <?php /*endif; */?>
+            </div>-->
             <div><p class="error"><?php if (isset($view->error)) {echo $view->error;} ?></p></div>
-    </div>
-</div>
+<!--    </div>
+</div>-->
 
 <div class="page">
+    <div>
     <p><i><?php if (isset($view->totalRecords)) {echo 'Total - ' . $view->totalRecords;} ?>
     <?php if (isset($_GET['page'])) {
                 echo 'Page ' . $_GET['page'];
@@ -58,6 +59,17 @@
         {
             echo 'Page 1';
         }?></i></p>
+    </div>
+    <div>
+        <label>Relevance</label>
+        <select name="filters">
+            <option value="<?php if (isset($view->filter)) {echo $view->filter;}?>">-</option>
+            <option value="ascendingOrder">A - Z</option>
+            <option value="descendingOrder">Z - A</option>
+            <option value="popular">Most Popular</option>
+            <option value="recent">Most Recent</option>
+        </select>
+    </div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
@@ -66,6 +78,31 @@
 
     <!-- Listings -->
     <div id="listing" class="row">
+        <div class="col-sm-4">
+            <h4>Category</h4>
+            <div>
+                <div>
+                    <input type="checkbox" name="category" value="Most Popular">
+                    <label>Cars</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="category" value="Most Popular">
+                    <label>Watches</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="category" value="Most Popular">
+                    <label>Paintings</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="category" value="Most Popular">
+                    <label>Artifacts</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="category" value="Most Popular">
+                    <label>Jewelry</label>
+                </div>
+            </div>
+        </div>
         <?php $num = 1;
         foreach ($view->auctionItem as $auctionItemData) {
             // echo $num;

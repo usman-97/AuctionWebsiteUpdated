@@ -23,35 +23,36 @@ class AuctionItemDateSet {
      * @param $filter
      * @return array $dataSet The list of lots for Lots table
      */
-    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter)
+    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter = "")
     {
         $start = intval($start);
         $limit = intval($limit);
 
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%')";
         // SQL query to get item by it's title or main or auction name
-        if ($filter == 'popular')
-        {
-            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY views LIMIT :pageStart, :limitPage";
-        }
-        elseif ($filter == 'recent')
-        {
-            $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE :item OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY datetime LIMIT :pageStart, :limitPage";
-        }
-        else
-        {
-            if ($filter == 'ascendingOrder')
-            {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY lot_main LIMIT :pageStart, :limitPage";
-            }
-            elseif ($filter == 'descendingOrder')
-            {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%') ORDER BY lot_main DESC LIMIT :pageStart, :limitPage";
-            }
-            else
-            {
-                $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND CONCAT(Lots.lot_title, ' ', Lots.lot_main) LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT(:item, '%') LIMIT :pageStart, :limitPage";
-            }
-        }
+//        if ($filter == 'popular')
+//        {
+//            $sqlQuery .= " ORDER BY views";
+//        }
+//        elseif ($filter == 'recent')
+//        {
+//            $sqlQuery .= " ORDER BY datetime";
+//        }
+//        else
+//        {
+//            if ($filter == 'ascendingOrder')
+//            {
+//                $sqlQuery .= " ORDER BY lot_main";
+//            }
+//            elseif ($filter == 'descendingOrder')
+//            {
+//                $sqlQuery .= " ORDER BY lot_main DESC";
+//            }
+//        }
+        $sqlQuery = $filter != "" ? $this->filterDateSet($filter, $sqlQuery) : $sqlQuery;
+//        echo "<br/><br/><br/><br/><br/>";
+//        var_dump($sqlQuery);
+        $sqlQuery .= " LIMIT :pageStart, :limitPage";
 
         // prepare a PDO statement
         $statement = $this->_dbHandle->prepare($sqlQuery);
@@ -78,6 +79,36 @@ class AuctionItemDateSet {
         }
         // var_dump($dataSet);
         return $dataSet;
+    }
+
+    /**
+     * @param $filter
+     * @param $sqlQuery
+     * @return mixed|string
+     */
+    private function filterDateSet($filter, $sqlQuery)
+    {
+        if ($filter == 'popular')
+        {
+            $sqlQuery .= " ORDER BY views";
+        }
+        elseif ($filter == 'recent')
+        {
+            $sqlQuery .= " ORDER BY datetime";
+        }
+        else
+        {
+            if ($filter == 'ascendingOrder')
+            {
+                $sqlQuery .= " ORDER BY lot_title";
+            }
+            elseif ($filter == 'descendingOrder')
+            {
+                $sqlQuery .= " ORDER BY lot_title DESC";
+            }
+        }
+
+        return $sqlQuery;
     }
 
     /**

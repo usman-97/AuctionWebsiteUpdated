@@ -213,11 +213,18 @@ body {
 .searchHints {
   position: absolute;
   display: none;
-  background-color: #ffffff;
+  background-color: #fff3cd;
 }
 
 .hintContainers {
   border-top: 2px dashed #000000;
+}
+
+.liveTxt {
+  display: inline-block;
+  padding: 5px;
+  background: #c42121;
+  color: #ffffff;
 }
 
 /*
