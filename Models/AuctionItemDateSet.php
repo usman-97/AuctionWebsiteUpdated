@@ -23,42 +23,31 @@ class AuctionItemDateSet {
      * @param $filter
      * @return array $dataSet The list of lots for Lots table
      */
-    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter = "")
+    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter = "", $category = [])
     {
         $start = intval($start);
         $limit = intval($limit);
 
         $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%')";
         // SQL query to get item by it's title or main or auction name
-//        if ($filter == 'popular')
-//        {
-//            $sqlQuery .= " ORDER BY views";
-//        }
-//        elseif ($filter == 'recent')
-//        {
-//            $sqlQuery .= " ORDER BY datetime";
-//        }
-//        else
-//        {
-//            if ($filter == 'ascendingOrder')
-//            {
-//                $sqlQuery .= " ORDER BY lot_main";
-//            }
-//            elseif ($filter == 'descendingOrder')
-//            {
-//                $sqlQuery .= " ORDER BY lot_main DESC";
-//            }
-//        }
-        $sqlQuery = $filter != "" ? $this->filterDateSet($filter, $sqlQuery) : $sqlQuery;
-//        echo "<br/><br/><br/><br/><br/>";
-//        var_dump($sqlQuery);
+        $sqlQuery = $filter != "" || count($category) > 0 ? $this->filterDateSet($filter, $category, $sqlQuery) : $sqlQuery;
         $sqlQuery .= " LIMIT :pageStart, :limitPage";
+        echo "<br/><br/><br/><br/><br/>";
+        var_dump($sqlQuery);
 
         // prepare a PDO statement
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":item", $searchItem, PDO::PARAM_STR);
         $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
         $statement->bindParam(":limitPage", $limit, PDO::PARAM_INT);
+
+        if (count($category) > 0)
+        {
+            for ($i = 0; $i < count($category); $i++)
+            {
+                $statement->bindParam(":category" . $i, $category[$i]);
+            }
+        }
 
         // Execute PDO statement
         $statement->execute();
@@ -86,8 +75,18 @@ class AuctionItemDateSet {
      * @param $sqlQuery
      * @return mixed|string
      */
-    private function filterDateSet($filter, $sqlQuery)
+    private function filterDateSet($filter, $category, $sqlQuery)
     {
+        if (count($category) > 0)
+        {
+            for ($i = 0; $i < count($category); $i++)
+            {
+                $sqlQuery .= " AND category = :category" . $i;
+            }
+        }
+//        echo "<br/><br/><br/><br/><br/>";
+//        var_dump(count($category));
+
         if ($filter == 'popular')
         {
             $sqlQuery .= " ORDER BY views";

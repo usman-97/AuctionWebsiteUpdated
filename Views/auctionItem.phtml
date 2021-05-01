@@ -179,20 +179,14 @@
                             for ($j = 1; $j < $pageLimit; $j++)
                             {
                                 // $token = $_SESSION['token'];
-                                echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&token=' . $_SESSION['token'] .'">' . $page . '</a></div>';
+                                echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&t=' . $_SESSION['token'] .'">' . $page . '</a></div>';
                                 $page++;
                                 $_SESSION['auctionItem'] = true;
-                                // require_once ('generateToken.php');
                             }
                         }
 
-                        echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&token=' . $_SESSION['token'] .'">' . $page . '</a></div>';
+                        echo '<div style="display: inline-block;"><a class="page-link" href="auctionItem.php?page=' . $page . '&t=' . $_SESSION['token'] .'">' . $page . '</a></div>';
                         $_SESSION['auctionItem'] = true;
-                        // require_once ('generateToken.php');
-                        // $_SESSION['token'] = substr(str_shuffle(MD5(microtime())), 0, 20);
-                        // $token = $_SESSION['token'];
-                        // var_dump($_GET["token"]);
-                        // var_dump($token);
                     }
                 }
                 ?>

@@ -24,51 +24,8 @@ $view->totalPages = '';
 $view->nameOfAuction = '';
 $view->currentLimit ='';
 
-// If auctionItem button is pressed
-/*if (isset($_POST['auctionItem']))
-{
-    // Then start auctionItem session
-    $_SESSION['auctionItem'] = true;
-}
-
-// If backToAuction button is pressed
-if (isset($_POST['backToAuction']))
-{
-    // Then delete auctionItem session
-    unset($_SESSION['auctionItem']);
-}
-var_dump($_SESSION['auctionItem']);
-// var_dump($_POST['nameOfAuction']);
-
-if (isset($_POST['nameOfAuction']))
-{
-    $view->nameOfAuction = $_POST['nameOfAuction'];
-}
-else
-{
-    if (isset($_POST['saveAuctionName']))
-    {
-        $view->nameOfAuction = $_POST['saveAuctionName'];
-    }
-}
-var_dump($view->nameOfAuction);
-var_dump($_GET['nameOfAuction']);*/
-
-//if (isset($_GET['token'])) {
-//    $_GET['token'] = $_SESSION['token'];
-//    header("auctionItem.php?page=" . $_GET['page'] ."&token=" . $_GET['token'] ."");
-//}
-
-//if (isset($_GET["token"]))
-//{
-//    // echo "<br /><br /><br /><br /><br /><br /><br /><br />";
-//    // $_SESSION['token'] = $_GET["token"];
-//    // var_dump($_GET["token"]);
-////    var_dump($_GET["page"]);
-//    // var_dump($_SESSION['token']);
-////    header("location: auctionItem.php?page=" . $_GET['page'] . "&token=" . $_SESSION['token'] ."");
-//}
-// var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4));
+$test = ["artifact"];
+var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4, "", $test));
 if (isset($_POST['filters']))
 {
     $view->filter = $_POST['filters'];
@@ -132,35 +89,9 @@ if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST
         }
     }
 }
-// var_dump($_SESSION['searchedItem']);
 
-// If search button is pressed
-/*if (isset($_POST['searchButton'])) {
-
-    $_SESSION['searchedItem'] = $_POST['searchBar'];
-    unset($_SESSION['viewItem']); // set viewItem session to view individual item
-    // $_SESSION['auctionItem'] = true;
-    $searchTerm = $_POST['searchBar']; // Stores the value from search bar
-
-    // if search field is not empty
-    if (!empty(trim($searchTerm))) {
-        // Then start searchMode session
-        $_SESSION['searchMode'] = true;
-    }
-
-    header("location: auctionItem.php");
-}*/
 require ('searchBar.php');
 // var_dump($_SESSION['searchMode']);
-
-//// If clear button is pressed
-//if (isset($_POST['clearSearch'])) {
-//    $_SESSION['searchMode'] = null; // Delete searchMode session
-//    // $_SESSION['searchItem'] = null; // Clear search item session
-//    $_POST['searchBar'] = null; // Clear search field
-//    unset($_SESSION['viewItem']); // Clear view item session
-//    unset($_SESSION['searchedItem']);
-//}
 
 $view->limit = 20;
 $firstPage = ($page - 1) * $view->limit;
