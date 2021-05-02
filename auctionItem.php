@@ -25,7 +25,9 @@ $view->nameOfAuction = '';
 $view->currentLimit ='';
 
 $test = ["artifact"];
-var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4, "", $test));
+// var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4, "", $test));
+// var_dump($view->auctionItemDateSet->fetchAllAuctionItem(1, 4, "descendingOrder"));
+
 if (isset($_POST['filters']))
 {
     $view->filter = $_POST['filters'];
@@ -94,7 +96,7 @@ require ('searchBar.php');
 // var_dump($_SESSION['searchMode']);
 
 $view->limit = 20;
-$firstPage = ($page - 1) * $view->limit;
+$view->firstPage = ($page - 1) * $view->limit;
 
 // If searchMode session is set
 if (isset($_SESSION['searchMode'])) {
@@ -108,30 +110,35 @@ if (isset($_SESSION['searchMode'])) {
 
     $view->totalPages = ceil($view->totalRecords/$view->limit);
 
-    var_dump($view->totalPages);
+    // var_dump($view->totalPages);
     // only show records that match the entered search term
-    $view->auctionItem = $view->auctionItemDateSet->fetchSomeAuctionItem($_SESSION['searchedItem'], $firstPage, $view->limit, $view->filter);
+    $view->auctionItem = $view->auctionItemDateSet->fetchSomeAuctionItem($_SESSION['searchedItem'], $view->firstPage, $view->limit, $view->filter);
 }
 else {
     if (isset($_SESSION['item']))
     {
-        $view->auctionItem = $view->auctionItemDateSet->fetchSpecificItem($firstPage, $view->limit, $_SESSION['item']);
+        $view->auctionItem = $view->auctionItemDateSet->fetchSpecificItem($view->firstPage, $view->limit, $_SESSION['item']);
         $view->totalRecords = $view->auctionItemDateSet->getTotalCategoryRecords($_SESSION['item']);
     }
     elseif (isset($_SESSION['viewAuctionLots']))
     {
-        $view->auctionItem = $view->auctionItemDateSet->fetchAuctionLots($firstPage, $view->limit, $_SESSION['viewAuctionLots']);
+        $view->auctionItem = $view->auctionItemDateSet->fetchAuctionLots($view->firstPage, $view->limit, $_SESSION['viewAuctionLots']);
         $view->totalRecords = $auction->getTotalRecords($_SESSION['viewAuctionLots']);
     }
     else
     {
-        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($firstPage, $view->limit);
+        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($view->firstPage, $view->limit);
         shuffle($view->auctionItem);
         $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
     $view->totalPages = $view->totalRecords / $view->limit; // Total number of pages
     // var_dump($view->totalPages);
 }
+
+$_SESSION['lotPerPage'] = $view->firstPage;
+echo '<br /><br /><br /><br />';
+var_dump($_SESSION['lotPerPage']);
+var_dump($_SESSION['lotPerPage'] + 20);
 
 if (isset($_GET['page'])) {
     // If $page is greater than 1

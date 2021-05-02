@@ -5,7 +5,7 @@ $auctionItems = new AuctionItemDateSet();
 
 $q = $_REQUEST["q"];
 $token = "";
-$fetchSearchedItems = $auctionItems->fetchSomeAuctionItem($q, 0, 10, "none");
+$fetchSearchedItems = $auctionItems->fetchSomeAuctionItem($q, 0, 10);
  // var_dump(json_encode($fetchSearchedItems));
 
 session_start();

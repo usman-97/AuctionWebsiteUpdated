@@ -32,8 +32,8 @@ class AuctionItemDateSet {
         // SQL query to get item by it's title or main or auction name
         $sqlQuery = $filter != "" || count($category) > 0 ? $this->filterDateSet($filter, $category, $sqlQuery) : $sqlQuery;
         $sqlQuery .= " LIMIT :pageStart, :limitPage";
-        echo "<br/><br/><br/><br/><br/>";
-        var_dump($sqlQuery);
+        // echo "<br/><br/><br/><br/><br/>";
+        // var_dump($sqlQuery);
 
         // prepare a PDO statement
         $statement = $this->_dbHandle->prepare($sqlQuery);
@@ -117,18 +117,21 @@ class AuctionItemDateSet {
      * @param $limit - The number of lots to display on each page
      * @return array The list will all lots from Lots table
      */
-    public function fetchAllAuctionItem($start, $limit) {
+    public function fetchAllAuctionItem($start, $limit, $filter ="", $category = []) {
         $start = intval($start);
         $limit = intval($limit);
 
         // SQL query to select all lots with their auctions and use parameter to start it from
         // first page. Used a limit to set the amount of pages to display in each page
-        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id ORDER BY views DESC LIMIT :pageStart, :limit";
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id";
+
+        $sqlQuery = $filter != "" || count($category) > 0 ? $this->filterDateSet($filter, $category, $sqlQuery) : $sqlQuery;
+        $sqlQuery .= " LIMIT :pageStart, :limitPage";
 
         $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
         // $statement->bindParam(":auctionName", $auction, PDO::PARAM_STR);
         $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
-        $statement->bindParam(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindParam(":limitPage", $limit, PDO::PARAM_INT);
         $statement->execute(); // execute the PDO statement
 
         // List where all lots will be stored
