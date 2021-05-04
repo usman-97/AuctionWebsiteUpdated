@@ -98,6 +98,11 @@ require ('searchBar.php');
 $view->limit = 20;
 $view->firstPage = ($page - 1) * $view->limit;
 
+if (isset($_SESSION['sortingFilter']))
+{
+    $view->filter = $_SESSION['sortingFilter'];
+}
+
 // If searchMode session is set
 if (isset($_SESSION['searchMode'])) {
     // Total number of records which are searched by user.
@@ -127,7 +132,7 @@ else {
     }
     else
     {
-        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($view->firstPage, $view->limit);
+        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($view->firstPage, $view->limit, $view->filter);
         shuffle($view->auctionItem);
         $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
@@ -186,10 +191,15 @@ if (isset($_POST['view']))
     header("Location: viewItem.php");
 }
 
-if (isset($_POST['applyFilter']))
-{
-    echo $_POST['filters'];
-}
+//if (isset($_POST['applyFilter']))
+//{
+//    echo $_POST['filters'];
+//}
+
+//if (isset($_SESSION['sortingFilter']))
+//{
+//    var_dump($_SESSION['sortingFilter']);
+//}
 
 require_once('Views/auctionItem.phtml');
 
