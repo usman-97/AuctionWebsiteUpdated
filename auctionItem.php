@@ -132,13 +132,14 @@ else {
         $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
     $view->totalPages = $view->totalRecords / $view->limit; // Total number of pages
-    // var_dump($view->totalPages);
+    // var_dump($view->totalRecords);
 }
 
 $_SESSION['lotPerPage'] = $view->firstPage;
-echo '<br /><br /><br /><br />';
-var_dump($_SESSION['lotPerPage']);
-var_dump($_SESSION['lotPerPage'] + 20);
+$_SESSION['limitPerPage'] = $view->limit;
+//echo '<br /><br /><br /><br />';
+//var_dump($_SESSION['lotPerPage']);
+//var_dump($_SESSION['lotPerPage'] + 20);
 
 if (isset($_GET['page'])) {
     // If $page is greater than 1

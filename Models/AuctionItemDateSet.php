@@ -120,6 +120,9 @@ class AuctionItemDateSet {
     public function fetchAllAuctionItem($start, $limit, $filter ="", $category = []) {
         $start = intval($start);
         $limit = intval($limit);
+//        echo '<br /><br /><br /><br />';
+//        var_dump($start);
+//        var_dump($limit);
 
         // SQL query to select all lots with their auctions and use parameter to start it from
         // first page. Used a limit to set the amount of pages to display in each page
