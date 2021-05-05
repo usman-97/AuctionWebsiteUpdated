@@ -2,9 +2,7 @@
 function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minPrice = "", maxPrice = "")
 {
     // this.filter = filter;
-    // console.log(this.filter);
-    console.log(minPrice);
-    console.log(maxPrice);
+    // console.log(token);
 
     let xmlhttp = new XMLHttpRequest();
 
@@ -61,46 +59,6 @@ function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minP
                 let startDateTxt = document.getElementById("startTime" + counter);
 
                 var x = new CountDown(obj._datetime, obj._endDatetime, timer, liveTxt, endDateTxt, startDateTxt);
-
-                // let header = document.createElement("h4");
-                // header.id = "cardHeader" + counter;
-                // header.className = "card-header";
-                // header.innerHTML = "Lot ID#" + obj._lotID + ": " + obj._lot_title +
-                //     " - " + obj._lot_main;
-
-                // let img = document.createElement("img");
-                // img.id = "cardImage" + counter;
-                // img.src = "images/" + obj._image + ".jpg";
-                //
-                // let body = document.createElement("div");
-                // body.id = "cardBody" + counter;
-                // body.className = "card-body";
-                // body.innerHTML = "<h5><b>" + obj._auction_name + " <span id='liveTxt" + counter + "'></span></b></h5>" +
-                //     "<p class='card-text'>" + obj._description + "</p>" +
-                //     "<p class='card-text'>Opening bid Price: £" + obj._price + "</p>" +
-                //     "<p style='color: #4e555b'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-geo-alt-fill' viewBox='0 0 16 16'> " +
-                //     "<path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'/></svg><b><i>" +
-                //     obj._location + "</i></b></p>" +
-                //     "<p id='startTime" + counter + "' style='color: #4e555b'><b><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-calendar3' viewBox='0 0 16 16'> " +
-                //     "<path d='M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z'/> " +
-                //     "<path d='M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z'/>" +
-                //     "</svg>" + obj._datetime + " GMT</b></p>" +
-                //     "<p id='countDownTimer" + counter + "'></p>" +
-                //     "<p id='endDateTxt" + counter + "'></p>" +
-                //     "<input id='lot_id" + counter + "' type='hidden' name='lotID' value='" + obj._lotID + "'>" +
-                //     "<input id='start" + counter + "' type='hidden' name='lotID' value='" + obj._datetime + "'>" +
-                //     "<input id='endDateTime" + counter + "' type='hidden' name='lotID' value='" + obj._endDatetime + "'>" +
-                //     "<input id='trackCount" + counter + "' type='hidden' name='lotID' value='" + counter + "'>";
-                //
-                // let footer = document.createElement("div");
-                // footer.className = "card-footer";
-                // footer.innerHTML = "<input type='submit' name='view' value='View' class='btn btn-primary'/>";
-
-                // auctionLotContainer.appendChild(header);
-                // auctionLotContainer.appendChild(img);
-                // auctionLotContainer.appendChild(body);
-                // auctionLotContainer.appendChild(footer);
-
                 counter++;
             });
 
@@ -108,7 +66,7 @@ function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minP
         }
     }
 
-    xmlhttp.open("GET", "ajax/fetchAllLots.php?q=" + filter + "&r=" + category + "&s=" + minPrice + "&t=" + maxPrice, true);
+    xmlhttp.open("GET", "ajax/fetchAllLots.php?q=" + filter + "&r=" + category + "&s=" + minPrice + "&t=" + maxPrice + "&token=" + token, true);
     xmlhttp.send();
 }
 

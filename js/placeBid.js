@@ -31,7 +31,7 @@ function PlaceBid(bid, error)
             }
 
             // Send xml http request with user placed bid
-            xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value, true)
+            xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value + "&token=" + token, true)
             xmlhttp.send();
         }
         else

@@ -55,6 +55,6 @@ function LoadLotBids(str, bidContainer)
     }
 
     // Send xml http request with lot id
-    xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + str, true);
+    xmlhttp.open("GET", "ajax/fetchLotBids.php?q=" + str + "&token=" + token, true);
     xmlhttp.send();
 }

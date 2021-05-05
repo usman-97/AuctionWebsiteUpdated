@@ -38,6 +38,6 @@ function UserBidStatus(bidStatus, lot, endDate)
     }
 
     // Send xml http request to getBidStatus php script with lot id
-    xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + lot, true);
+    xmlhttp.open("GET", "ajax/getBidStatus.php?q=" + lot + "&token=" + token, true);
     xmlhttp.send(); // Send the request
 }
