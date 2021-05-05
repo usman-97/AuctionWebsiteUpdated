@@ -1,23 +1,28 @@
-
+/**
+ * Fetch auction lots using ajax request from server side
+ * @param auctionLotContainer
+ * @param filter
+ * @param category
+ * @param minPrice
+ * @param maxPrice
+ * @constructor
+ */
 function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minPrice = "", maxPrice = "")
 {
-    // this.filter = filter;
-    // console.log(token);
-
-    let xmlhttp = new XMLHttpRequest();
+    let xmlhttp = new XMLHttpRequest(); // XMLREQUEST
 
     xmlhttp.onreadystatechange = function ()
     {
+        // Check status of request
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
-            // console.log(JSON.parse(this.responseText));
-            let auctionLots = JSON.parse(this.responseText);
-            //console.log(auctionLots);
-            auctionLotContainer.innerHTML = "";
+            let auctionLots = JSON.parse(this.responseText); // The request data from server side
+            auctionLotContainer.innerHTML = ""; // reset container
 
             let counter = 1;
             auctionLots.forEach(function (obj){
-                let container = document.createElement("div");
+                // Generate HTML to display lots in view
+                let container = document.createElement("div"); // New div element
                 container.className = "col-lg-6 portfolio-item";
                 container.innerHTML = '<form action="" method="post"><div class="card h-100">' +
                     '<h4 id="cardHeader' + counter +'" class="card-header">Lot ID #' + obj._lotID +
@@ -51,14 +56,15 @@ function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minP
                     '<input type="hidden" name="auctionLocation" value="' + obj._location + '">' +
                     '</form>';
 
-                auctionLotContainer.appendChild(container);
+                auctionLotContainer.appendChild(container); // Add all generated HTML in new div element to existing div container
 
+                // Set count down timer for auctions which are live
                 let timer = document.getElementById("countDownTimer" + counter);
                 let liveTxt = document.getElementById("liveTxt" + counter);
                 let endDateTxt = document.getElementById("endDateTxt" + counter);
                 let startDateTxt = document.getElementById("startTime" + counter);
 
-                var x = new CountDown(obj._datetime, obj._endDatetime, timer, liveTxt, endDateTxt, startDateTxt);
+                var x = new CountDown(obj._datetime, obj._endDatetime, timer, liveTxt, endDateTxt, startDateTxt); // CountDown class instance
                 counter++;
             });
 
@@ -66,14 +72,7 @@ function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minP
         }
     }
 
+    // Send Ajax request to server side
     xmlhttp.open("GET", "ajax/fetchAllLots.php?q=" + filter + "&r=" + category + "&s=" + minPrice + "&t=" + maxPrice + "&token=" + token, true);
     xmlhttp.send();
 }
-
-// FetchAuctionsLots.prototype.setFilter = (selectedFilter) => {
-//
-//     let xmlhttp = new XMLHttpRequest();
-//
-//     xmlhttp.open("GET", "ajax/setFilter.php?q=" + selectedFilter, true);
-//     xmlhttp.send();
-// }

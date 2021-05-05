@@ -48,9 +48,6 @@ function LoadLotBids(str, bidContainer)
 
             let currentHighestBidder = document.getElementById("bidRow" + 1);
             currentHighestBidder.innerHTML += "<div class='col-sm-4'>Current</div>";
-            // currentHighestBidder.style.backgroundColor = "blue";
-            // currentHighestBidder.style.color = "white";
-            // console.log(currentHighestBidder);
         }
     }
 

@@ -210,17 +210,17 @@ body {
   font-weight: bold;
 }
 
-.searchHints {
-  position: absolute;
-  display: none;
-  background-color: #fff3cd;
-}
+/*.searchHints {*/
+/*  position: absolute;*/
+/*  display: none;*/
+/*  background-color: #eae6e6;*/
+/*}*/
 
 .hintContainers {
   border-top: 2px dashed #000000;
 }
 
-.liveTxt {
+.txtLive {
   display: inline-block;
   padding: 5px;
   background: #c42121;

@@ -1,31 +1,34 @@
-
+/**
+ * Show hints to user for live search
+ * @param str
+ * @param hintTxt
+ * @constructor
+ */
 function ShowHints(str, hintTxt)
 {
-    // console.log(token);
-    let xmlhttp = new XMLHttpRequest();
+    let xmlhttp = new XMLHttpRequest(); // XMLHTTPREQUEST
 
+    // Check if auction is live or not
     let isLive = (startDate, endDate) => {
         let now = new Date().getTime();
         let start = new Date(startDate).getTime();
         let end = new Date(endDate).getTime();
-
-        // console.log(now);
-        // console.log(start);
-        // console.log(end);
 
         return start <= now && end >= now;
     }
 
     xmlhttp.onreadystatechange = function ()
     {
+        // Check request status
         console.log(JSON.parse(this.responseText));
         let hints = JSON.parse(this.responseText);
 
-        hintTxt.innerHTML = "";
-        hintTxt.style.display = "block";
+        hintTxt.innerHTML = ""; // reset container
+        hintTxt.style.display = "block"; // Show container to user";
 
         let counter = 1;
         hints.forEach(function (obj){
+            // Generate HTML to show top 10 searches to user
             let hint = document.createElement("div");
             hint.innerHTML = "<div id='txtHint" + counter +"' class='row searchItemHint'><div class='col-sm-3'><a href='viewItem.php?q=" + obj._lotID + "&token=" +
                 token +"&a=" + obj._auction_id +"'>" +
@@ -33,12 +36,9 @@ function ShowHints(str, hintTxt)
                 "<div class='col-sm-4'><span>" + obj._lot_title + " " + obj._lot_main + "</span></div></a></div>";
             hint.id = "hint" + counter;
             hint.className = "hintContainers";
-            hintTxt.appendChild(hint);
+            hintTxt.appendChild(hint); // Add generated HTML to existing container
 
-            // console.log(obj._datetime);
-            // console.log(obj._endDatetime);
-            // console.log(isLive(obj._datetime, obj.endDatetime));
-
+            // Check if user search matched element is live to place the bid
             let searchHint = document.getElementById("txtHint" + counter);
             if (isLive(obj._datetime, obj._endDatetime))
             {
@@ -54,6 +54,7 @@ function ShowHints(str, hintTxt)
         });
     }
 
+    // Only send ajax request to server if user have typed 3 or more than 3 characters into the search bar
     if (str.length >= 3)
     {
         xmlhttp.open("GET", "ajax/liveSearch.php?q=" + str + "&token=" + token, true);
