@@ -2,7 +2,7 @@
 require_once ('../Models/BidItemDataSet.php');
 session_start();
 
-$bidItemDataSet = new BidItemDataSet();
+$bidItemDataSet = new BidItemDataSet(); // BidItemDataSet instance
 
 $q = $_REQUEST["q"]; // Received request with user placed bid
 $txt = "";
