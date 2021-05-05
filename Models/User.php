@@ -101,10 +101,9 @@ class User {
 
     }
 
-    /*
+    /**
      * Verify user by using user given credentials
-     * @param $user The username credential
-     * @param $pwd The password credential which user try to login
+     * @return bool|null
      */
     public function verifyUser()
     {

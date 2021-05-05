@@ -24,3 +24,13 @@ if (isset($_SESSION['searchedItem']))
 {
     unset($_SESSION['searchedItem']);
 }
+
+if (isset($_SESSION['sortingFilter']))
+{
+    unset($_SESSION['sortingFilter']);
+}
+
+if (isset($_SESSION['selectedCategory']))
+{
+    unset($_SESSION['selectedCategory']);
+}

@@ -77,32 +77,53 @@
     <br>
 
     <!-- Listings -->
-    <div id="listing" class="row">
-        <!--<div class="col-sm-4">
+    <div class="row">
+        <div class="col-sm-3">
+            <?php $display = isset($_SESSION['sortingFilter']) || isset($_SESSION['selectedCategory']) || isset($_SESSION['minPrice']) || isset($_SESSION['maxPrice']) ? 'inline-block' : 'none';?>
+            <button id="clearFilters" name="clearFilters" class="btn btn-danger" style="display: <?php echo $display ?>;">Clear All</button>
             <h4>Category</h4>
             <div>
                 <div>
-                    <input type="checkbox" name="category" value="Most Popular">
+                    <input id="cars" type="radio" name="category" value="super car" onchange="selectCategory(this.value)">
                     <label>Cars</label>
                 </div>
                 <div>
-                    <input type="checkbox" name="category" value="Most Popular">
+                    <input id="watches" type="radio" name="category" value="watch" onchange="selectCategory(this.value)">
                     <label>Watches</label>
                 </div>
                 <div>
-                    <input type="checkbox" name="category" value="Most Popular">
+                    <input id="painting" type="radio" name="category" value="painting" onchange="selectCategory(this.value)">
                     <label>Paintings</label>
                 </div>
                 <div>
-                    <input type="checkbox" name="category" value="Most Popular">
+                    <input id="artifact" type="radio" name="category" value="artifact" onchange="selectCategory(this.value)">
                     <label>Artifacts</label>
                 </div>
                 <div>
-                    <input type="checkbox" name="category" value="Most Popular">
+                    <input id="jewelry" type="radio" name="category" value="jewelry" onchange="selectCategory(this.value)">
                     <label>Jewelry</label>
                 </div>
             </div>
-        </div>-->
+            <h4>Price</h4>
+            <div class="row">
+                <label>Min</label>
+                <div class="col-sm-4">
+                    <input id="minPrice" type="text" name="minValue" style="width: 100%" value="<?php if (isset($_SESSION['minPrice']))
+                    {
+                        echo $_SESSION['minPrice'];
+                    }?>" onkeyup="setMinPrice(this.value)">
+                </div>
+                <label>Max</label>
+                <div class="col-sm-4">
+                    <input id="maxPrice" type="text" name="maxValue" style="width: 100%" value="<?php if (isset($_SESSION['maxPrice']))
+                    {
+                        echo $_SESSION['maxPrice'];
+                    }?>" onkeyup="setMaxPrice(this.value)">
+                </div>
+            </div>
+        </div>
+    <div class="col-sm-9">
+        <div id="listing"  class="row">
         <?php $num = 1;
         foreach ($view->auctionItem as $auctionItemData) {
             // echo $num;
@@ -140,8 +161,10 @@
                 '</form></div>';
             $num++;
         }?>
+        </div>
 </form>
     </div>
+</div>
     <br />
     <script type="text/javascript" src="js/fetchAuctionsLots.js"></script>
     <script type="text/javascript">
@@ -155,11 +178,55 @@
         let popularFilter = document.getElementById("popular");
         let descendingOrder = document.getElementById("descendingOrder");
         let ascendingOrder = document.getElementById("ascendingOrder");
-        // console.log(filters);
+
+        let car = document.getElementById("cars");
+        let watches = document.getElementById("watches");
+        let artifact = document.getElementById("artifact");
+        let painting = document.getElementById("painting");
+        let jewelry = document.getElementById("jewelry");
+        // let selectedCategoryFilter = <?php if (isset($_SESSION['selectedCategory'])) { echo $_SESSION['selectedCategory']; } ?>;
+
+        // function saveCategory()
+        // {
+        //     if (selectedCategoryFilter == car.value)
+        //     {
+        //         car.checked = true;
+        //     }
+        //     else if (selectedCategoryFilter == watches.value)
+        //     {
+        //         watches.checked = true;
+        //     }
+        //     else
+        //     {
+        //         if (selectedCategoryFilter == artifact.value)
+        //         {
+        //             artifact.checked = true;
+        //         }
+        //         else if (selectedCategoryFilter == painting.value)
+        //         {
+        //             painting.checked = true;
+        //         }
+        //         else
+        //         {
+        //             if (selectedCategoryFilter == jewelry.value)
+        //             {
+        //                 jewelry.checked = true;
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // window.onload = saveCategory;
+
+        let selectedFilter = "";
+        let category = "";
+        let minPrice = document.getElementById("minPrice").value;
+        let maxPrice = document.getElementById("maxPrice").value;
+        let auctionLotContainer = document.getElementById("listing");
+        let clearFilters = document.getElementById("clearFilters");
 
         function filterLots()
         {
-            var selectedFilter = "";
             if (descendingOrder.selected)
             {
                 selectedFilter = descendingOrder.value;
@@ -185,13 +252,44 @@
                 defaultFilters.value = selectedFilter;
                 defaultFilters.innerHTML = selectedFilter;
                 // console.log(defaultFilters);
-                let auctionLotContainer = document.getElementById("listing");
-                var a = new FetchAuctionsLots(selectedFilter, auctionLotContainer);
-                a.setFilter(selectedFilter);
+                var a = new FetchAuctionsLots(auctionLotContainer, selectedFilter, category);
+                // a.setFilter(selectedFilter);
+                clearFilters.style.display = "inline-block";
             }
         }
 
+        function selectCategory(selectedCategory)
+        {
+            // console.log(category);
+            category = selectedCategory;
+            clearFilters.style.display = "inline-block";
+            return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category);
+        }
+
+        function setMinPrice(value)
+        {
+            if (value.length >= 3)
+            {
+                minPrice = value;
+                clearFilters.style.display = "inline-block";
+                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice);
+            }
+        }
+
+        function setMaxPrice(value)
+        {
+            if (value.length >= 3)
+            {
+                maxPrice = value;
+                clearFilters.style.display = "inline-block";
+                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice);
+            }
+        }
+
+        // console.log(minPrice);
+        // console.log(maxPrice);
         filters.addEventListener('click', filterLots, true);
+        // watches.addEventListener('change', selectCategory(watches.value), true);
     </script>
 
     <script type="text/javascript" src="js/countDownTimer.js"></script>

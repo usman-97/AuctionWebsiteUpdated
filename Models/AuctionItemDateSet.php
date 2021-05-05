@@ -20,33 +20,38 @@ class AuctionItemDateSet {
      * @param $searchItem
      * @param $start
      * @param $limit
-     * @param $filter
+     * @param string $filter
+     * @param string $category
+     * @param string $minPrice
+     * @param string $maxPrice
      * @return array $dataSet The list of lots for Lots table
      */
-    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter = "", $category = [])
+    public function fetchSomeAuctionItem($searchItem, $start, $limit, $filter = "", $category = "", $minPrice = "", $maxPrice = "")
     {
         $start = intval($start);
         $limit = intval($limit);
 
         $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%')";
         // SQL query to get item by it's title or main or auction name
-        $sqlQuery = $filter != "" || count($category) > 0 ? $this->filterDateSet($filter, $category, $sqlQuery) : $sqlQuery;
+        $sqlQuery = $filter != "" || $category!= "" || $minPrice != "" || $maxPrice != "" ? $this->filterDateSet($filter, $category,$sqlQuery, $minPrice, $maxPrice) : $sqlQuery;
         $sqlQuery .= " LIMIT :pageStart, :limitPage";
-        // echo "<br/><br/><br/><br/><br/>";
-        // var_dump($sqlQuery);
 
         // prepare a PDO statement
         $statement = $this->_dbHandle->prepare($sqlQuery);
         $statement->bindParam(":item", $searchItem, PDO::PARAM_STR);
         $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
         $statement->bindParam(":limitPage", $limit, PDO::PARAM_INT);
-
-        if (count($category) > 0)
+        if ($category != "")
         {
-            for ($i = 0; $i < count($category); $i++)
-            {
-                $statement->bindParam(":category" . $i, $category[$i]);
-            }
+            $statement->bindParam(":category", $category);
+        }
+        if ($minPrice != "" && is_numeric($minPrice))
+        {
+            $statement->bindParam(":minPrice", $minPrice);
+        }
+        if ($maxPrice != "" && is_numeric($maxPrice))
+        {
+            $statement->bindParam(":maxPrice", $maxPrice);
         }
 
         // Execute PDO statement
@@ -71,21 +76,79 @@ class AuctionItemDateSet {
     }
 
     /**
+     * Displays all lots in Lots table with their auction
+     * Displays Lots corresponding to pages
+     * @param $start - The first page
+     * @param $limit - The number of lots to display on each page
+     * @return array The list will all lots from Lots table
+     */
+    public function fetchAllAuctionItem($start, $limit, $filter ="", $category = "", $minPrice = "", $maxPrice = "") {
+        $start = intval($start);
+        $limit = intval($limit);
+//        echo '<br /><br /><br /><br />';
+//        var_dump($start);
+//        var_dump($limit);
+
+        // SQL query to select all lots with their auctions and use parameter to start it from
+        // first page. Used a limit to set the amount of pages to display in each page
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id";
+
+        $sqlQuery = $filter != "" || $category!= "" || $minPrice != "" || $maxPrice != "" ? $this->filterDateSet($filter, $category, $sqlQuery, $minPrice, $maxPrice) : $sqlQuery;
+        $sqlQuery .= " LIMIT :pageStart, :limitPage";
+        // var_dump($sqlQuery);
+
+        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
+        // $statement->bindParam(":auctionName", $auction, PDO::PARAM_STR);
+        $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
+        $statement->bindParam(":limitPage", $limit, PDO::PARAM_INT);
+        if ($category != "")
+        {
+            $statement->bindParam(":category", $category);
+        }
+        if ($minPrice != "" && is_numeric($minPrice))
+        {
+            $statement->bindParam(":minPrice", $minPrice);
+        }
+        if ($maxPrice != "" && is_numeric($maxPrice))
+        {
+            $statement->bindParam(":maxPrice", $maxPrice);
+        }
+
+        // var_dump($maxPrice);
+        $statement->execute(); // execute the PDO statement
+
+        // List where all lots will be stored
+        $dataSet = [];
+        while ($row = $statement->fetch()) {
+            $dataSet[] = new AuctionItemData($row);
+        }
+        return $dataSet;
+    }
+
+    /**
      * @param $filter
+     * @param $category
+     * @param $minPrice
+     * @param $maxPrice
      * @param $sqlQuery
      * @return mixed|string
      */
-    private function filterDateSet($filter, $category, $sqlQuery)
+    private function filterDateSet($filter, $category, $sqlQuery, $minPrice = "", $maxPrice = "")
     {
-        if (count($category) > 0)
+        if ($minPrice != "")
         {
-            for ($i = 0; $i < count($category); $i++)
-            {
-                $sqlQuery .= " AND category = :category" . $i;
-            }
+            $sqlQuery .= " AND Lots.price >= :minPrice";
         }
-//        echo "<br/><br/><br/><br/><br/>";
-//        var_dump(count($category));
+
+        if ($maxPrice != "")
+        {
+            $sqlQuery .= " AND Lots.price <= :maxPrice";
+        }
+
+        if ($category != "")
+        {
+            $sqlQuery .= " AND category = :category";
+        }
 
         if ($filter == 'popular')
         {
@@ -93,7 +156,7 @@ class AuctionItemDateSet {
         }
         elseif ($filter == 'recent')
         {
-            $sqlQuery .= " ORDER BY datetime";
+            $sqlQuery .= " ORDER BY datetime DESC";
         }
         else
         {
@@ -108,41 +171,6 @@ class AuctionItemDateSet {
         }
 
         return $sqlQuery;
-    }
-
-    /**
-     * Displays all lots in Lots table with their auction
-     * Displays Lots corresponding to pages
-     * @param $start - The first page
-     * @param $limit - The number of lots to display on each page
-     * @return array The list will all lots from Lots table
-     */
-    public function fetchAllAuctionItem($start, $limit, $filter ="", $category = []) {
-        $start = intval($start);
-        $limit = intval($limit);
-//        echo '<br /><br /><br /><br />';
-//        var_dump($start);
-//        var_dump($limit);
-
-        // SQL query to select all lots with their auctions and use parameter to start it from
-        // first page. Used a limit to set the amount of pages to display in each page
-        $sqlQuery = "SELECT * FROM Lots, auction WHERE auction.auctionID = Lots.auction_id";
-
-        $sqlQuery = $filter != "" || count($category) > 0 ? $this->filterDateSet($filter, $category, $sqlQuery) : $sqlQuery;
-        $sqlQuery .= " LIMIT :pageStart, :limitPage";
-
-        $statement = $this->_dbHandle->prepare($sqlQuery); // prepare a PDO statement
-        // $statement->bindParam(":auctionName", $auction, PDO::PARAM_STR);
-        $statement->bindParam(":pageStart", $start, PDO::PARAM_INT);
-        $statement->bindParam(":limitPage", $limit, PDO::PARAM_INT);
-        $statement->execute(); // execute the PDO statement
-
-        // List where all lots will be stored
-        $dataSet = [];
-        while ($row = $statement->fetch()) {
-            $dataSet[] = new AuctionItemData($row);
-        }
-        return $dataSet;
     }
 
     /**
@@ -225,12 +253,26 @@ class AuctionItemDateSet {
      * Gets total number of records from Lots table
      * @return mixed
      */
-    public function getTotalRecords()
+    public function getTotalRecords($filter = "", $category = "", $minPrice = "", $maxPrice = "")
     {
         // SQL query to get total number of lots
         $sqlQuery = 'SELECT COUNT(lotID) FROM Lots';
+        $sqlQuery = $filter != "" || $category != "" || $minPrice != "" || $maxPrice != "" ? $this->filterDateSet($filter, $category, $sqlQuery, $minPrice, $maxPrice) : $sqlQuery;
 
         $statement = $this->_dbHandle->prepare($sqlQuery);
+        if ($category != "")
+        {
+            $statement->bindParam(":category", $category);
+        }
+        if ($minPrice != "" && is_numeric($minPrice))
+        {
+            $statement->bindParam(":minPrice", $minPrice);
+        }
+        if ($maxPrice != "" && is_numeric($maxPrice))
+        {
+            $statement->bindParam(":maxPrice", $maxPrice);
+        }
+
         $statement->execute();
         return $statement->fetchColumn();
     }

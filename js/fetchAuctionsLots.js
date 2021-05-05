@@ -1,8 +1,10 @@
 
-function FetchAuctionsLots(filter, auctionLotContainer)
+function FetchAuctionsLots(auctionLotContainer, filter = "", category = "", minPrice = "", maxPrice = "")
 {
     // this.filter = filter;
     // console.log(this.filter);
+    console.log(minPrice);
+    console.log(maxPrice);
 
     let xmlhttp = new XMLHttpRequest();
 
@@ -12,6 +14,7 @@ function FetchAuctionsLots(filter, auctionLotContainer)
         {
             // console.log(JSON.parse(this.responseText));
             let auctionLots = JSON.parse(this.responseText);
+            //console.log(auctionLots);
             auctionLotContainer.innerHTML = "";
 
             let counter = 1;
@@ -105,14 +108,14 @@ function FetchAuctionsLots(filter, auctionLotContainer)
         }
     }
 
-    xmlhttp.open("GET", "ajax/fetchAllLots.php?q=" + filter, true);
+    xmlhttp.open("GET", "ajax/fetchAllLots.php?q=" + filter + "&r=" + category + "&s=" + minPrice + "&t=" + maxPrice, true);
     xmlhttp.send();
 }
 
-FetchAuctionsLots.prototype.setFilter = (selectedFilter) => {
-
-    let xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.open("GET", "ajax/setFilter.php?q=" + selectedFilter, true);
-    xmlhttp.send();
-}
+// FetchAuctionsLots.prototype.setFilter = (selectedFilter) => {
+//
+//     let xmlhttp = new XMLHttpRequest();
+//
+//     xmlhttp.open("GET", "ajax/setFilter.php?q=" + selectedFilter, true);
+//     xmlhttp.send();
+// }

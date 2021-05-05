@@ -10,6 +10,10 @@ $view->pageTitle = 'Feature Lots';
 $view->lotID = '';
 $view->currentSearchItem = '';
 $view->filter  = '';
+$view->category = '';
+$view->minPrice = '';
+$view->maxPrice = '';
+// $view->isCategoryChecked = '';
 
 // logout script
 require_once ('logout.php');
@@ -23,28 +27,6 @@ $auction = new AuctionDataSet();
 $view->totalPages = '';
 $view->nameOfAuction = '';
 $view->currentLimit ='';
-
-$test = ["artifact"];
-// var_dump($view->auctionItemDateSet->fetchSomeAuctionItem("chev", 1, 4, "", $test));
-// var_dump($view->auctionItemDateSet->fetchAllAuctionItem(1, 4, "descendingOrder"));
-
-if (isset($_POST['filters']))
-{
-    $view->filter = $_POST['filters'];
-}
-else
-{
-    if (isset($_POST['filterOption']))
-    {
-        $view->filter = $_POST['filterOption'];
-    }
-}
-
-if (isset($_POST['clearFilter']))
-{
-    $view->filter = 'none';
-}
-// var_dump($view->filter);
 
 // If $page  is set
 if (isset($_GET['page'])) {
@@ -65,6 +47,7 @@ else
 {
     $view->currentPage = 10; // otherwise show total 10 pages for navigation
 }
+
 
 if (isset($_POST['searchButton']) || isset($_POST['morePages']) ||  isset($_POST['lessPages'])
     || isset($_POST['view']) || isset($_POST['back']) || isset($_POST['clearFilter']))
@@ -103,6 +86,25 @@ if (isset($_SESSION['sortingFilter']))
     $view->filter = $_SESSION['sortingFilter'];
 }
 
+if (isset($_SESSION['selectedCategory']))
+{
+    $view->category = $_SESSION['selectedCategory'];
+}
+
+if (isset($_SESSION['minPrice']))
+{
+    $view->minPrice = $_SESSION['minPrice'];
+}
+
+if (isset($_SESSION['maxPrice']))
+{
+    $view->maxPrice = $_SESSION['maxPrice'];
+}
+
+//echo '<br /><br /><br /><br />';
+//var_dump($_SESSION['sortingFilter']);
+//var_dump($_SESSION['selectedCategory']);
+
 // If searchMode session is set
 if (isset($_SESSION['searchMode'])) {
     // Total number of records which are searched by user.
@@ -132,8 +134,8 @@ else {
     }
     else
     {
-        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($view->firstPage, $view->limit, $view->filter);
-        shuffle($view->auctionItem);
+        $view->auctionItem = $view->auctionItemDateSet->fetchAllAuctionItem($view->firstPage, $view->limit, $view->filter, $view->category, $view->minPrice, $view->maxPrice);
+        // shuffle($view->auctionItem);
         $view->totalRecords = $view->auctionItemDateSet->getTotalRecords(); // Total number of records in Lots table
     }
     $view->totalPages = $view->totalRecords / $view->limit; // Total number of pages
@@ -189,6 +191,16 @@ if (isset($_POST['view']))
     $_SESSION['viewAuctionID'] = $_POST['auctionID'];
     $view->auctionItemDateSet->incrementView($view->lotID);
     header("Location: viewItem.php");
+}
+
+//var_dump($_POST['sortingFilter']);
+//var_dump($_SESSION['selectedCategory']);
+if (isset($_POST['clearFilters']) || isset($_POST['clearSearch']))
+{
+    unset($_SESSION['sortingFilter']);
+    unset($_SESSION['selectedCategory']);
+    unset($_SESSION['minPrice']);
+    unset($_SESSION['maxPrice']);
 }
 
 //if (isset($_POST['applyFilter']))
