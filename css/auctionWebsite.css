@@ -205,17 +205,6 @@ body {
   border: none;
 }
 
-.searchItemHint {
-  padding: 5px;
-  font-weight: bold;
-}
-
-/*.searchHints {*/
-/*  position: absolute;*/
-/*  display: none;*/
-/*  background-color: #eae6e6;*/
-/*}*/
-
 .hintContainers {
   border-top: 2px dashed #000000;
 }
@@ -226,6 +215,17 @@ body {
   background: #c42121;
   color: #ffffff;
 }
+
+.searchItemHint {
+  padding: 5px;
+  font-weight: bold;
+}
+
+/*.searchHints {*/
+/*  position: absolute;*/
+/*  display: none;*/
+/*  background-color: #eae6e6;*/
+/*}*/
 
 /*
   CSS style for small screen devices

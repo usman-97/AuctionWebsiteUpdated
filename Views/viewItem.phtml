@@ -68,7 +68,7 @@
                     <!--<input id="storeBid" type="hidden" name="userBidStore" placeholder="1000">-->
                     <div class="button" style="margin-left: 10px;display: inline-block ">
                         <!--<input id="bidButton" type="submit" name="place" value="Place" class="btn btn-primary">-->
-                        <button id="bidButton" name="bidBtn" class="btn btn-primary font-weight-bolder" onclick="new PlaceBid(document.getElementById('usrBid'), document.getElementById('bidError')); new LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, document.getElementById('bidContainer'))">Place</button>
+                        <button id="bidButton" name="bidBtn" class="btn btn-primary font-weight-bolder">Place</button>
 
                         <p id="txt"></p>
                     </div>
@@ -96,7 +96,7 @@
                 <div class="col-sm-4"><h4><b>Bid</b></h4></div>
             </div>
             <form action="" method="post">
-            <div id="bidContainer" class="">
+            <div id="bidContainer" class="bidContainer">
                 <?php
                 if (isset($view->lotPrice))
                 {
@@ -131,31 +131,47 @@
                             $num++;
                         }
                         $_SESSION['bidNo'] = $num;
-                        // var_dump($_SESSION['bidNo']);
                     }
                 }
                 ?>
 
                 <script type="text/javascript" src="js/placeBid.js"></script>
-                <script type="text/javascript">
-                    //let bidNo = "<?php //echo $_SESSION['bidNo']; ?>//";
-                    //let userBid = document.getElementById("usrBid");
-                </script>
                 <script type="text/javascript" src="js/loadLotBids.js"></script>
                 <script type="text/javascript" src="js/countDownTimer.js"></script>
                 <script type="text/javascript">
+                    // Count down timer fields
                     let startDate = document.getElementById("auctionDatetime").value;
                     let endDate = document.getElementById("auctionEndDatetime").value;
                     let timer = document.getElementById("countDownTimer");
                     let liveTxt = document.getElementById("startTime");
                     let endDateTxt = document.getElementById("endDatetimeTxt");
 
-                    var x = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt);
+                    var countDownTimer = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt); // CountDown class instance
 
+                    // Bidding fields
+                    let bidButton = document.getElementById("bidButton");
+                    let userBid = document.getElementById('usrBid');
+                    let bidError = document.getElementById('bidError');
+                    let bidContainer = document.getElementById('bidContainer');
+
+                    // Place bid event
+                    function placeBid(event)
+                    {
+                        return new PlaceBid(userBid, bidError);
+                    }
+
+                    // Loading bids event
+                    function loadBids(event)
+                    {
+                       return new LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, bidContainer);
+                    }
+
+                    // Information about bidding
                     let bidderInfoBtn = document.getElementById("bidderInfoBtn");
                     let bidderInfo = document.getElementById("bidderInfo");
                     let showInfo = false;
 
+                    // Bid info pop up box event
                     function showBidInfo()
                     {
                         if (!showInfo)
@@ -169,8 +185,11 @@
                             showInfo = false;
                         }
                     }
-                    bidderInfoBtn.addEventListener('click', showBidInfo, true);
-                    // console.log(bidderInfo);
+
+                    // Event listeners
+                    bidButton.addEventListener('click', placeBid, true); // place bid event listener
+                    bidButton.addEventListener('click', loadBids, true); // Load bid event listener
+                    bidderInfoBtn.addEventListener('click', showBidInfo, true); // Show pop up box event listener
                 </script>
             </div>
         </div>

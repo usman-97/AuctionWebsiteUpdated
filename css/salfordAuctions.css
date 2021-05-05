@@ -1,0 +1,247 @@
+body {
+    padding-top: 56px;
+    /*  font-size: 20px;*/
+}
+
+.carousel-item {
+    height: 65vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.portfolio-item {
+    margin-bottom: 30px;
+}
+
+
+#loginForm {
+    margin-bottom: 10px;
+    width: 50%;
+    border: 2px solid #000000;
+}
+
+#loginForm input {
+    font-size: 20px;
+}
+
+#email {
+    display: none;
+}
+
+#code {
+    margin: auto;
+    padding: 5px;
+    width: 70%;
+    background-color: #121416;
+    color: #fff3cd;
+    font-size: 30px;
+    text-align: center;
+
+    /* Prevent user from copying the reCaptcha */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#code input
+{
+    width: 40%;
+}
+
+.recaptcha {
+    padding: 10px;
+}
+
+#RegistrationForm {
+    margin-bottom: 10px;
+    width: 50%;
+    border: 2px solid #000000;
+}
+
+#RegistrationForm input {
+    font-size: 20px;
+}
+
+#registerEmail {
+    display: none;
+}
+
+.card-header {
+    background-color: #343a40;
+    color: #fff3cd;
+}
+
+.card-footer {
+    background-color: #343a40;
+}
+
+#listing {
+    padding: 20px 50px;
+    background-color: #e6e6e6;
+    border: 2px solid #000000;
+}
+
+.page
+{
+    padding: 5px 10px;
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.auctionContainer {
+    font-size: 20px;
+}
+
+.auctionContainer input {
+    margin: 10px 50px;
+}
+
+.listContainer {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.passwordCheck div{
+    display: none;
+    width: 30%;
+    height: 5px;
+    background-color: #4e555b;
+}
+
+.passwordCheck p {
+    color: #000000;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.dfContainer {
+    padding: 10px;
+    background-color: #e6e6e6;
+
+    /* Prevent user from copying the reCaptcha */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.infoBtn {
+    background: none;
+    color: #ffffff;
+    border: none;
+}
+
+.infoBox {
+    margin: auto;
+    padding: 5px;
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: #000000;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.error {
+    color: #cf0e00;
+    font-weight: bold;
+}
+
+.bidInfo {
+    text-align: center;
+}
+
+.userBid {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#bidRow1 {
+    background: #0f2f6b;
+    color: #ffffff;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+.searchBarCont {
+    display: inline-block;
+    padding: 2px;
+    background: #ffffff;
+    font-size: 20px;
+    border-radius: 10px;
+    /*border-bottom-right-radius: 10px;*/
+}
+.searchBarCont input {
+    /*width: 100%;*/
+    outline: none;
+    border: none;
+}
+
+.searchBarCont button {
+    display: inline-block;
+    /*background-color: #dbdbd7;*/
+    color: #000000;
+    /*font-weight: bold;*/
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#clearSearch {
+    background: #ffffff;
+    border: none;
+}
+
+.hintContainers {
+    border-top: 2px dashed #000000;
+}
+
+.txtLive {
+    display: inline-block;
+    padding: 5px;
+    background: #c42121;
+    color: #ffffff;
+}
+
+.searchItemHint {
+    padding: 5px;
+    font-weight: bold;
+}
+
+.searchHints {
+  position: absolute;
+  display: none;
+  background-color: #eae6e6;
+}
+
+/*
+  CSS style for small screen devices
+ */
+@media screen and (max-width: 800px) {
+    #loginForm {
+        width: 90%;
+    }
+
+    #RegistrationForm {
+        width: 90%;
+    }
+
+    .auctionContainer {
+        margin: auto;
+        width: 90%;
+    }
+
+    .bidInputContainer {
+        margin-bottom: 10px;
+    }
+}
