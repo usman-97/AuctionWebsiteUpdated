@@ -4,7 +4,7 @@
  * @param error
  * @constructor
  */
-function PlaceBid(bid, error)
+function PlaceBid(bid, error, lotID, bidContainer)
 {
     // console.log(bid);
     // If bid is not empty
@@ -27,6 +27,8 @@ function PlaceBid(bid, error)
 
                     error.innerHTML = this.responseText; // If there is an error then display it
                     bid.value = ""; // Clear bid field
+
+                    var loadBids = new LoadLotBids(lotID, bidContainer);
                 }
             }
 

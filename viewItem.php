@@ -8,6 +8,10 @@ $view = new stdClass();
 $view->pageTitle = 'Feature Lot';
 $view->lotID = '';
 $view->bidItemDataSet = new BidItemDataSet(); // BidItemDataSet instance
+$view->auctionItem = new AuctionItemDateSet();
+$view->currentDate = date("Y-m-d H:i"); // current date
+$view->currentDatetime = strtotime($view->currentDate);
+$view->lotStatus = '';
 
 // logout script
 require_once ('logout.php');
@@ -28,28 +32,26 @@ if (isset($_GET["a"]))
 $view->lotHighestBid = $view->bidItemDataSet->getItemHighestBid($_SESSION['viewLotID']);
 // var_dump($view->bidItemDataSet->fetchLotHighestBid($_SESSION['viewLotID']));
 
-$view->auctionItem = new AuctionItemDateSet();
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']); // Fetch data for chosen lot
-
-$view->currentDate = date("Y-m-d H:i"); // current date
-$view->lotStatus = '';
+$startDatetime = strtotime($view->getItem[0]->getDatetime());
+$endDatetime = strtotime($view->getItem[0]->getEndDatetime());
 
 require_once ('searchBar.php'); // Lot Search script
 
 // If auction has been started and then
 // Inform user according to that
-if ($view->currentDate <= $view->getItem[0]->getDatetime())
+if ($view->currentDatetime <= $startDatetime)
 {
     $view->lotStatus = "Auction has not started yet.";
 }
-elseif ($view->currentDate >= $view->getItem[0]->getEndDatetime())
+elseif ($view->currentDatetime >= $endDatetime)
 {
     $view->lotStatus = "SOLD";
 }
 else
 {
     // If auction is live then make sure user is logged in to place bid on the lot
-    if ($view->currentDate > $view->getItem[0]->getDatetime() && $view->currentDate < $view->getItem[0]->getEndDatetime())
+    if ($view->currentDatetime > $startDatetime && $view->currentDate < $endDatetime)
     {
         if (isset($_SESSION['loggedIn']))
         {
@@ -61,6 +63,8 @@ else
         }
     }
 }
+echo '<br /><br /><br /><br />';
+var_dump(strtotime($view->currentDate) >= $endDatetime);
 
 // Fetch all bids for items
 $view->bidItemData = $view->bidItemDataSet->fetchItemBids($_SESSION['viewLotID']);

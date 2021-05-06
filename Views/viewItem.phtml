@@ -157,14 +157,14 @@
                     // Place bid event
                     function placeBid(event)
                     {
-                        return new PlaceBid(userBid, bidError);
+                        return new PlaceBid(userBid, bidError, <?php echo $_SESSION['viewLotID'] ?>, bidContainer);
                     }
 
                     // Loading bids event
-                    function loadBids(event)
-                    {
-                       return new LoadLotBids(<?php echo $_SESSION['viewLotID'] ?>, bidContainer);
-                    }
+                    //function loadBids(event)
+                    //{
+                    //   return new LoadLotBids(<?php //echo $_SESSION['viewLotID'] ?>//, bidContainer);
+                    //}
 
                     // Information about bidding
                     let bidderInfoBtn = document.getElementById("bidderInfoBtn");
@@ -188,7 +188,7 @@
 
                     // Event listeners
                     bidButton.addEventListener('click', placeBid, true); // place bid event listener
-                    bidButton.addEventListener('click', loadBids, true); // Load bid event listener
+                    // bidButton.addEventListener('click', loadBids, true); // Load bid event listener
                     bidderInfoBtn.addEventListener('click', showBidInfo, true); // Show pop up box event listener
                 </script>
             </div>
