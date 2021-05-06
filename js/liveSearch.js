@@ -40,6 +40,7 @@ function ShowHints(str, hintTxt)
 
             // Check if user search matched element is live to place the bid
             let searchHint = document.getElementById("txtHint" + counter);
+            // Check if lot or item auction is live or not
             if (isLive(obj._datetime, obj._endDatetime))
             {
                 searchHint.innerHTML += "<div class='col-sm-3' style='color: #c42121'><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-broadcast\" viewBox=\"0 0 16 16\">\n" +

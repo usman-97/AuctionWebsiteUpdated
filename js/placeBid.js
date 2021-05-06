@@ -30,7 +30,7 @@ function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
                     error.innerHTML = this.responseText; // If there is an error then display it
                     bid.value = ""; // Clear bid field
 
-                    var loadBids = loadLotBids ? new LoadLotBids(lotID, bidContainer): "";
+                    var loadBids = loadLotBids ? new LoadLotBids(lotID, bidContainer): ""; // LoadBids instance to load bids once user has successfully place a bid
                 }
             }
 
