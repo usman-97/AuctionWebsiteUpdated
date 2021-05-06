@@ -2,9 +2,11 @@
  * Allow user to place a bid on a lot
  * @param bid
  * @param error
+ * @param lotID
+ * @param bidContainer
  * @constructor
  */
-function PlaceBid(bid, error, lotID, bidContainer)
+function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
 {
     // console.log(bid);
     // If bid is not empty
@@ -28,7 +30,7 @@ function PlaceBid(bid, error, lotID, bidContainer)
                     error.innerHTML = this.responseText; // If there is an error then display it
                     bid.value = ""; // Clear bid field
 
-                    var loadBids = new LoadLotBids(lotID, bidContainer);
+                    var loadBids = loadLotBids ? new LoadLotBids(lotID, bidContainer): "";
                 }
             }
 

@@ -74,7 +74,7 @@
                     </div>
                     <div>
                         <?php if ($view->lotHighestBid) : ?>
-                            <p><em>Your bid should be £<?php echo $view->lotHighestBid + 15 ?> or more.</em></p>
+                            <p><em>Your bid should be £<b><?php echo $view->lotHighestBid + 15 ?></b> or more.</em></p>
                         <?php endif; ?>
                         <p id="bidError" class="error"><b><?php if (isset($view->userBidError))
                                     echo $view->userBidError?></b></p>
@@ -168,7 +168,7 @@
                     // Place bid event
                     function placeBid(event)
                     {
-                        return new PlaceBid(userBid, bidError, <?php echo $_SESSION['viewLotID'] ?>, bidContainer);
+                        return new PlaceBid(userBid, bidError, <?php echo $_SESSION['viewLotID'] ?>, bidContainer, true);
                     }
 
                     // Loading bids event

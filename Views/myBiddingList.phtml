@@ -21,6 +21,8 @@
         <li class="breadcrumb-item">
             <a href="index.php">Home</a>
         </li>
+        <script type="text/javascript" src="js/placeBid.js"></script>
+        <script type="text/javascript" src="js/bidStatus.js"></script>
         <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
     </ol>
 
@@ -56,8 +58,8 @@
                             </svg><i>' . $bidItem->getAuctionLocation() .'</i></span><span id="liveTxt"></span></h4>' .
                             '<p id="startTime'. $num .'">' . $bidItem->getAuctionDatetime() . '</p>' .
                             '<div class="row bidInfo"><div class="col-sm-4"><b>Highest bid</b><br />£' . $view->bidItem->getItemHighestBid($bidItem->getLotID()) .
-                            '</div><div class="col-sm-4" style="border-left: 2px solid #000000;"><b>Your bid</b><br /><i>£' . $bidItem->getBid() .
-                            '</i></div><div class="btn-success" id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;">' .
+                            '</div><div id="userCurrentBid" class="col-sm-4 bidInfo"><b>Your bid</b><br /><i>£' . $bidItem->getBid() .
+                            '</i></div><div class="btn-success bidStatus" id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;">' .
                             '</div></div><br />' .
                             '<div id="countDownTimer'. $num .'"></div>' .
                             '<p id="endDateTxt'. $num .'"></p>' .
@@ -70,14 +72,28 @@
                             '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
                             '<input id="auctionDatetime'. $num .'" type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
                             '<input id="auctionEndDatetime'. $num .'" type="hidden" name="auctionEndDatetime" value="' . $bidItem->getAuctionEndDatetime() . '">' .
-                            '<input id="userBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
+                            '<input id="currentUserBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
                             '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">';
 
                         if (strtotime($view->currentDate) < strtotime($bidItem->getAuctionEndDatetime()))
                         {
-                            echo '<label>£</label><input id="newBid" type="text" name="newBid" placeholder="1000">' .
+                            echo '<label>£</label><input id="newBid' . $num .'" type="text" name="newBid" placeholder="1000">' .
+                                '<p id="newBidError'. $num .'"></p>' .
                                 '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
-                            <button id="quickPlaceBid" class="btn btn-dark" onclick=\'new PlaceBid(document.getElementById("newBid"' . $num .').value, document.getElementById("bidingError"))\'>place</button>';
+                            <button id="quickPlaceBid" class="btn btn-dark">place</button>';
+                            echo '<script type="text/javascript">
+                                    let newUserBid = document.getElementById("newBid'. $num .'");
+                                    let error = document.getElementById("newBidError'. $num .'");
+                                    let lotID = document.getElementById("lot_id'. $num .'");
+                                    let bidBtn = document.getElementById("newBid'. $num .'");
+                                    
+                                    function placebid(event)
+                                    {
+                                        return new PlaceBid(newUserBid, error, lotID, "", false);
+                                    }
+                                    
+                                    bidBtn.addEventListener("click", placebid, true);
+                                </script>';
                         }
 
                         echo '<input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
@@ -89,8 +105,6 @@
 
 <div><?php require ('pagination.phtml')?></div>
 
-<script type="text/javascript" src="js/placeBid.js"></script>
-<script type="text/javascript" src="js/bidStatus.js"></script>
 <script type="text/javascript" src="js/countDownTimer.js"></script>
 <script type="text/javascript">
     let totalBids = <?php echo $view->totalRecords?>;
