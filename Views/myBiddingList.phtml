@@ -45,7 +45,7 @@
                             $bidItem->getLotID() . ': ' . $bidItem->getLotTitle() . ' - ' .
                             $bidItem->getLotMain() . '</h3></div><div class="col-sm-1">';
 
-                        if ($view->currentDate > $bidItem->getAuctionEndDatetime())
+                        if (strtotime($view->currentDate) >= strtotime($bidItem->getAuctionEndDatetime()))
                             echo '<input id="removeBtn'. $num .'" type="submit" name="removeBid" value="X" class="btn btn-danger">';
 
                         echo '</div></div><div id="listBody" class="row"><div class="col-sm-5">' .
@@ -71,11 +71,16 @@
                             '<input id="auctionDatetime'. $num .'" type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
                             '<input id="auctionEndDatetime'. $num .'" type="hidden" name="auctionEndDatetime" value="' . $bidItem->getAuctionEndDatetime() . '">' .
                             '<input id="userBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
-                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
-                            '<label>£</label><input id="newBid" type="text" name="newBid" placeholder="1000">' .
-                            '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
-                            <button id="quickPlaceBid" class="btn btn-dark" onclick=\'new PlaceBid(document.getElementById("newBid"' . $num .').value, document.getElementById("bidingError"))\'>place</button>
-                             <input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
+                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">';
+
+                        if (strtotime($view->currentDate) < strtotime($bidItem->getAuctionEndDatetime()))
+                        {
+                            echo '<label>£</label><input id="newBid" type="text" name="newBid" placeholder="1000">' .
+                                '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
+                            <button id="quickPlaceBid" class="btn btn-dark" onclick=\'new PlaceBid(document.getElementById("newBid"' . $num .').value, document.getElementById("bidingError"))\'>place</button>';
+                        }
+
+                        echo '<input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
                             '</div><br /></div></div><br /></form>';
                         $num++;
                     }}?>

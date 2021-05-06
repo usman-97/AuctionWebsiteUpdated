@@ -224,6 +224,37 @@ body {
   background-color: #eae6e6;
 }
 
+.auctionTimer {
+    margin: auto;
+    /*background-color: #343a40;*/
+    color: #fff3cd;
+    font-size: 20px;
+    text-align: center;
+    /*border-bottom: 5px solid #000000;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;*/
+}
+
+.auctionTimer div {
+    display: inline-block;
+    padding: 5px 10px;
+    /*margin-left: 5px;*/
+    background-color: #343a40;
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: 5px solid #000000;
+    border-right: 2px dotted #fff3cd;
+    border-left: 2px dotted #fff3cd;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.auctionTimer span {
+    font-size: 15px;
+    font-style: italic;
+    border: none;
+}
+
 /*
   CSS style for small screen devices
  */

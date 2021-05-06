@@ -34,7 +34,7 @@ $view->lotHighestBid = $view->bidItemDataSet->getItemHighestBid($_SESSION['viewL
 
 $view->getItem = $view->auctionItem->fetchSingleLot($_SESSION['viewLotID']); // Fetch data for chosen lot
 $startDatetime = strtotime($view->getItem[0]->getDatetime());
-$endDatetime = strtotime($view->getItem[0]->getEndDatetime());
+$view->endDatetime = strtotime($view->getItem[0]->getEndDatetime());
 
 require_once ('searchBar.php'); // Lot Search script
 
@@ -44,14 +44,14 @@ if ($view->currentDatetime <= $startDatetime)
 {
     $view->lotStatus = "Auction has not started yet.";
 }
-elseif ($view->currentDatetime >= $endDatetime)
+elseif ($view->currentDatetime >= $view->endDatetime)
 {
     $view->lotStatus = "SOLD";
 }
 else
 {
     // If auction is live then make sure user is logged in to place bid on the lot
-    if ($view->currentDatetime > $startDatetime && $view->currentDate < $endDatetime)
+    if ($view->currentDatetime > $startDatetime && $view->currentDate < $view->endDatetime)
     {
         if (isset($_SESSION['loggedIn']))
         {
@@ -63,7 +63,7 @@ else
         }
     }
 }
-echo '<br /><br /><br /><br />';
+// echo '<br /><br /><br /><br />';
 // var_dump(strtotime($view->currentDate) >= $endDatetime);
 
 // Fetch all bids for items

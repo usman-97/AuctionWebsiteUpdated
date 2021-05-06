@@ -26,6 +26,28 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
             startTime.innerHTML = "";
         }
 
+        timer.className = "auctionTimer";
+
+        let daysContainer = document.createElement("div");
+        // daysContainer.style.backgroundColor = "green";
+        // daysContainer.innerHTML = "<span class='countDownTxt'>days</span>";
+        timer.appendChild(daysContainer);
+
+        let hoursContainer = document.createElement("div");
+        // hoursContainer.style.backgroundColor = "blue";
+        // hoursContainer.innerHTML = "<span class='countDownTxt'>h</span>";
+        timer.appendChild(hoursContainer);
+
+        let minutesContainer = document.createElement("div");
+        // minutesContainer.style.backgroundColor = "yellow";
+        // minutesContainer.innerHTML = "<span class='countDownTxt'>m</span>";
+        timer.appendChild(minutesContainer);
+
+        let secondsContainer = document.createElement("div");
+        // secondsContainer.style.backgroundColor = "red";
+        // secondsContainer.innerHTML = "<span class='countDownTxt'>s</span>";
+        timer.appendChild(secondsContainer);
+
         // Interval to count the time until the auction end date
         let x = setInterval(function () {
             let now = new Date().getTime(); // current time
@@ -36,8 +58,24 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
             let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)); // Total minutes
             let seconds = Math.floor((difference % (1000 * 60)) / 1000); // Total seconds
 
+            // let daysContainer = document.createElement("div");
+            daysContainer.innerHTML = days + "<span class='countDownTxt'>days : </span>";
+            // timer.appendChild(daysContainer);
+            //
+            // let hoursContainer = document.createElement("div");
+            hoursContainer.innerHTML = hours + "<span class='countDownTxt'>h : </span>";
+            // timer.appendChild(hoursContainer);
+            //
+            // let minutesContainer = document.createElement("div");
+            minutesContainer.innerHTML = minutes + "<span class='countDownTxt'>m : </span>";
+            // timer.appendChild(minutesContainer);
+            //
+            // let secondsContainer = document.createElement("div");
+            secondsContainer.innerHTML = seconds + "<span class='countDownTxt'>s</span>";
+            // timer.appendChild(secondsContainer);
+
             // Display timer
-            timer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            // timer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
             // Show Live as the status of an auction
             if (startDate.getTime() <= now && endDatetime.getTime() >= now)
             {

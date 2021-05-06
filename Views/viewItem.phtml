@@ -122,7 +122,18 @@
 
                             if ($bidItem->getBid() == $view->lotHighestBid)
                             {
-                                echo '<div class="">Current</div>';
+                                echo '<div class="">';
+
+                                if ($view->currentDatetime >= $view->endDatetime)
+                                {
+                                    echo 'Winner';
+                                }
+                                else
+                                {
+                                    echo 'Current';
+                                }
+
+                                echo '</div>';
                             }
 
                             echo '</div><input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
