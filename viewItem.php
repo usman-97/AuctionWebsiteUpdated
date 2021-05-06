@@ -64,7 +64,7 @@ else
     }
 }
 echo '<br /><br /><br /><br />';
-var_dump(strtotime($view->currentDate) >= $endDatetime);
+// var_dump(strtotime($view->currentDate) >= $endDatetime);
 
 // Fetch all bids for items
 $view->bidItemData = $view->bidItemDataSet->fetchItemBids($_SESSION['viewLotID']);
