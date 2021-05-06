@@ -32,6 +32,7 @@ else
         {
             // If user new bid is the highest then place the bid for user
             $bidItemDataSet->placeBid($_SESSION['userID'], $_SESSION['viewLotID'], $_SESSION['viewAuctionID'], $q);
+            $txt = $bidItemDataSet->getItemHighestBid($_SESSION['viewLotID']);
         }
         else
         {

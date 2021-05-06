@@ -4,12 +4,15 @@
  * @param error
  * @param lotID
  * @param bidContainer
+ * @param loadLotBids
  * @constructor
  */
 function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
 {
-    // console.log(bid);
+    // console.log(loadLotBids);
     // If bid is not empty
+    this.getUserCurrentBid = bidTxt => bidTxt.innerHTML
+
     if (bid.value.length > 0)
     {
         // If bid is a valid number
@@ -23,11 +26,11 @@ function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
             {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
                 {
-                    // let txt = this.responseText;
-                    // console.log(txt);
+                    let txt = this.responseText;
+                    let newBid = parseInt(txt);
+                    // console.log(!isNaN(newBid));
 
-
-                    error.innerHTML = this.responseText; // If there is an error then display it
+                    error.innerHTML = isNaN(newBid) ? txt: ""; // If there is an error then display it
                     bid.value = ""; // Clear bid field
 
                     var loadBids = loadLotBids ? new LoadLotBids(lotID, bidContainer): ""; // LoadBids instance to load bids once user has successfully place a bid

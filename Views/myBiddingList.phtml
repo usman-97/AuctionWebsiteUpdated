@@ -23,6 +23,9 @@
         </li>
         <script type="text/javascript" src="js/placeBid.js"></script>
         <script type="text/javascript" src="js/bidStatus.js"></script>
+        <script type="text/javascript">
+            let num = 1;
+        </script>
         <li class="breadcrumb-item active"><?php echo $view->pageTitle; ?></li>
     </ol>
 
@@ -57,8 +60,8 @@
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                             </svg><i>' . $bidItem->getAuctionLocation() .'</i></span><span id="liveTxt"></span></h4>' .
                             '<p id="startTime'. $num .'">' . $bidItem->getAuctionDatetime() . '</p>' .
-                            '<div class="row bidInfo"><div class="col-sm-4"><b>Highest bid</b><br />£' . $view->bidItem->getItemHighestBid($bidItem->getLotID()) .
-                            '</div><div id="userCurrentBid" class="col-sm-4 bidInfo"><b>Your bid</b><br /><i>£' . $bidItem->getBid() .
+                            '<div class="row bidInfo"><div class="col-sm-4"><b>Highest bid</b><br /><i id="CurrentLotHighestBid' . $num . '">£' . $view->bidItem->getItemHighestBid($bidItem->getLotID()) .
+                            '</i></div><div id="userCurrentBid" class="col-sm-4 bidInfo"><b>Your bid</b><br /><i id="CurrentUserHighestBid' . $num . '">£' . $bidItem->getBid() .
                             '</i></div><div class="btn-success bidStatus" id="bidStatus' . $num .'" style="display: inline-block; padding: 5px;">' .
                             '</div></div><br />' .
                             '<div id="countDownTimer'. $num .'"></div>' .
@@ -80,20 +83,7 @@
                             echo '<label>£</label><input id="newBid' . $num .'" type="text" name="newBid" placeholder="1000">' .
                                 '<p id="newBidError'. $num .'"></p>' .
                                 '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
-                            <button id="quickPlaceBid" class="btn btn-dark">place</button>';
-                            echo '<script type="text/javascript">
-                                    let newUserBid = document.getElementById("newBid'. $num .'");
-                                    let error = document.getElementById("newBidError'. $num .'");
-                                    let lotID = document.getElementById("lot_id'. $num .'");
-                                    let bidBtn = document.getElementById("newBid'. $num .'");
-                                    
-                                    function placebid(event)
-                                    {
-                                        return new PlaceBid(newUserBid, error, lotID, "", false);
-                                    }
-                                    
-                                    bidBtn.addEventListener("click", placebid, true);
-                                </script>';
+                            <button id="quickPlaceBid'. $num .'" class="btn btn-dark">place</button>';
                         }
 
                         echo '<input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
@@ -112,7 +102,7 @@
 
     for (let i = 1; i <= limit; i++)
     {
-        var x = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value, document.getElementById("auctionEndDatetime" + i).value);
+        var bidStatus = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value, document.getElementById("auctionEndDatetime" + i).value);
 
         let startDate = document.getElementById("auctionDatetime" + i).value;
         let endDate = document.getElementById("auctionEndDatetime" + i).value;
@@ -120,7 +110,25 @@
         let liveTxt = document.getElementById("startTime" + i);
         let endDateTxt = document.getElementById("endDateTxt" + i);
 
-        var y = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt)
+        var listCountDown = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt)
+
+        let userNewBid = document.getElementById("newBid" + i);
+        let error = document.getElementById("newBidError" + i);
+        let lotID = document.getElementById("lot_id" + i);
+        let bidBtn = document.getElementById("quickPlaceBid" + i);
+
+        function placeUserBid(event)
+        {
+            let x = new PlaceBid(userNewBid, error, lotID, "", false);
+
+            let CurrentLotBid = document.getElementById("CurrentLotHighestBid" + i);
+            let userCurrentBid = document.getElementById("CurrentUserHighestBid" + i);
+            x.getUserCurrentBid(CurrentLotBid);
+            x.getUserCurrentBid(userCurrentBid);
+
+            return x;
+        }
+        bidBtn.addEventListener("click", placeUserBid, true);
     }
 </script>
 
