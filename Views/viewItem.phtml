@@ -164,11 +164,12 @@
                     let userBid = document.getElementById('usrBid');
                     let bidError = document.getElementById('bidError');
                     let bidContainer = document.getElementById('bidContainer');
+                    let auction = document.getElementById("auctionID").value;
 
                     // Place bid event
                     function placeBid(event)
                     {
-                        return new PlaceBid(userBid, bidError, <?php echo $_SESSION['viewLotID'] ?>, bidContainer, true);
+                        return new PlaceBid(userBid, bidError, <?php echo $_SESSION['viewLotID'] ?>, bidContainer, true, auction);
                     }
 
                     // Information about bidding
