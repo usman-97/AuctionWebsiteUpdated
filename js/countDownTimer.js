@@ -76,6 +76,7 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
             if (difference < 0) {
                 clearInterval(x);
                 timer.innerText = "Bidding closed"; // Change the timer status
+                timer.style.backgroundColor = "red";
             }
         }, 1000)
     }
