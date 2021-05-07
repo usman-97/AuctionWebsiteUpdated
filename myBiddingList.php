@@ -7,7 +7,6 @@ $view->pageTitle = 'My Bidding List';
 
 require_once ('logout.php');
 require_once ('resetSessions.php');
-// var_dump($_SESSION['currentDate']);
 
 $view->bidItem = new BidItemDataSet();
 $view->error = '';
@@ -34,17 +33,6 @@ if (isset($_POST['removeBid']))
     $view->bidItem->removeBid($_POST['bidID']);
     header("location: myBiddingList.php");
 }
-
-//if (isset($_POST['editBid']))
-//{
-//    if (isset($_POST['newBid']) && is_numeric($_POST['newBid'])) {
-//        $view->bidItem->editBid($_POST['bidID'], $_POST['newBid']);
-//    }
-//    else
-//    {
-//        $view->error = 'Invalid amount';
-//    }
-//}
 
 if (isset($_POST['viewItem']))
 {

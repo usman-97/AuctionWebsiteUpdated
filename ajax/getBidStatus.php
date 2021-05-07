@@ -42,7 +42,6 @@ else
                 $status = false;
             }
         }
-
-        echo $status; // status of the lot bid
     }
+    echo $status; // status of the lot bid
 }

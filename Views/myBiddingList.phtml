@@ -70,24 +70,23 @@
                             '<input id="lot_id'. $num .'" type="hidden" name="lotID" value="' . $bidItem->getLotID() . '">' .
                             '<input type="hidden" name="lotTitle" value="' . $bidItem->getLotTitle() . '">' .
                             '<input type="hidden" name="lotMain" value="' . $bidItem->getLotMain() . '">' .
-                            '<input type="hidden" name="auctionID" value="' . $bidItem->getAuctionID() . '">' .
+                            '<input id="newBidAuction_id'. $num .'" type="hidden" name="auctionID'. $num .'" value="' . $bidItem->getAuctionID() . '">' .
                             '<input type="hidden" name="auctionName" value="' . $bidItem->getAuctionName() . '">' .
                             '<input type="hidden" name="auctionLocation" value="' . $bidItem->getAuctionLocation() . '">' .
                             '<input id="auctionDatetime'. $num .'" type="hidden" name="auctionDatetime" value="' . $bidItem->getAuctionDatetime() . '">' .
                             '<input id="auctionEndDatetime'. $num .'" type="hidden" name="auctionEndDatetime" value="' . $bidItem->getAuctionEndDatetime() . '">' .
                             '<input id="currentUserBid'. $num .'" type="hidden" name="bid" value="' . $bidItem->getBid() . '">' .
-                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">';
+                            '<input type="hidden" name="bidID" value="' . $bidItem->getBidID() . '">' .
+                            '<div><input type="submit" name="viewItem" value="View" class="btn btn-info"></div><br /></form>';
 
                         if (strtotime($view->currentDate) < strtotime($bidItem->getAuctionEndDatetime()))
                         {
                             echo '<label>£</label><input id="newBid' . $num .'" type="text" name="newBid" placeholder="1000">' .
-                                '<p id="newBidError'. $num .'"></p>' .
-                                '<div><!--<input type="submit" name="editBid" value="Edit" class="btn btn-primary">-->
-                            <button id="quickPlaceBid'. $num .'" class="btn btn-dark">place</button>';
+                                '<span id="quickPlaceBid'. $num .'" class="btn btn-dark">place</span>' .
+                                '<p id="newBidError'. $num .'"></p>';
                         }
 
-                        echo '<input type="submit" name="viewItem" value="View" class="btn btn-info" </div>' .
-                            '</div><br /></div></div><br /></form>';
+                        echo '</div><br /></div></div>';
                         $num++;
                     }}?>
 </div>
@@ -97,37 +96,49 @@
 
 <script type="text/javascript" src="js/countDownTimer.js"></script>
 <script type="text/javascript">
-    let totalBids = <?php echo $view->totalRecords?>;
-    let limit = totalBids >= 20 ? 20: totalBids;
+    let totalBids = <?php echo $view->totalRecords?>; // Total lots where user has placed bids
+    let limit = totalBids >= 20 ? 20: totalBids; // Check the page limit
 
     for (let i = 1; i <= limit; i++)
     {
-        var bidStatus = new UserBidStatus(document.getElementById("bidStatus" + i), document.getElementById("lot_id" + i).value, document.getElementById("auctionEndDatetime" + i).value);
+        let currentBidStatus = document.getElementById("bidStatus" + i); // Current status of lot bid
+        let lotID = document.getElementById("lot_id" + i); // Lot id
+        let endDate = document.getElementById("auctionEndDatetime" + i).value; // Lot auction end date
 
-        let startDate = document.getElementById("auctionDatetime" + i).value;
-        let endDate = document.getElementById("auctionEndDatetime" + i).value;
-        let timer = document.getElementById("countDownTimer" + i);
-        let liveTxt = document.getElementById("startTime" + i);
-        let endDateTxt = document.getElementById("endDateTxt" + i);
+        let bidStatus = new UserBidStatus(currentBidStatus, lotID.value, endDate); // Get the bid status of each lot
 
-        var listCountDown = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt)
+        let startDate = document.getElementById("auctionDatetime" + i).value; // Start date of lot auction
+        let timer = document.getElementById("countDownTimer" + i); // Countdown timer container
+        let liveTxt = document.getElementById("startTime" + i); // Live status
+        let endDateTxt = document.getElementById("endDateTxt" + i); // Lot auction end datetime text
 
-        let userNewBid = document.getElementById("newBid" + i);
-        let error = document.getElementById("newBidError" + i);
-        let lotID = document.getElementById("lot_id" + i);
-        let bidBtn = document.getElementById("quickPlaceBid" + i);
+        // Display countdown timer for all lots who are still open for bidding
+        let listCountDown = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt); // Countdown instance
 
+        let userNewBid = document.getElementById("newBid" + i); // New user bid
+        let error = document.getElementById("newBidError" + i); // bid error
+        let bidBtn = document.getElementById("quickPlaceBid" + i); // Place bid button
+
+        let CurrentLotBid = document.getElementById("CurrentLotHighestBid" + i); // Current highest bid for lot
+        let userCurrentBid = document.getElementById("CurrentUserHighestBid" + i); // User highest bid on lot
+        let auction = document.getElementById("newBidAuction_id" + i).value;
+
+        // Event to place the bid and then update the lot bid status
         function placeUserBid(event)
         {
-            let x = new PlaceBid(userNewBid, error, lotID, "", false);
+            // Current lot highest bid converted from string to int
+            let highestBid = parseInt(CurrentLotBid.innerHTML.substr(1, userCurrentBid.innerHTML.length));
 
-            let CurrentLotBid = document.getElementById("CurrentLotHighestBid" + i);
-            let userCurrentBid = document.getElementById("CurrentUserHighestBid" + i);
-            x.getUserCurrentBid(CurrentLotBid);
-            x.getUserCurrentBid(userCurrentBid);
-
-            return x;
+            // Check if user new bid is greater than current lot highest bid
+            if (parseInt(userNewBid.value) > highestBid)
+            {
+                CurrentLotBid.innerHTML = "£" + userNewBid.value; // Set current highest bid to user new bid
+                userCurrentBid.innerHTML = "£" + userNewBid.value; // Set new user bid for lot
+                let placeNewBid = new PlaceBid(userNewBid, error, lotID.value, "", false, auction); // place new bid for user
+                return new UserBidStatus(currentBidStatus, lotID.value, endDate.value); // update bid status
+            }
         }
+        // Event handler to bid button to place a bid and to update the lot status
         bidBtn.addEventListener("click", placeUserBid, true);
     }
 </script>

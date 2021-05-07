@@ -5,14 +5,12 @@
  * @param lotID
  * @param bidContainer
  * @param loadLotBids
+ * @param auctionID
  * @constructor
  */
-function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
+function PlaceBid(bid, error, lotID, bidContainer, loadLotBids, auctionID = "")
 {
-    // console.log(loadLotBids);
     // If bid is not empty
-    this.getUserCurrentBid = bidTxt => bidTxt.innerHTML
-
     if (bid.value.length > 0)
     {
         // If bid is a valid number
@@ -28,7 +26,7 @@ function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
                 {
                     let txt = this.responseText;
                     let newBid = parseInt(txt);
-                    // console.log(!isNaN(newBid));
+                    // console.log(txt);
 
                     error.innerHTML = isNaN(newBid) ? txt: ""; // If there is an error then display it
                     bid.value = ""; // Clear bid field
@@ -38,7 +36,7 @@ function PlaceBid(bid, error, lotID, bidContainer, loadLotBids)
             }
 
             // Send xml http request with user placed bid
-            xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value + "&token=" + token, true)
+            xmlhttp.open("GET", "ajax/placeUserBid.php?q=" + bid.value + "&r=" + lotID + "&s=" + auctionID + "&token=" + token, true)
             xmlhttp.send();
         }
         else

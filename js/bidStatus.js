@@ -9,6 +9,7 @@ function UserBidStatus(bidStatus, lot, endDate)
 {
     let date = new Date().getTime(); // Get current time
     let end = new Date(endDate).getTime(); // Get lot end date time
+    // console.log(lot);
 
     var xmlhttp = new XMLHttpRequest(); // XMLHttpRequest
 
@@ -16,6 +17,7 @@ function UserBidStatus(bidStatus, lot, endDate)
     {
         if (this.readyState == 4 && this.status == 200)
         {
+            // console.log(this.responseText);
             // If user is the highest bidder
             if (this.responseText == true)
             {

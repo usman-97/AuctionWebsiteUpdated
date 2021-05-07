@@ -7,6 +7,16 @@ $bidItemDataSet = new BidItemDataSet(); // BidItemDataSet instance
 $q = $_REQUEST["q"]; // Received request with user placed bid
 $txt = "";
 
+if (isset($_GET["r"]))
+{
+    $_SESSION['viewLotID'] = $_GET["r"];
+}
+if (isset($_GET["s"]))
+{
+    $_SESSION['viewAuctionID'] = $_GET["s"];
+}
+// var_dump($_SESSION['viewLotID']);
+
 // Check if user placed bid is greater than the current highest bid
 $isHighest = $bidItemDataSet->checkHighestBid($_SESSION['viewLotID'], $q);
 $lotHighestBid = $bidItemDataSet->getItemHighestBid($_SESSION['viewLotID']);
@@ -26,8 +36,10 @@ if (!isset($_GET['token']) || $_GET['token'] != $token)
 }
 else
 {
+    // If user placed bid is the highest bid
     if ($isHighest)
     {
+        // Check if user new bid is greater than current highest by 15
         if ($q >= ($lotHighestBid + 15))
         {
             // If user new bid is the highest then place the bid for user
