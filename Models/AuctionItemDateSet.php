@@ -31,10 +31,11 @@ class AuctionItemDateSet {
         $start = intval($start);
         $limit = intval($limit);
 
-        $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID  AND lot_title LIKE CONCAT('%', :item, '%') OR lot_main LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%')";
+        $sqlQuery = "SELECT * FROM Lots, auction WHERE Lots.auction_id = auction.auctionID AND CONCAT(Lots.lot_title,' ', Lots.lot_main) LIKE CONCAT('%', :item, '%') OR auction.auction_name LIKE CONCAT('%', :item, '%')";
         // SQL query to get item by it's title or main or auction name
         $sqlQuery = $filter != "" || $category!= "" || $minPrice != "" || $maxPrice != "" ? $this->filterDateSet($filter, $category,$sqlQuery, $minPrice, $maxPrice) : $sqlQuery;
         $sqlQuery .= " LIMIT :pageStart, :limitPage";
+        // var_dump($this->_dbHandle->prepare($sqlQuery));
 
         // prepare a PDO statement
         $statement = $this->_dbHandle->prepare($sqlQuery);

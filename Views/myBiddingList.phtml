@@ -46,7 +46,7 @@
                     {
                         // var_dump($view->currentDate > $bidItem->getAuctionEndDatetime());
                         // var_dump($bidItem->getAuctionEndDatetime());
-                        echo '<form action="" method="post"><div class="listContainer"><div id="listHeader" class="row"><div class="col-sm-11"><h3>#' .
+                        echo '<div class="listContainer"><div id="listHeader" class="row"><div class="col-sm-11"><form action="" method="post"><h3>#' .
                             $bidItem->getLotID() . ': ' . $bidItem->getLotTitle() . ' - ' .
                             $bidItem->getLotMain() . '</h3></div><div class="col-sm-1">';
 
@@ -82,11 +82,11 @@
                         if (strtotime($view->currentDate) < strtotime($bidItem->getAuctionEndDatetime()))
                         {
                             echo '<label>£</label><input id="newBid' . $num .'" type="text" name="newBid" placeholder="1000">' .
-                                '<span id="quickPlaceBid'. $num .'" class="btn btn-dark">place</span>' .
+                                '<div><button id="quickPlaceBid'. $num .'" class="btn btn-dark">place</button></div>' .
                                 '<p id="newBidError'. $num .'"></p>';
                         }
 
-                        echo '</div><br /></div></div>';
+                        echo '</div></div></div>';
                         $num++;
                     }}?>
 </div>
