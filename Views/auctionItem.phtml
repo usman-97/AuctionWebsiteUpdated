@@ -172,59 +172,29 @@
         let total = <?php echo $view->totalRecords;?>; // Total number of lots
         let limit = total >= 20 ? 20: total; // Total number of lots to display per page
 
-        let filters = document.getElementById("filters");
-        let defaultFilters = document.getElementById("selected");
-        let recentFilter = document.getElementById("recent");
-        let popularFilter = document.getElementById("popular");
-        let descendingOrder = document.getElementById("descendingOrder");
-        let ascendingOrder = document.getElementById("ascendingOrder");
+        // Sorting filters
+        let filters = document.getElementById("filters"); // Filters
+        let defaultFilters = document.getElementById("selected"); // Current Selected Filter
+        let recentFilter = document.getElementById("recent"); // recent filter
+        let popularFilter = document.getElementById("popular"); // popular filter
+        let descendingOrder = document.getElementById("descendingOrder"); // descending order filter
+        let ascendingOrder = document.getElementById("ascendingOrder"); // ascending order filter
 
+        // Category filters
         let car = document.getElementById("cars");
         let watches = document.getElementById("watches");
         let artifact = document.getElementById("artifact");
         let painting = document.getElementById("painting");
         let jewelry = document.getElementById("jewelry");
-        // let selectedCategoryFilter = <?php if (isset($_SESSION['selectedCategory'])) { echo $_SESSION['selectedCategory']; } ?>;
 
-        // function saveCategory()
-        // {
-        //     if (selectedCategoryFilter == car.value)
-        //     {
-        //         car.checked = true;
-        //     }
-        //     else if (selectedCategoryFilter == watches.value)
-        //     {
-        //         watches.checked = true;
-        //     }
-        //     else
-        //     {
-        //         if (selectedCategoryFilter == artifact.value)
-        //         {
-        //             artifact.checked = true;
-        //         }
-        //         else if (selectedCategoryFilter == painting.value)
-        //         {
-        //             painting.checked = true;
-        //         }
-        //         else
-        //         {
-        //             if (selectedCategoryFilter == jewelry.value)
-        //             {
-        //                 jewelry.checked = true;
-        //             }
-        //         }
-        //     }
-        // }
-        //
-        // window.onload = saveCategory;
-
-        let selectedFilter = "";
-        let category = "";
-        let minPrice = document.getElementById("minPrice").value;
-        let maxPrice = document.getElementById("maxPrice").value;
+        let selectedFilter = ""; // current selected sorting filter
+        let category = ""; // current selected category filter
+        let minPrice = document.getElementById("minPrice").value; // Minimum range of price
+        let maxPrice = document.getElementById("maxPrice").value; // Maximum range of price
         let auctionLotContainer = document.getElementById("listing");
-        let clearFilters = document.getElementById("clearFilters");
+        let clearFilters = document.getElementById("clearFilters"); // Clear filters button
 
+        // Event to select sorting filter and apply them to auction lots
         function filterLots()
         {
             if (descendingOrder.selected)
@@ -252,12 +222,13 @@
                 defaultFilters.value = selectedFilter;
                 defaultFilters.innerHTML = selectedFilter;
                 // console.log(defaultFilters);
-                var a = new FetchAuctionsLots(auctionLotContainer, selectedFilter, category);
+                var a = new FetchAuctionsLots(auctionLotContainer, selectedFilter, category); // FetchAuctionsLots instance
                 // a.setFilter(selectedFilter);
-                clearFilters.style.display = "inline-block";
+                clearFilters.style.display = "inline-block"; // If any filter is selected then show clear filter button
             }
         }
 
+        // Event to select category filter
         function selectCategory(selectedCategory)
         {
             // console.log(category);
@@ -266,29 +237,31 @@
             return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category);
         }
 
+        // Event to select lots in a minimum range of price
         function setMinPrice(value)
         {
             if (value.length >= 3)
             {
                 minPrice = value;
                 clearFilters.style.display = "inline-block";
-                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice);
+                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice); // Fetch Auctions Lots in minimum range of given price
             }
         }
 
+        // Event to select lots in a maximum range of price
         function setMaxPrice(value)
         {
             if (value.length >= 3)
             {
                 maxPrice = value;
                 clearFilters.style.display = "inline-block";
-                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice);
+                return new FetchAuctionsLots(auctionLotContainer, selectedFilter, category, minPrice, maxPrice); // Fetch Auctions Lots in maximum range of given price
             }
         }
 
         // console.log(minPrice);
         // console.log(maxPrice);
-        filters.addEventListener('click', filterLots, true);
+        filters.addEventListener('click', filterLots, true); // Event listener to select the filter
         // watches.addEventListener('change', selectCategory(watches.value), true);
     </script>
 
