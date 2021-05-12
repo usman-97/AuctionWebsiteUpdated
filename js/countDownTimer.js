@@ -8,7 +8,7 @@
  * @param startTime
  * @constructor
  */
-function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
+function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "", lotID = "", bidContainer = "")
 {
 
     let startDate = new Date(start); // Auction start date
@@ -46,6 +46,8 @@ function CountDown(start, endDate, timer, liveTxt, endDateTxt, startTime = "")
 
         // Interval to count the time until the auction end date
         let x = setInterval(function () {
+            var loadBids = new LoadLotBids(lotID, bidContainer);
+
             let now = new Date().getTime(); // current time
             let difference = countDownTime - now; // Difference between current time and auction end date
 

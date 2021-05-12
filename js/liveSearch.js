@@ -20,7 +20,7 @@ function ShowHints(str, hintTxt)
     xmlhttp.onreadystatechange = function ()
     {
         // Check request status
-        console.log(JSON.parse(this.responseText));
+        console.log(this.responseText);
         let hints = JSON.parse(this.responseText);
 
         hintTxt.innerHTML = ""; // reset container

@@ -157,13 +157,16 @@
                     let liveTxt = document.getElementById("startTime");
                     let endDateTxt = document.getElementById("endDatetimeTxt");
 
-                    var countDownTimer = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt); // CountDown class instance
+                    let lotID = "<?php echo $_SESSION['viewLotID'];?>";
+                    let bidContainer = document.getElementById('bidContainer');
+
+                    var countDownTimer = new CountDown(startDate, endDate, timer, liveTxt, endDateTxt, "", lotID, bidContainer); // CountDown class instance
 
                     // Bidding fields
                     let bidButton = document.getElementById("bidButton");
                     let userBid = document.getElementById('usrBid');
                     let bidError = document.getElementById('bidError');
-                    let bidContainer = document.getElementById('bidContainer');
+                    // let bidContainer = document.getElementById('bidContainer');
                     let auction = document.getElementById("auctionID").value;
 
                     // Place bid event

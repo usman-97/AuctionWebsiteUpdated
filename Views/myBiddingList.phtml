@@ -132,14 +132,21 @@
             // Check if user new bid is greater than current lot highest bid
             if (parseInt(userNewBid.value) > highestBid)
             {
-                CurrentLotBid.innerHTML = "£" + userNewBid.value; // Set current highest bid to user new bid
-                userCurrentBid.innerHTML = "£" + userNewBid.value; // Set new user bid for lot
-                let placeNewBid = new PlaceBid(userNewBid, error, lotID.value, "", false, auction); // place new bid for user
-                return new UserBidStatus(currentBidStatus, lotID.value, endDate.value); // update bid status
+                if (userNewBid != null)
+                {
+                    CurrentLotBid.innerHTML = "£" + userNewBid.value; // Set current highest bid to user new bid
+                    userCurrentBid.innerHTML = "£" + userNewBid.value; // Set new user bid for lot
+                    let placeNewBid = new PlaceBid(userNewBid, error, lotID.value, "", false, auction); // place new bid for user
+                    return new UserBidStatus(currentBidStatus, lotID.value, endDate.value); // update bid status
+                }
             }
         }
+        console.log(userNewBid);
         // Event handler to bid button to place a bid and to update the lot status
-        bidBtn.addEventListener("click", placeUserBid, true);
+        if (bidBtn != null)
+        {
+            bidBtn.addEventListener("click", placeUserBid, true);
+        }
     }
 </script>
 

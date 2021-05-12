@@ -37,6 +37,7 @@ function UserBidStatus(bidStatus, lot, endDate)
                 bidStatus.style.backgroundColor = "#bf130a";
             }
         }
+        // console.log(bidStatus);
     }
 
     // Send xml http request to getBidStatus php script with lot id
